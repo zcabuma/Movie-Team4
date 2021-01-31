@@ -38,22 +38,20 @@ else{
     echo $mysqli->error;
 }
 
-// $sql = 'SELECT * FROM users';
+$sql = 'SELECT * FROM company1.users';
 
-// if ($result = $mysqli->query($sql)) {
-//     while ($data = $result->fetch_object()) {
-//         $users[] = $data;
-//     }
-// }
+if ($result = $mysqli->query($sql)) {
+    while ($data = $result->fetch_object()) {
+        $users[] = $data;
+    }
+    foreach ($users as $user) {
+        echo "<br>";
+        echo $user->name . " " . $user->fav_colour;
+        echo "<br>";
+    }
+}
 
 
-// //if (is_array($users) || is_object($users))
-// {
-// foreach ($users as $user) {
-//     echo "<br>";
-//     echo $user->name . " " . $user->fav_colour;
-//    echo "<br>";
-// }
-// }
+
 
 $mysqli->close;
