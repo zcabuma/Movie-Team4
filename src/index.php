@@ -54,6 +54,16 @@ if ($result = $mysqli->query($sql)) {
     }
 }
 
+$sql_localInfile = 'SET GLOBAL local_infile=1';
+
+if ($result = $mysqli->query($sql_localInfile)){
+    echo 'set local_infile';
+}
+else{
+    echo $mysqli->error;
+}
+
+
 $csvSQL = "LOAD DATA LOCAL INFILE 'testData.csv'
         INTO TABLE company1.users
         FIELDS TERMINATED BY ','
@@ -64,7 +74,6 @@ $csvSQL = "LOAD DATA LOCAL INFILE 'testData.csv'
 
 if ($result = $mysqli->query($csvSQL)){
     echo 'csv added successfully';
-    echo $mysqli->query($csvSQL);
 }
 else{
     echo $mysqli->error;
