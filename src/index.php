@@ -3,6 +3,8 @@
 echo "Hello from the docker yooooo container";
 
 $mysqli = new mysqli("db", "root", "example");
+mysqli_options($mysqli, MYSQLI_OPT_LOCAL_INFILE, true);
+
 
 $sql = "CREATE DATABASE IF NOT EXISTS `company1`;";
 //$result = $mysqli->query($sql);
@@ -38,6 +40,7 @@ else{
     echo $mysqli->error;
 }
 
+
 $sql = 'SELECT * FROM company1.users';
 
 if ($result = $mysqli->query($sql)) {
@@ -51,6 +54,21 @@ if ($result = $mysqli->query($sql)) {
     }
 }
 
+$csvSQL = "LOAD DATA LOCAL INFILE 'testData.csv'
+        INTO TABLE company1.users
+        FIELDS TERMINATED BY ','
+        LINES TERMINATED BY ',,,'
+        IGNORE 1 LINES 
+        (name, fav_colour)";
+
+
+if ($result = $mysqli->query($csvSQL)){
+    echo 'csv added successfully';
+    echo $mysqli->query($csvSQL);
+}
+else{
+    echo $mysqli->error;
+}
 
 
 
