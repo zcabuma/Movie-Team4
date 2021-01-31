@@ -8,9 +8,9 @@ $sql = "CREATE DATABASE IF NOT EXISTS `company1`;";
 //$result = $mysqli->query($sql);
 if ($result = $mysqli->query($sql))
 {
-    echo 'db created successfully';
+    echo 'db created successfully \n';
 }
-echo 'Anything from me';
+
 $sql = "CREATE TABLE IF NOT EXISTS company1.users(
         `person_id` INT AUTO_INCREMENT PRIMARY KEY ,
         `name` VARCHAR(30) NOT NULL ,
@@ -24,27 +24,36 @@ if ($result = $mysqli->query($sql))
 }
 
 
-$sql = "INSERT INTO company1.users (`name`, `fav_color`) VALUES('Lil Sneazy', 'Yellow');";
+$sql = "INSERT INTO company1.users (name, fav_colour) VALUES('Lil Sneazy', 'Yellow');";
 $result = $mysqli->query($sql);
-$sql = "INSERT INTO company1.users (`name`, `fav_color`) VALUES('Nick Jonas', 'Brown');";
+$sql = "INSERT INTO company1.users (name, fav_colour) VALUES('Nick Jonas', 'Brown');";
 $result = $mysqli->query($sql);
-$sql = "INSERT INTO company1.users (`name`, `fav_color`) VALUES('Maroon 5', 'Maroon');";
+$sql = "INSERT INTO company1.users (name, fav_colour) VALUES('Maroon 5', 'Maroon');";
 $result = $mysqli->query($sql);
-$sql = "INSERT INTO company1.users (`name`, `fav_color`) VALUES('Tommy Baker', '043A2B');";
+$sql = "INSERT INTO company1.users (name, fav_colour) VALUES('Tommy Baker', 'Gold');";
 if ($result = $mysqli->query($sql)){
     echo 'data added successfully';
 }
-
-$sql = 'SELECT * FROM users';
-
-if ($result = $mysqli->query($sql)) {
-    while ($data = $result->fetch_object()) {
-        $users[] = $data;
-    }
+else{
+    echo $mysqli->error;
 }
 
-//foreach ($users as $user) {
-  //  echo "<br>";
-   // echo $user->name . " " . $user->fav_color;
-   // echo "<br>";
-//}
+// $sql = 'SELECT * FROM users';
+
+// if ($result = $mysqli->query($sql)) {
+//     while ($data = $result->fetch_object()) {
+//         $users[] = $data;
+//     }
+// }
+
+
+// //if (is_array($users) || is_object($users))
+// {
+// foreach ($users as $user) {
+//     echo "<br>";
+//     echo $user->name . " " . $user->fav_colour;
+//    echo "<br>";
+// }
+// }
+
+$mysqli->close;
