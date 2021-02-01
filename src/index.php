@@ -68,7 +68,7 @@ $csvSQL = "LOAD DATA LOCAL INFILE 'testData.csv'
         INTO TABLE company1.users
         FIELDS TERMINATED BY ','
         LINES TERMINATED BY ',,,'
-        IGNORE 1 LINES 
+        IGNORE 1 LINES
         (name, fav_colour)";
 
 
@@ -82,3 +82,4 @@ else{
 
 
 $mysqli->close;
+?>
