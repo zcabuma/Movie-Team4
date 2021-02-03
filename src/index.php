@@ -1,58 +1,29 @@
 <?php
 
-echo "Hello from the docker yooooo container";
+echo "Group 4 project";
 
 $mysqli = new mysqli("db", "root", "example");
 mysqli_options($mysqli, MYSQLI_OPT_LOCAL_INFILE, true);
 
-
-$sql = "CREATE DATABASE IF NOT EXISTS `company1`;";
-//$result = $mysqli->query($sql);
+// create database
+$sql = "CREATE DATABASE IF NOT EXISTS `Coursework`;";
 if ($result = $mysqli->query($sql))
 {
     echo 'db created successfully \n';
 }
 
-$sql = "CREATE TABLE IF NOT EXISTS company1.users(
-        `person_id` INT AUTO_INCREMENT PRIMARY KEY ,
-        `name` VARCHAR(30) NOT NULL ,
-        `fav_colour` VARCHAR(30) NOT NULL
+// create LINKS table if not created already
+$sql = "CREATE TABLE IF NOT EXISTS Coursework.links(
+        `movieId` BIGINT AUTO_INCREMENT PRIMARY KEY ,
+        `imdbId` BIGINT NOT NULL ,
+        `tmdbId` BIGINT NOT NULL
 );";
-//$result = $mysqli->query($sql);
 
 if ($result = $mysqli->query($sql))
 {
     echo 'table created successfully';
 }
 
-
-$sql = "INSERT INTO company1.users (name, fav_colour) VALUES('Lil Sneazy', 'Yellow');";
-$result = $mysqli->query($sql);
-$sql = "INSERT INTO company1.users (name, fav_colour) VALUES('Nick Jonas', 'Brown');";
-$result = $mysqli->query($sql);
-$sql = "INSERT INTO company1.users (name, fav_colour) VALUES('Maroon 5', 'Maroon');";
-$result = $mysqli->query($sql);
-$sql = "INSERT INTO company1.users (name, fav_colour) VALUES('Tommy Baker', 'Gold');";
-if ($result = $mysqli->query($sql)){
-    echo 'data added successfully';
-}
-else{
-    echo $mysqli->error;
-}
-
-
-$sql = 'SELECT * FROM company1.users';
-
-if ($result = $mysqli->query($sql)) {
-    while ($data = $result->fetch_object()) {
-        $users[] = $data;
-    }
-    foreach ($users as $user) {
-        echo "<br>";
-        echo $user->name . " " . $user->fav_colour;
-        echo "<br>";
-    }
-}
 
 $sql_localInfile = 'SET GLOBAL local_infile=1';
 
@@ -64,12 +35,12 @@ else{
 }
 
 
-$csvSQL = "LOAD DATA LOCAL INFILE 'testData.csv'
-        INTO TABLE company1.users
+$csvSQL = "LOAD DATA LOCAL INFILE 'links.csv'
+        INTO TABLE Coursework.links
         FIELDS TERMINATED BY ','
-        LINES TERMINATED BY ',,,'
+        LINES TERMINATED BY '\n'
         IGNORE 1 LINES
-        (name, fav_colour)";
+        (movieId , imdbId, tmdbId)";
 
 
 if ($result = $mysqli->query($csvSQL)){
@@ -79,7 +50,31 @@ else{
     echo $mysqli->error;
 }
 
+// displaying it on the main page
 
+$query = 'SELECT * FROM Coursework.links';
+
+echo '<table border="0" cellspacing="2" cellpadding="2">
+      <tr> 
+          <td> <font face="Arial">movieId</font> </td> 
+          <td> <font face="Arial">imdbId</font> </td> 
+          <td> <font face="Arial">tmdbId</font> </td> 
+      </tr>';
+
+if ($result = $mysqli->query($query)) {
+    while ($row = $result->fetch_assoc()) {
+        $field1name = $row["movieId"];
+        $field2name = $row["imdbId"];
+        $field3name = $row["tmdbId"];
+
+        echo '<tr> 
+                  <td>'.$field1name.'</td> 
+                  <td>'.$field2name.'</td> 
+                  <td>'.$field3name.'</td>  
+              </tr>';
+    }
+    $result->free();
+} 
 
 $mysqli->close;
 ?>
