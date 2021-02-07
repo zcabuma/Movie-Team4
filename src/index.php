@@ -14,7 +14,7 @@ if ($result = $mysqli->query($sql))
 
 // create LINKS table if not created already
 $sql = "CREATE TABLE IF NOT EXISTS Coursework.links(
-        `movieId` BIGINT AUTO_INCREMENT PRIMARY KEY ,
+        `movieId` BIGINT PRIMARY KEY ,
         `imdbId` BIGINT NOT NULL ,
         `tmdbId` BIGINT NOT NULL
 );";
@@ -52,29 +52,58 @@ else{
 
 // displaying it on the main page
 
-$query = 'SELECT * FROM Coursework.links';
+// $query = 'SELECT * FROM Coursework.links';
 
-echo '<table border="0" cellspacing="2" cellpadding="2">
-      <tr> 
-          <td> <font face="Arial">movieId</font> </td> 
-          <td> <font face="Arial">imdbId</font> </td> 
-          <td> <font face="Arial">tmdbId</font> </td> 
-      </tr>';
+// echo '<table border="0" cellspacing="2" cellpadding="2">
+//       <tr> 
+//           <td> <font face="Arial">movieId</font> </td> 
+//           <td> <font face="Arial">imdbId</font> </td> 
+//           <td> <font face="Arial">tmdbId</font> </td> 
+//       </tr>';
 
-if ($result = $mysqli->query($query)) {
-    while ($row = $result->fetch_assoc()) {
-        $field1name = $row["movieId"];
-        $field2name = $row["imdbId"];
-        $field3name = $row["tmdbId"];
+// if ($result = $mysqli->query($query)) {
+//     while ($row = $result->fetch_assoc()) {
+//         $field1name = $row["movieId"];
+//         $field2name = $row["imdbId"];
+//         $field3name = $row["tmdbId"];
 
-        echo '<tr> 
-                  <td>'.$field1name.'</td> 
-                  <td>'.$field2name.'</td> 
-                  <td>'.$field3name.'</td>  
-              </tr>';
-    }
-    $result->free();
-} 
+//         echo '<tr> 
+//                   <td>'.$field1name.'</td> 
+//                   <td>'.$field2name.'</td> 
+//                   <td>'.$field3name.'</td>  
+//               </tr>';
+//     }
+//     $result->free();
+// } 
+
+
+
+// create MOVIES table if not created already
+$sql = "CREATE TABLE IF NOT EXISTS Coursework.movies(
+    `movieId` BIGINT PRIMARY KEY ,
+    `title` VARCHAR(50),
+    `year` INT
+);";
+
+if ($result = $mysqli->query($sql))
+{
+echo 'movies table created successfully';
+}
+
+$csvSQL = "LOAD DATA LOCAL INFILE 'movies.csv'
+        INTO TABLE Coursework.movies
+        FIELDS TERMINATED BY '|'
+        LINES TERMINATED BY '\n'
+        IGNORE 1 LINES
+        (movieId , title, year)";
+
+
+if ($result = $mysqli->query($csvSQL)){
+    echo 'csv added successfully';
+}
+else{
+    echo $mysqli->error;
+}
 
 $mysqli->close;
 ?>
