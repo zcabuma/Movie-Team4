@@ -52,29 +52,29 @@ else{
 
 // displaying it on the main page
 
-// $query = 'SELECT * FROM Coursework.links';
+$query = 'SELECT * FROM Coursework.links';
 
-// echo '<table border="0" cellspacing="2" cellpadding="2">
-//       <tr> 
-//           <td> <font face="Arial">movieId</font> </td> 
-//           <td> <font face="Arial">imdbId</font> </td> 
-//           <td> <font face="Arial">tmdbId</font> </td> 
-//       </tr>';
+echo '<table border="0" cellspacing="2" cellpadding="2">
+      <tr> 
+          <td> <font face="Arial">movieId</font> </td> 
+          <td> <font face="Arial">imdbId</font> </td> 
+          <td> <font face="Arial">tmdbId</font> </td> 
+      </tr>';
 
-// if ($result = $mysqli->query($query)) {
-//     while ($row = $result->fetch_assoc()) {
-//         $field1name = $row["movieId"];
-//         $field2name = $row["imdbId"];
-//         $field3name = $row["tmdbId"];
+if ($result = $mysqli->query($query)) {
+    while ($row = $result->fetch_assoc()) {
+        $field1name = $row["movieId"];
+        $field2name = $row["imdbId"];
+        $field3name = $row["tmdbId"];
 
-//         echo '<tr> 
-//                   <td>'.$field1name.'</td> 
-//                   <td>'.$field2name.'</td> 
-//                   <td>'.$field3name.'</td>  
-//               </tr>';
-//     }
-//     $result->free();
-// } 
+        echo '<tr> 
+                  <td>'.$field1name.'</td> 
+                  <td>'.$field2name.'</td> 
+                  <td>'.$field3name.'</td>  
+              </tr>';
+    }
+    $result->free();
+} 
 
 
 
@@ -105,5 +105,75 @@ else{
     echo $mysqli->error;
 }
 
-$mysqli->close;
+
+//create genre table
+$sql = "CREATE TABLE IF NOT EXISTS Coursework.genres(
+    `genreID` BIGINT AUTO_INCREMENT PRIMARY KEY ,
+    `genre` VARCHAR(50) UNIQUE
+);";
+if ($result = $mysqli->query($sql))
+{
+echo 'genres table created successfully';
+}
+
+$sql = "CREATE TABLE IF NOT EXISTS Coursework.moviesGenres(
+    `movieID` BIGINT ,
+    `genreID` INT
+);";
+
+
+if ($result = $mysqli->query($sql))
+{
+echo 'moviesGenres table created successfully';
+}
+$allgenres = [];
+if($file = fopen("genres.csv","r")){
+    $line =fgets($file);
+    while(!feof($file)){
+        $line = fgets($file);
+        //echo $line;
+        //echo "<br>";
+        $data = explode(",", $line);
+        $movieID = $data[0];
+        $genres = explode("|", $data[1]);
+
+        
+        foreach ($genres as $genre){
+            $genre = trim($genre);
+            if (!$allgenres[$genre]){
+                $sql = "INSERT INTO Coursework.genres (`genre`) VALUES('$genre');";
+                $mysqli->query($sql);
+                //array_push($allgenres, $genre);
+                //echo $genre;
+                //echo "<br>";
+                $sql = "SELECT genreID FROM Coursework.genres WHERE genre='$genre';";
+                $result = $mysqli->query($sql);
+                $row = $result->fetch_assoc();
+                $genreID = $row["genreID"];
+                $allgenres[$genre] = $genreID;
+            }
+
+
+            $genreID = $allgenres[$genre];
+            
+            $sql = "INSERT INTO Coursework.moviesGenres (`movieID`,`genreID`) VALUES ($movieID,$genreID )";
+            $mysqli->query($sql);
+               
+            
+            
+            
+            //echo $genre;
+            //echo "<br>";
+            
+        }
+
+    }
+    fclose($file);
+}
+echo "Data added";
+
+
+
+
+ $mysqli->close;
 ?>
