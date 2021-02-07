@@ -116,6 +116,8 @@ if ($result = $mysqli->query($sql))
 echo 'genres table created successfully';
 }
 
+
+//create combined table
 $sql = "CREATE TABLE IF NOT EXISTS Coursework.moviesGenres(
     `movieID` BIGINT ,
     `genreID` INT
@@ -127,6 +129,7 @@ if ($result = $mysqli->query($sql))
 echo 'moviesGenres table created successfully';
 }
 $allgenres = [];
+//manually upload the combined data
 if($file = fopen("genres.csv","r")){
     $line =fgets($file);
     while(!feof($file)){
