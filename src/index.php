@@ -1,6 +1,6 @@
 <?php
 
-echo "Group 4 project";
+echo "Group 4 project wohooo";
 
 $mysqli = new mysqli("db", "root", "example");
 mysqli_options($mysqli, MYSQLI_OPT_LOCAL_INFILE, true);
@@ -11,7 +11,7 @@ if ($result = $mysqli->query($sql))
 {
     echo 'db created successfully \n';
 }
-
+#CHUCK OF CODE TO UPLOAD LINKS TABLE --------------------------------------
 // create LINKS table if not created already
 $sql = "CREATE TABLE IF NOT EXISTS Coursework.links(
         `movieId` BIGINT PRIMARY KEY ,
@@ -24,7 +24,7 @@ if ($result = $mysqli->query($sql))
     echo 'table created successfully';
 }
 
-
+// read from links csv
 $sql_localInfile = 'SET GLOBAL local_infile=1';
 
 if ($result = $mysqli->query($sql_localInfile)){
@@ -50,7 +50,7 @@ else{
     echo $mysqli->error;
 }
 
-// displaying it on the main page
+// displaying links on the main page
 
 $query = 'SELECT * FROM Coursework.links';
 
@@ -76,6 +76,46 @@ if ($result = $mysqli->query($query)) {
     $result->free();
 } 
 
+#LINKS TABLE UPLOAD AND DISPLAY ENDS HERE -----------------------
+
+// THIS CHUCK OF CODE IS TO ADD TAGS TABLE WHICH WAS ALREADY NORMALIZED------------
+// create Tags table if not created already
+$sql_query_for_tags = "CREATE TABLE IF NOT EXISTS Coursework.tags(
+    `userId` BIGINT NOT NULL,
+    `movieId` BIGINT NOT NULL ,
+    `tag` VARCHAR(50) NOT NULL, 
+    `timestamp` BIGINT NOT NULL, 
+    PRIMARY KEY (`userId`, `movieId`,`timestamp`)
+);";
+
+if ($result = $mysqli->query($sql_localInfile)){
+    echo 'set local_infile';
+}
+else{
+    echo $mysqli->error;
+}
+
+if ($result = $mysqli->query($sql_query_for_tags))
+{
+    echo 'tags table created successfully';
+}
+
+
+$csvSQL = "LOAD DATA LOCAL INFILE 'tags.csv'
+        INTO TABLE Coursework.tags
+        FIELDS TERMINATED BY ','
+        LINES TERMINATED BY '\n'
+        IGNORE 1 LINES
+        (userId , movieId,tag, timestamp)";
+
+
+if ($result = $mysqli->query($csvSQL)){
+    echo 'TAGSSS added successfully';
+}
+else{
+    echo $mysqli->error;
+}
+#TAGS TABLE STUFF ENDS HEREE----------------------
 
 
 // create MOVIES table if not created already
