@@ -83,19 +83,21 @@ if(checkIfTableExists("Coursework.links", $mysqli) === false){
 // RATINGS.CSV
 
 if(checkIfTableExists("Coursework.ratings", $mysqli) === false){
+    echo "did not find";
 
-    $sql = "CREATE TABLE IF NOT EXISTS Coursework.ratings(
-        `userId` BIGINT PRIMARY KEY ,
+    $sql = "CREATE TABLE Coursework.ratings(
+        `userId` BIGINT NOT NULL ,
         `movieId` BIGINT NOT NULL ,
         `rating` INT NOT NULL ,
-        `timestamp` BIGINT NOT NULL
+        `timestamp` BIGINT NOT NULL,
+        PRIMARY KEY (`userId`, `movieId`,`timestamp`)
     );";
-
+    echo "about to make";
     if ($result = $mysqli->query($sql))
     {
-    echo 'table created successfully';
+    echo 'ratings created successfully';
     }
-
+    echo "here";
     $csvSQL = "LOAD DATA LOCAL INFILE 'ratings.csv'
             INTO TABLE Coursework.ratings
             FIELDS TERMINATED BY ','
@@ -103,15 +105,18 @@ if(checkIfTableExists("Coursework.ratings", $mysqli) === false){
             IGNORE 1 LINES
             (userId , movieId, rating, timestamp)";
 
-
+    
     if ($result = $mysqli->query($csvSQL)){
         echo 'csv added successfully';
     }
     else{
+        echo "here4";
         echo $mysqli->error;
     }
 
     // displaying it on the main page
+
+    
 
     $query = 'SELECT * FROM Coursework.ratings';
 
@@ -139,6 +144,7 @@ if(checkIfTableExists("Coursework.ratings", $mysqli) === false){
         }
         $result->free();
     } 
+
 
 }
 
