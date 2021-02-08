@@ -9,7 +9,8 @@ mysqli_options($mysqli, MYSQLI_OPT_LOCAL_INFILE, true);
 $sql = "CREATE DATABASE IF NOT EXISTS `Coursework`;";
 if ($result = $mysqli->query($sql))
 {
-    echo 'db created successfully \n';
+    echo 'db created successfully ';
+    echo "<br>";
 }
 
 
@@ -35,6 +36,7 @@ if(checkIfTableExists("Coursework.links", $mysqli) === false){
     if ($result = $mysqli->query($sql))
     {
     echo 'links table created successfully';
+    echo "<br>";
     }
 
     $csvSQL = "LOAD DATA LOCAL INFILE 'links.csv'
@@ -46,7 +48,8 @@ if(checkIfTableExists("Coursework.links", $mysqli) === false){
 
 
     if ($result = $mysqli->query($csvSQL)){
-        echo 'csv added successfully';
+        echo 'links csv added successfully';
+        echo "<br>";
     }
     else{
         echo $mysqli->error;
@@ -54,29 +57,29 @@ if(checkIfTableExists("Coursework.links", $mysqli) === false){
 
     // displaying links on the main page
 
-    $query = 'SELECT * FROM Coursework.links';
+    // $query = 'SELECT * FROM Coursework.links';
 
-    echo '<table border="0" cellspacing="2" cellpadding="2">
-        <tr> 
-            <td> <font face="Arial">movieId</font> </td> 
-            <td> <font face="Arial">imdbId</font> </td> 
-            <td> <font face="Arial">tmdbId</font> </td> 
-        </tr>';
+    // echo '<table border="0" cellspacing="2" cellpadding="2">
+    //     <tr> 
+    //         <td> <font face="Arial">movieId</font> </td> 
+    //         <td> <font face="Arial">imdbId</font> </td> 
+    //         <td> <font face="Arial">tmdbId</font> </td> 
+    //     </tr>';
 
-    if ($result = $mysqli->query($query)) {
-        while ($row = $result->fetch_assoc()) {
-            $field1name = $row["movieId"];
-            $field2name = $row["imdbId"];
-            $field3name = $row["tmdbId"];
+    // if ($result = $mysqli->query($query)) {
+    //     while ($row = $result->fetch_assoc()) {
+    //         $field1name = $row["movieId"];
+    //         $field2name = $row["imdbId"];
+    //         $field3name = $row["tmdbId"];
 
-            echo '<tr> 
-                    <td>'.$field1name.'</td> 
-                    <td>'.$field2name.'</td> 
-                    <td>'.$field3name.'</td>  
-                </tr>';
-        }
-        $result->free();
-    } 
+    //         echo '<tr> 
+    //                 <td>'.$field1name.'</td> 
+    //                 <td>'.$field2name.'</td> 
+    //                 <td>'.$field3name.'</td>  
+    //             </tr>';
+    //     }
+    //     $result->free();
+    // } 
 
 }
 
@@ -96,6 +99,7 @@ if(checkIfTableExists("Coursework.ratings", $mysqli) === false){
     if ($result = $mysqli->query($sql))
     {
     echo 'ratings created successfully';
+    echo "<br>";
     }
     echo "here";
     $csvSQL = "LOAD DATA LOCAL INFILE 'ratings.csv'
@@ -107,7 +111,8 @@ if(checkIfTableExists("Coursework.ratings", $mysqli) === false){
 
     
     if ($result = $mysqli->query($csvSQL)){
-        echo 'csv added successfully';
+        echo 'ratings csv added successfully';
+        echo "<br>";
     }
     else{
         echo "here4";
@@ -118,32 +123,32 @@ if(checkIfTableExists("Coursework.ratings", $mysqli) === false){
 
     
 
-    $query = 'SELECT * FROM Coursework.ratings';
+    // $query = 'SELECT * FROM Coursework.ratings';
 
-    echo '<table border="0" cellspacing="2" cellpadding="2">
-        <tr> 
-            <td> <font face="Arial">userId</font> </td> 
-            <td> <font face="Arial">movieId</font> </td> 
-            <td> <font face="Arial">rating</font> </td> 
-            <td> <font face="Arial">timestamp</font> </td> 
-        </tr>';
+    // echo '<table border="0" cellspacing="2" cellpadding="2">
+    //     <tr> 
+    //         <td> <font face="Arial">userId</font> </td> 
+    //         <td> <font face="Arial">movieId</font> </td> 
+    //         <td> <font face="Arial">rating</font> </td> 
+    //         <td> <font face="Arial">timestamp</font> </td> 
+    //     </tr>';
 
-    if ($result = $mysqli->query($query)) {
-        while ($row = $result->fetch_assoc()) {
-            $field1name = $row["userId"];
-            $field2name = $row["movieId"];
-            $field3name = $row["rating"];
-            $field3name = $row["timestamp"];
+    // if ($result = $mysqli->query($query)) {
+    //     while ($row = $result->fetch_assoc()) {
+    //         $field1name = $row["userId"];
+    //         $field2name = $row["movieId"];
+    //         $field3name = $row["rating"];
+    //         $field3name = $row["timestamp"];
 
-            echo '<tr> 
-                    <td>'.$field1name.'</td> 
-                    <td>'.$field2name.'</td> 
-                    <td>'.$field3name.'</td>  
-                    <td>'.$field4name.'</td>  
-                </tr>';
-        }
-        $result->free();
-    } 
+    //         echo '<tr> 
+    //                 <td>'.$field1name.'</td> 
+    //                 <td>'.$field2name.'</td> 
+    //                 <td>'.$field3name.'</td>  
+    //                 <td>'.$field4name.'</td>  
+    //             </tr>';
+    //     }
+    //     $result->free();
+    // } 
 
 
 }
@@ -171,6 +176,7 @@ if(checkIfTableExists("Coursework.links", $mysqli) === false){
     if ($result = $mysqli->query($sql_query_for_tags))
     {
         echo 'tags table created successfully';
+        echo "<br>";
     }
 
 
@@ -184,6 +190,7 @@ if(checkIfTableExists("Coursework.links", $mysqli) === false){
 
     if ($result = $mysqli->query($csvSQL)){
         echo 'TAGSSS added successfully';
+        echo "<br>";
     }
     else{
         echo $mysqli->error;
@@ -205,6 +212,7 @@ if(checkIfTableExists("Coursework.movies", $mysqli) === false){
     if ($result = $mysqli->query($sql))
     {
     echo 'movies table created successfully';
+    echo "<br>";
     }
 
     $csvSQL = "LOAD DATA LOCAL INFILE 'movies.csv'
@@ -216,7 +224,8 @@ if(checkIfTableExists("Coursework.movies", $mysqli) === false){
 
 
     if ($result = $mysqli->query($csvSQL)){
-        echo 'csv added successfully';
+        echo 'movie csv added successfully';
+        echo "<br>";
     }
     else{
         echo $mysqli->error;
@@ -235,7 +244,26 @@ if(checkIfTableExists("Coursework.movies", $mysqli) === false){
     if ($result = $mysqli->query($sql))
     {
     echo 'genres table created successfully';
+    echo "<br>";
     }
+
+    $csvSQL = "LOAD DATA LOCAL INFILE 'genres.csv'
+            INTO TABLE Coursework.genres
+            FIELDS TERMINATED BY ','
+            LINES TERMINATED BY '\n'
+            IGNORE 1 LINES
+            (genreID , genre)";
+
+
+    if ($result = $mysqli->query($csvSQL)){
+        echo 'genre csv added successfully';
+        echo "<br>";
+    }
+    else{
+        echo $mysqli->error;
+    }
+
+
 
 }
 
@@ -252,57 +280,31 @@ if(checkIfTableExists("Coursework.moviesGenres", $mysqli) === false){
     if ($result = $mysqli->query($sql))
     {
     echo 'moviesGenres table created successfully';
+    echo "<br>";
     }
-    $allgenres = [];
-    //manually upload the combined data
-    if($file = fopen("genres.csv","r")){
-        $line =fgets($file);
-        while(!feof($file)){
-            $line = fgets($file);
-            //echo $line;
-            //echo "<br>";
-            $data = explode(",", $line);
-            $movieID = $data[0];
-            $genres = explode("|", $data[1]);
-
-            
-            foreach ($genres as $genre){
-                $genre = trim($genre);
-                if (!$allgenres[$genre]){
-                    $sql = "INSERT INTO Coursework.genres (`genre`) VALUES('$genre');";
-                    $mysqli->query($sql);
-                    //array_push($allgenres, $genre);
-                    //echo $genre;
-                    //echo "<br>";
-                    $sql = "SELECT genreID FROM Coursework.genres WHERE genre='$genre';";
-                    $result = $mysqli->query($sql);
-                    $row = $result->fetch_assoc();
-                    $genreID = $row["genreID"];
-                    $allgenres[$genre] = $genreID;
-                }
+    $csvSQL = "LOAD DATA LOCAL INFILE 'movies_genres.csv'
+    INTO TABLE Coursework.moviesGenres
+    FIELDS TERMINATED BY ','
+    LINES TERMINATED BY '\n'
+    IGNORE 1 LINES
+    (movieID , genreID)";
 
 
-                $genreID = $allgenres[$genre];
-                
-                //$sql = "INSERT INTO Coursework.moviesGenres (`movieID`,`genreID`) VALUES ($movieID,$genreID )";
-                //$mysqli->query($sql);
-
-                //echo $genre;
-                //echo "<br>";
-                
-            }
-
-        }
-        fclose($file);
+    if ($result = $mysqli->query($csvSQL)){
+    echo 'moviegenre csv added successfully';
+    echo "<br>";
     }
-    echo "Data added";
+    else{
+    echo $mysqli->error;
+    }
 
 }
 
 
 function checkIfTableExists($tableName, $mysqli) {
-    echo "starting";
+    echo "check if table exists starting";
     echo "SHOW TABLES LIKE '$tableName'";
+    echo "<br>";
     $checktable = $mysqli->query("SHOW TABLES LIKE '$tableName'");
     $table_exists = $checktable->num_rows > 0;
     echo "result for if table exists\n";
