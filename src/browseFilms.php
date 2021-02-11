@@ -92,7 +92,6 @@
                         <select name="genre" id="genre">
 
 						<?php include '1-BrowsingFilms/getUniqueGenres.php'; ?>
-
                         
                         </select>
                         <br><br>
@@ -100,12 +99,19 @@
 						
                         
                         <label for="rating">Choose a rating:</label>
-                        <select name="rating" id="rating">
-						<?php include '1-BrowsingFilms/getUniqueRatings.php'; ?>
-						
-                        </select>
+							<select name="rating" id="rating">
+							<?php include '1-BrowsingFilms/getUniqueRatings.php'; ?>
+							</select>
                         <br><br>
 
+
+						<label for="statistics">Statistics</label>
+							<select name="statistics" id="statistics">
+							<option disabled selected value> - select an option - </option>
+								<option value="popular">Most Popular</option>
+								<option value="polarizing">Most Polarizing</option>
+							</select>
+                        <br><br>
 
 						<label for="movie">Search for movie:</label>
 							<input type="text" placeholder="Movie Title" id="movieTitle" name="movieTitle">  
