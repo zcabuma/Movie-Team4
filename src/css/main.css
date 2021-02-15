@@ -906,7 +906,8 @@ h2.title {
     bottom: 0;
     position: absolute;
     bottom: 0;
-    text-align: center;
+    text-align: left;
+    padding-left: 10px;
     width: 100%;
 }
 

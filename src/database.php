@@ -39,7 +39,7 @@ if(checkIfTableExists("Coursework.links", $mysqli) === false){
     echo "<br>";
     }
 
-    $csvSQL = "LOAD DATA LOCAL INFILE 'links.csv'
+    $csvSQL = "LOAD DATA LOCAL INFILE 'ExcelFiles/links.csv'
             INTO TABLE Coursework.links
             FIELDS TERMINATED BY ','
             LINES TERMINATED BY '\n'
@@ -102,7 +102,7 @@ if(checkIfTableExists("Coursework.ratings", $mysqli) === false){
     echo "<br>";
     }
     echo "here";
-    $csvSQL = "LOAD DATA LOCAL INFILE 'ratings.csv'
+    $csvSQL = "LOAD DATA LOCAL INFILE 'ExcelFiles/ratings.csv'
             INTO TABLE Coursework.ratings
             FIELDS TERMINATED BY ','
             LINES TERMINATED BY '\n'
@@ -180,7 +180,7 @@ if(checkIfTableExists("Coursework.links", $mysqli) === false){
     }
 
 
-    $csvSQL = "LOAD DATA LOCAL INFILE 'tags.csv'
+    $csvSQL = "LOAD DATA LOCAL INFILE 'ExcelFiles/tags.csv'
             INTO TABLE Coursework.tags
             FIELDS TERMINATED BY ','
             LINES TERMINATED BY '\n'
@@ -215,7 +215,7 @@ if(checkIfTableExists("Coursework.movies", $mysqli) === false){
     echo "<br>";
     }
 
-    $csvSQL = "LOAD DATA LOCAL INFILE 'movies.csv'
+    $csvSQL = "LOAD DATA LOCAL INFILE 'ExcelFiles/movies.csv'
             INTO TABLE Coursework.movies
             FIELDS TERMINATED BY '|'
             LINES TERMINATED BY '\n'
@@ -247,7 +247,7 @@ if(checkIfTableExists("Coursework.movies", $mysqli) === false){
     echo "<br>";
     }
 
-    $csvSQL = "LOAD DATA LOCAL INFILE 'genres.csv'
+    $csvSQL = "LOAD DATA LOCAL INFILE 'ExcelFiles/genres.csv'
             INTO TABLE Coursework.genres
             FIELDS TERMINATED BY ','
             LINES TERMINATED BY '\n'
@@ -282,7 +282,7 @@ if(checkIfTableExists("Coursework.moviesGenres", $mysqli) === false){
     echo 'moviesGenres table created successfully';
     echo "<br>";
     }
-    $csvSQL = "LOAD DATA LOCAL INFILE 'movies_genres.csv'
+    $csvSQL = "LOAD DATA LOCAL INFILE 'ExcelFiles/movies_genres.csv'
     INTO TABLE Coursework.moviesGenres
     FIELDS TERMINATED BY ','
     LINES TERMINATED BY '\n'

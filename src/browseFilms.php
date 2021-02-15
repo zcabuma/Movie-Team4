@@ -137,7 +137,7 @@
 					<div class="features_items"><!--features_items-->
                         <h2 class="title text-center">Movies</h2>
 
-                        <?php include '1-BrowsingFilms/displayMoviesGrid.php'; ?>
+                        <?php include 'displayMoviesGrid.php'; ?>
 
 						<ul class="pagination">
 							<li class="active"><a href="">1</a></li>

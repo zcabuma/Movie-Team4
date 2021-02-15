@@ -12,10 +12,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //Handling Post request from genre filter 
     $genre = test_input($_POST["genre"]);
     if($genre != "All" && $genre != ""){
-        $genreIDQuery = "SELECT genreID FROM Coursework.genres WHERE genre=\"$genre\"";
+        
+        $genreIDQuery = "SELECT genreID FROM Coursework.genres WHERE genre LIKE \"%$genre%\"";
         $genreID = $mysqli->query($genreIDQuery);
+        
         $row_result = mysqli_fetch_assoc($genreID);
         $idNo = $row_result['genreID'];;
+        
         $commandForGenre = "SELECT movieID 
                             FROM Coursework.moviesGenres 
                             WHERE genreID=$idNo";
@@ -104,9 +107,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         foreach ($listOfCommands as $value){
             $fullCommand = $fullCommand.")";
         }
-        // echo "command: \n";
+        //echo "command: \n";
 
-        // echo $fullCommand;
+        //echo $fullCommand;
         
         //This movie list has movies that will be displayed on the grid. 
         $moviesList = $mysqli->query($fullCommand);
