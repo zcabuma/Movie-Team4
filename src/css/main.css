@@ -835,6 +835,10 @@ h2.title {
     margin-bottom: 30px;
 }
 
+.chumma{
+    background-color: red;
+}
+
 .single-products {
     position: relative;
     width: 300px;

@@ -1,5 +1,18 @@
 
 <?php
+// echo "<script src=\"js/jquery.js\"></script>";
+
+// echo "<script>
+// $(document).ready(function(){
+//   $(\".product-image-wrapper\").mouseover(function(){
+// 	alert(\"Value: \" + $(\"#test\").val());
+//     $(this).css(\"background-color\", \"black\");
+//   });
+//   $(\".product-image-wrapper\").mouseout(function(){
+//     $(this).css(\"background-color\", \"white\");
+//   });
+// });
+// </script>";
 
 				
 
@@ -12,12 +25,12 @@
 							$variance = $row['variance'];
 							
 						
-                            $movieIDQuery = "SELECT AVG(rating) FROM Coursework.ratings WHERE movieID = (SELECT movieID FROM Coursework.movies WHERE title LIKE \"%$movieTitle%\" AND year = $year)";
+                            //$movieIDQuery = "SELECT AVG(rating) FROM Coursework.ratings WHERE movieID = (SELECT movieID FROM Coursework.movies WHERE title LIKE \"%$movieTitle%\" AND year = $year)";
 
-							$movieID = $mysqli->query($movieIDQuery);
+							//$movieID = $mysqli->query($movieIDQuery);
         
-							$row_result = mysqli_fetch_assoc($mysqli->query($movieIDQuery));
-							$idNo = $row_result['AVG(rating)'];
+							//$row_result = mysqli_fetch_assoc($mysqli->query($movieIDQuery));
+							//$idNo = $row_result['AVG(rating)'];
 							echo "<div class=\"col-sm-4\"> 
 							<div class=\"product-image-wrapper\">
 								<div class=\"single-products\">
@@ -29,11 +42,10 @@
 										<p>$count</p>
 										<p>$variance</p>
 									</div>
-									
+									<p><id = \"name\" value = \"myname\"></p>
 									
 									<div class=\"product-overlay\">
 									<div class = \"overlay-content\">
-									Ratings:
 									$idNo <br><br><br>
 									</div>
 									</div>

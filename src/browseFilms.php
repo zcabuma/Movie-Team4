@@ -7,6 +7,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+
+
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
@@ -27,7 +31,7 @@
 
 <body>
 	<header id="header"><!--header-->
-		
+	<p>Move the mouse pointer over this paragraph.</p>
 		
 		<div class="header-middle"><!--header-middle-->
 			<div class="container">
@@ -136,7 +140,7 @@
 				<div class="col-sm-9 padding-right">
 					<div class="features_items"><!--features_items-->
                         <h2 class="title text-center">Movies</h2>
-
+						
                         <?php include 'displayMoviesGrid.php'; ?>
 
 						<ul class="pagination">
@@ -154,7 +158,7 @@
 	
 
   
-    <script src="js/jquery.js"></script>
+    
 	<script src="js/price-range.js"></script>
     <script src="js/jquery.scrollUp.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
