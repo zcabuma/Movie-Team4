@@ -7,6 +7,9 @@ $year = $_GET["year"];
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
@@ -23,6 +26,9 @@ $year = $_GET["year"];
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </head><!--/head-->
 
 <body>
@@ -79,7 +85,9 @@ $year = $_GET["year"];
 					<div class="features_items"><!--features_items-->
                         
 
-                        <?php include "RatingsCalculation.php";?>
+                        <?php include "2-ReportsFunction/RatingsCalculation.php";?>
+						
+						<?php include "2-ReportsFunction/drawPieCharts.php";?>
 
 						<ul class="pagination">
 							<li class="active"><a href="">1</a></li>
@@ -91,8 +99,14 @@ $year = $_GET["year"];
 				</div>
     
     
-		
 
+<!------ Include the above in your HEAD tag ---------->
+				
+
+
+
+
+	<script src="js/pie.js"></script>
     <script src="js/jquery.js"></script>
 	<script src="js/price-range.js"></script>
     <script src="js/jquery.scrollUp.min.js"></script>

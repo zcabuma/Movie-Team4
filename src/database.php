@@ -29,7 +29,7 @@ if(checkIfTableExists("Coursework.links", $mysqli) === false){
 
     $sql = "CREATE TABLE IF NOT EXISTS Coursework.links(
         `movieId` BIGINT PRIMARY KEY ,
-        `imdbId` BIGINT NOT NULL ,
+        `imdbId` VARCHAR (10) NOT NULL,
         `tmdbId` BIGINT NOT NULL
     );";
 
