@@ -1,0 +1,258 @@
+
+--This is to select a movie
+--and get users and their count based on rating
+
+SELECT COUNT(r.userId)
+FROM "ratings" as r
+Where  IN (
+SELECT movieId 
+FROM "movies"
+Where title = "Toy Story " --this is an input parameter
+) 
+And rating = 4.0  --rating is an input parameter
+
+SELECT r.userId
+FROM "ratings" as r
+Where  IN (
+SELECT movieId 
+FROM "movies"
+Where title = "Toy Story " --this is an input parameter
+) 
+And rating = 4.0  --rating is an input parameter
+
+--// filter by year
+
+SELECT  COUNT(r.userId)
+FROM "ratings" as r
+WHERE movieId IN (
+SELECT movieId 
+FROM "movies"
+Where year = 1995 --this is an input parameter
+)
+SELECT  r.userId
+FROM "ratings" as r
+WHERE movieId IN (
+SELECT movieId 
+FROM "movies"
+Where year = 1995 --this is an input parameter
+)
+
+---------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------
+--This will be displayed when a movie is selected
+--This categorises people who did not like the movie at all
+
+SELECT COUNT(r.userId)   --gives count of people
+FROM "ratings" as r
+Where movieId IN (
+SELECT movieId 
+FROM "movies"
+Where title = "Toy Story " --this is an input parameter
+)       
+And rating <1.5
+
+SELECT r.userId
+FROM "ratings" as r
+Where movieId IN (
+SELECT movieId 
+FROM "movies"
+Where title = "Toy Story " --this is an input parameter
+) 
+And rating<1.5
+---------------------------------------------------------------------------------------------------------------
+
+--This categorises people who found it below average
+
+SELECT  COUNT(r.userId)
+FROM "ratings" as r
+WHERE movieId IN (
+SELECT movieId 
+FROM "movies"
+Where title = "Toy Story " --this is an input parameter
+) 
+AND rating BETWEEN 1.5 AND 2.5
+
+SELECT  r.userId
+FROM "ratings" as r
+WHERE movieId IN (
+SELECT movieId 
+FROM "movies"
+Where title = "Toy Story " --this is an input parameter
+) 
+AND rating BETWEEN 1.5 AND 2.5
+---------------------------------------------------------------------------------------------------------------
+
+--This categorises people who found it average
+
+SELECT  COUNT(r.userId)
+FROM "ratings" as r
+WHERE movieId IN (
+SELECT movieId 
+FROM "movies"
+Where title = "Toy Story " --this is an input parameter
+) 
+AND rating BETWEEN 2.5 AND 3.5
+
+SELECT  r.userId
+FROM "ratings" as r
+WHERE movieId IN (
+SELECT movieId 
+FROM "movies"
+Where title = "Toy Story " --this is an input parameter
+) 
+AND rating BETWEEN 2.5 AND 3.5
+
+
+--//-------------------------------------------------------------------------------------------------------------
+
+--// This categorises people who found it good
+
+SELECT  COUNT(r.userId)
+FROM "ratings" as r
+WHERE movieId  IN (
+SELECT movieId 
+FROM "movies"
+Where title = "Toy Story " --this is an input parameter
+) 
+AND rating BETWEEN 3.5 AND 4.5
+
+SELECT  r.userId
+FROM "ratings" as r
+WHERE movieId  IN (
+SELECT movieId 
+FROM "movies"
+Where title = "Toy Story " --this is an input parameter
+) 
+AND rating BETWEEN 3.5 AND 4.5
+
+--//-------------------------------------------------------------------------------------------------------------
+
+--// This categorises people who loved it
+
+SELECT  COUNT(r.userId)
+FROM "ratings" as r
+WHERE movieId IN (
+SELECT movieId 
+FROM "movies"
+Where title = "Toy Story " --this is an input parameter
+) AND rating > 4.5 
+
+SELECT  r.userId
+FROM "ratings" as r
+WHERE movieId IN (
+SELECT movieId 
+FROM "movies"
+Where title = "Toy Story " --this is an input parameter
+) AND rating > 4.5
+
+
+--// this is users who watched movies of that same year of a given movie 
+
+SELECT  COUNT(r.userId)
+FROM "ratings" as r
+WHERE movieId IN (
+SELECT movieId 
+FROM "movies"
+WHERE year IN (
+SELECT year 
+FROM "movies"
+WHERE title = "Toy Story " --this is an input parameter
+))
+
+SELECT  r.userId
+FROM "ratings" as r
+WHERE movieId IN (
+SELECT movieId 
+FROM "movies"
+WHERE year IN (
+SELECT year 
+FROM "movies"
+WHERE title = "Toy Story " --this is an input parameter
+))
+
+--//-------------------------------------------------------------------------------------------------------------
+--//-------------------------------------------------------------------------------------------------------------
+--//-------------------------------------------------------------------------------------------------------------
+
+--// People who like old movies <1990
+
+SELECT  COUNT(r.userId)
+FROM "ratings" as r
+WHERE movieId IN (
+SELECT movieId 
+FROM "movies"
+WHERE year <1990)
+AND rating > 3
+
+SELECT  r.userId
+FROM "ratings" as r
+WHERE movieId IN (
+SELECT movieId 
+FROM "movies"
+WHERE year <1990)
+AND rating > 3
+
+--// People who like movies released between 1990 and 2010
+
+SELECT  COUNT(r.userId)
+FROM "ratings" as r
+WHERE movieId IN (
+SELECT movieId 
+FROM "movies"
+WHERE year BETWEEN 1990 AND 2010)
+AND rating > 3
+
+SELECT  r.userId
+FROM "ratings" as r
+WHERE movieId IN (
+SELECT movieId 
+FROM "movies"
+WHERE year BETWEEN 1990 AND 2010)
+AND rating > 3
+
+--// People who like modern movies 
+
+SELECT  COUNT(r.userId)
+FROM "ratings" as r
+WHERE movieId IN (
+SELECT movieId 
+FROM "movies"
+WHERE year >2010)
+AND rating > 3
+
+SELECT  r.userId
+FROM "ratings" as r
+WHERE movieId IN (
+SELECT movieId 
+FROM "movies"
+WHERE year >2010)
+AND rating > 3
+
+
+--//-------------------------------------------------------------------------------------------------------------
+--//-------------------------------------------------------------------------------------------------------------
+--//-------------------------------------------------------------------------------------------------------------
+
+--// finds counts of people who tagged movies with a particular tag
+
+SELECT  tag, Count(t.userId)
+FROM "tags" as t
+WHERE movieId IN (
+SELECT movieId 
+FROM "movies"
+WHERE title = "Toy Story " --this is an input parameter
+)
+GROUP BY tag
+
+--// find all movies watched by a user
+
+SELECT title
+FROM "movies"
+WHERE movieId IN (
+SELECT movieId 
+FROM "ratings"
+WHERE userId = 1 --this is an input parameter
+)
+
+
