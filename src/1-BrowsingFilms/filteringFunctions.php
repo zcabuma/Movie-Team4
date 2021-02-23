@@ -1,9 +1,10 @@
 <?php 
 
-    
+   
 $genre = "All";
 $rating = "All";
 $movieTitle = "All";
+$idNo = null; 
 // this array builds up queries for genre and rating related filters (is not used for statistics filter)
 $listOfCommands = array();
 
@@ -23,31 +24,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             FROM Coursework.moviesGenres 
                             WHERE genreID=$idNo";
         array_push($listOfCommands, $commandForGenre);
-    }
-
-    // Handling Post request from statistics filter 
-    $statistic = test_input($_POST["statistics"]);
-    if ($statistic == "popular"){
-        // query to get most popular movies
-        $popular_movies = "SELECT COUNT(r.rating) as count, r.movieId, m.title
-        FROM Coursework.ratings as r
-        JOIN Coursework.movies as m ON  r.movieId = m.movieId
-        WHERE timestamp = (SELECT MAX(timestamp) FROM Coursework.ratings as r2 WHERE r2.userId = r.userId and r2.movieId = r.movieId)
-        GROUP BY movieId
-        ORDER BY COUNT(r.rating) DESC
-        LIMIT 21;";
-        $moviesList = $mysqli->query($popular_movies);
-
-    }
-    if ($statistic == "polarizing"){
-        $polarizing_movies = "SELECT VARIANCE(r.rating) as variance, r.movieId, m.title
-        FROM Coursework.ratings as r
-        JOIN Coursework.movies as m ON  r.movieId = m.movieId
-        WHERE timestamp = (SELECT MAX(timestamp) FROM Coursework.ratings as r2 WHERE r2.userId = r.userId and r2.movieId = r.movieId)
-        GROUP BY MovieId
-        ORDER BY VARIANCE(r.rating) DESC
-        LIMIT 21; "; 
-        $moviesList = $mysqli->query($polarizing_movies);
     }
 
     // Handling Post request from rating filter 
@@ -86,8 +62,64 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         array_push($listOfCommands, $commandForEnd);
     }
 
+     // Handling Post request from statistics filter 
+    $statistic = test_input($_POST["statistics"]);
+    if ($statistic == "popular" || $statistic == "polarizing"){
+        // query to get most popular movies
+        if ($statistic == "popular"){
+            $popular_movies = "SELECT COUNT(r.rating) as count, r.movieId, m.title"; 
+        }
+        else{
+            $popular_movies = "SELECT VARIANCE(r.rating) as variance, r.movieId, m.title"; 
+        }
+        
+        // common code dynammically created
+        $popular_movies .= " FROM Coursework.ratings as r
+        JOIN Coursework.movies as m ON  r.movieId = m.movieId"; 
+        if ($idNo != null){
+            $popular_movies .= " JOIN Coursework.moviesGenres as mg ON r.movieId = mg.movieId"; 
+        }
+        
+        $popular_movies .=" WHERE timestamp = (SELECT MAX(timestamp) FROM Coursework.ratings as r2 WHERE r2.userId = r.userId and r2.movieId = r.movieId)"; 
+        
+        if ($idNo != null){
+            $popular_movies .= " AND mg.genreId = $idNo"; 
+        }
+        if ($rating != "All"){
+            $popular_movies .= " AND rating = $rating";  
+        }
+
+        if($startYear != ""){
+            $popular_movies .= " AND m.year >= $startYear";  
+        }
+
+        if($endYear != ""){
+            $popular_movies .= " AND m.year <= $endYear";  
+        }
+
+        // if($movieTitle != ""){
+        //     $popular_movies .= " AND m.title LIKE $movieTitle";  
+        // }
+        
+        if ($statistic == "popular"){
+            $popular_movies .= " GROUP BY movieId
+            ORDER BY COUNT(r.rating) DESC
+            LIMIT 21;"; 
+        }
+        else{
+            $popular_movies .= " GROUP BY movieId
+            ORDER BY VARIANCE(r.rating) DESC
+            LIMIT 21;"; 
+
+        }
+    
+        $moviesList = $mysqli->query($popular_movies);
+
+    }
+
     // Forming entire SQL Query for different filters(genre,ratings,etc ) except statistic (for that the query already created and processed)
-    if(count($listOfCommands) != 0){
+    if(count($listOfCommands) != 0 && ($statistic == null || $movieTitle != "")){
+        echo "Nope we hereee";
         $fullCommand = "SELECT * 
                         FROM Coursework.movies 
                         WHERE movieID IN ( ";
@@ -116,6 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 else{
+    echo "should be hereee";
     $getAllMovies = "SELECT * FROM Coursework.movies LIMIT 21";
     $moviesList = $mysqli->query($getAllMovies);
 }
