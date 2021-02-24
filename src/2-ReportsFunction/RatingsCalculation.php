@@ -1,12 +1,18 @@
 <?php
-        $avgRating = "SELECT AVG(rating) FROM Coursework.ratings WHERE movieID = (SELECT movieID FROM Coursework.movies WHERE title LIKE \"%$movieTitle%\" AND year = $year)";
+
+
+        $movieTitleChanged = "%$movieTitle%";
+        $avgRating = "SELECT AVG(rating) FROM Coursework.ratings WHERE movieID = (SELECT movieID FROM Coursework.movies WHERE title LIKE ? AND year = ?)";
         
+        $stmt = $mysqli->prepare($avgRating);
+        $stmt->bind_param("si", $movieTitleChanged, $year);
+        $stmt->execute();
         
-        $ratings = $mysqli->query($avgRating);
+        //$ratings = $mysqli->query($avgRating);
 
         
 
-        $row_result = mysqli_fetch_assoc($mysqli->query($avgRating));
+        $row_result = mysqli_fetch_assoc($stmt->get_result());
         $idNo = $row_result['AVG(rating)'];
 
         $movieID = "SELECT imdbID, tmdbiD FROM Coursework.links WHERE movieID =(SELECT movieID FROM Coursework.movies WHERE title LIKE \"%$movieTitle%\" AND year = $year);";
