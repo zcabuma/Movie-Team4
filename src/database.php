@@ -295,6 +295,88 @@ if(checkIfTableExists("Coursework.moviesGenres", $mysqli) === false){
     echo "<br>";
     }
     else{
+        echo "not being created <br>";
+    echo $mysqli->error;
+    }
+
+}
+
+if(checkIfTableExists("Coursework.personalityRatings", $mysqli) === false){
+
+    //create combined table
+    $sql = "CREATE TABLE IF NOT EXISTS Coursework.personalityRatings(
+        `hashedUserID` VARCHAR(50) ,
+        `movieID` INT  ,
+        `rating` FLOAT
+    );";
+
+    if ($result = $mysqli->query($sql))
+    {
+    echo 'personalityRatings table created successfully';
+    echo "<br>";
+    }
+    else{
+        echo $mysqli->error;
+    }
+    $csvSQL = "LOAD DATA LOCAL INFILE 'ExcelFiles/personality_ratings.csv'
+    INTO TABLE Coursework.personalityRatings
+    FIELDS TERMINATED BY ','
+    LINES TERMINATED BY '\n'
+    IGNORE 1 LINES
+    (hashedUserID, movieID, rating)";
+
+
+    if ($result = $mysqli->query($csvSQL)){
+    echo 'personality rating csv added successfully';
+    echo "<br>";
+    }
+    else{
+    echo $mysqli->error;
+    }
+
+}
+
+if(checkIfTableExists("Coursework.personalityType", $mysqli) === false){
+    echo "the table doesnt exist!!! <br>";
+    //'userID', 'openness', 'agreeableness', '','','', '','', '', ''
+    //create combined table
+    $sql = "CREATE TABLE IF NOT EXISTS Coursework.personalityType(
+        `hashedUserID` VARCHAR(50) ,
+        `openness` DECIMAL  ,
+        `agreeableness` DECIMAL  ,
+        emotional_stability DECIMAL  ,
+        `conscientiousness` DECIMAL  ,
+        `extraversion` DECIMAL  ,
+        `assigned_metric` VARCHAR(15),
+        `assigned_condition` VARCHAR(15),
+        `is_personalised`  INT,
+        `enjoy_watching` INT
+
+    );";
+
+
+    if ($result = $mysqli->query($sql))
+    {
+    echo 'personalityType table created successfully';
+    echo "<br>";
+    }
+    else{
+        echo $mysqli->error;
+        echo "<br>";
+    }
+    $csvSQL = "LOAD DATA LOCAL INFILE 'ExcelFiles/personality_type.csv'
+    INTO TABLE Coursework.personalityType
+    FIELDS TERMINATED BY ','
+    LINES TERMINATED BY '\n'
+    IGNORE 1 LINES
+    (hashedUserID, openness, agreeableness, emotional_stability, conscientiousness, extraversion, assigned_metric, assigned_condition, is_personalised, enjoy_watching)";
+
+
+    if ($result = $mysqli->query($csvSQL)){
+    echo 'personality type csv added successfully';
+    echo "<br>";
+    }
+    else{
     echo $mysqli->error;
     }
 
