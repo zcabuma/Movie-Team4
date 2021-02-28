@@ -45,7 +45,7 @@
 						<div class="shop-menu clearfix pull-center">
 							<ul class="nav navbar-nav">
 								<li><a href=""><i class="fa fa-user"></i> Page1</a></li>
-								<li><a href=""><i class="fa fa-star"></i> Page2</a></li>
+								<li><a href="viewerstats.php"><i class="fa fa-star"></i> Viewer Stats</a></li>
 								<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Page3</a></li>
 								<li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Page4</a></li>
 								<li><a href="login.html"><i class="fa fa-lock"></i> Page4</a></li>
