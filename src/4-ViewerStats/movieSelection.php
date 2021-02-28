@@ -1,7 +1,11 @@
 <?php
 
 $rating = "All";
-$movietitle = "Enter a movie name";
+$movieTitle = "Enter a movie name";
+$year = "All";
+$movieTitleTag = "Enter a movie name";
+$tag = "Enter a tag";
+
 
 $cmd_list = array();
 
@@ -25,31 +29,77 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         array_push($cmd_list, $cmd_movieTitle);
     }
 
+
+    // Handling Post request from trying to search for a specific movie
+
+    $year = test_input($_POST["year"]);
+    if($year != "All" && $year != ""){
+        $cmd_year = "SELECT movieId 
+                        FROM Coursework.movies
+                        WHERE year = $year";
+        array_push($cmd_list,$cmd_year);
+    }
+
+
+
+    // Handling Post request from trying to search for a specific movie
+    $movieTitleTag = test_input($_POST["movieTitleTag"]);
+    $movieTitleTag = $movieTitleTag." ";
+    if($movieTitleTag != "All" && $movieTitleTag != ""){
+        $cmd_movieTitleTag= "SELECT movieId 
+                     FROM Coursework.movies 
+                     WHERE title LIKE \"%$movieTitleTag%\"";
+        array_push($cmd_list, $cmd_movieTitleTag);
+    }
+
+    // Handling Post request from trying to search for a specific movie
+    $tag = test_input($_POST["tag"]);
+    if($tag != ""){
+        $cmd_tag= "SELECT movieId 
+                        FROM Coursework.tags 
+                        WHERE tag LIKE \"%$tag%\"";
+        array_push($cmd_list, $cmd_tag);
+    }
+
     //FORMING THE SQL QUERIES
-    //get count of users
     if(count($cmd_list) != 0 && ($movieTitle != "")){
-        $displaycountCommand = "SELECT COUNT(userId) as count
+        $count_total_watchers = "SELECT COUNT(userId) as count
                         FROM Coursework.ratings 
                         WHERE movieId IN ( 
                         SELECT movieId 
                         FROM Coursework.movies
                         WHERE title = \"$movieTitle\")
                         ";
-        if ($rating !="All" && $rating != ""){
-            $displaycountCommand = $displaycountCommand . "AND rating = $rating";
-        }
         
         //This movie list has movies that will be displayed on the grid. 
-        $displaycountUsers = $mysqli->query($displaycountCommand);
+        $total_watchers = $mysqli->query($count_total_watchers);
         // print_r($moviesList." hehe");
     }
+
+    //get count of users based on rating
     if(count($cmd_list) != 0 && ($movieTitle != "")){
-        $displayUsersCommand = "SELECT userId as ids
+        if ($rating !="All" && $rating != ""){
+        $displaycountCommand = "SELECT COUNT(userId) as count
                         FROM Coursework.ratings 
                         WHERE movieId IN ( 
                         SELECT movieId 
                         FROM Coursework.movies
                         WHERE title = \"$movieTitle\")
+                        AND rating = $rating";
+                        
+        
+        $displaycountUsers = $mysqli->query($displaycountCommand);
+        // print_r($moviesList." hehe");
+                        }
+    }
+    //get all user ids
+    if(count($cmd_list) != 0 && ($movieTitle != "")){
+        $displayUsersCommand = "SELECT userId as ids, rating
+                        FROM Coursework.ratings 
+                        WHERE movieId IN ( 
+                        SELECT movieId 
+                        FROM Coursework.movies
+                        WHERE title LIKE \"$movieTitle\")
                         ";
         if ($rating !="All" && $rating != ""){
             $displayUsersCommand = $displayUsersCommand . "AND rating = $rating";
@@ -59,6 +109,70 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $displayUsers = $mysqli->query($displayUsersCommand);
         // print_r($moviesList." hehe");
     }
+
+    //get all user tags
+    if(count($cmd_list) != 0 && ($movieTitle != "")){
+        $displaytagCommand = "SELECT  tag, Count(userId) as count_users
+        FROM Coursework.tags 
+        WHERE movieId IN (
+        SELECT movieId 
+        FROM Coursework.movies
+        WHERE title = \"$movieTitle\"
+        )
+        GROUP BY tag";
+        //This movie list has movies that will be displayed on the grid. 
+        $displaytag = $mysqli->query($displaytagCommand);
+        // print_r($moviesList." hehe");
+    }
+
+    //get all users by years
+    if($year !="All" && $year != ""){
+        if(count($cmd_list) != 0){
+            
+            $displayUsersbyYearsCommand = "SELECT DISTINCT userId as ids
+            FROM Coursework.ratings 
+            WHERE movieId 
+            IN (SELECT movieId 
+            FROM Coursework.movies 
+            WHERE year = $year)
+                            ";
+
+            
+            // print_r($displayUsersbyYearsCommand);
+            $displayUsersbyYears = $mysqli->query($displayUsersbyYearsCommand);
+        }
+    }
+
+    //get all users by years
+    print_r($tag);
+    if($tag != ""){
+        if(count($cmd_list) != 0){
+            if($movieTitleTag != " "){
+                $displayUsersbyTagsMovieCommand = "SELECT userId as users 
+                FROM Coursework.tags  
+                WHERE tag LIKE \"$tag\" 
+                AND movieId 
+                IN ( SELECT movieId 
+                FROM Coursework.movies 
+                WHERE title LIKE \"%$movieTitleTag%\")";    
+                                // print_r($displayUsersbyTagsMovieCommand);
+   
+                $displayUsersbyTagsMovie = $mysqli->query($displayUsersbyTagsMovieCommand); 
+            }
+            else{
+                
+                $displayUsersbyTagsCommand = "SELECT userId as users ,title 
+                FROM Coursework.tags JOIN Coursework.movies 
+                WHERE tag LIKE \"$tag\" 
+                ORDER BY userId
+                ";
+                // print_r($displayUsersbyTagsCommand);
+                $displayUsersbyTags = $mysqli->query($displayUsersbyTagsCommand);
+                }
+            
+        }
+    }
+
 }
 else{
     $getAllMovies = "SELECT * FROM Coursework.movies LIMIT 21";
