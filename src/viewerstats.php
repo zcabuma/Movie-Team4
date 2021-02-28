@@ -22,6 +22,82 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+	<style>
+		
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: Arial, Helvetica, sans-serif;
+		}
+
+		/* Float four columns side by side */
+		.column {
+			float: left;
+			width: 50%;
+			padding: 0 10px;
+		}
+
+		/* Remove extra left and right margins, due to padding */
+		.row {margin: 0 -5px;}
+
+		/* Clear floats after the columns */
+		.row:after {
+			content: "";
+			display: table;
+			clear: both;
+		}
+
+		/* Responsive columns */
+		@media screen and (max-width: 600px) {
+			.column {
+			width: 100%;
+			display: block;
+			margin-bottom: 20px;
+			}
+		}
+
+		/* Style the counter cards */
+		.card {
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+			padding: 16px;
+			text-align: center;
+			background-color: #f1f1f1;
+		}
+
+		table {
+			width: 716px; /* 140px * 5 column + 16px scrollbar width */
+			border-spacing: 0;
+		}
+
+		tbody, thead tr { display: block; }
+
+		tbody {
+			height: 250px;
+			overflow-y: auto;
+			overflow-x: hidden;
+		}
+
+		tbody td, thead th {
+			width: 140px;
+		}
+		thead th:first-child {
+			width: 40px; 
+		}
+		tbody td:first-child {
+			width: 40px; 
+		}
+		thead th:last-child {
+			width: 156px; /* 140px + 16px scrollbar width */
+		}
+		footer {
+		text-align: center;
+		padding: 3px;
+		background-color: Orange;
+		color: white;
+		}
+	</style>
 </head><!--/head-->
 
 <body>
@@ -84,7 +160,7 @@
 				<div class="col-sm-3">
 					<div class="left-sidebar">
 						
-                        <h2>Filter</h2>
+                        <h2>Criteria</h2>
                         
                         <form method="post" action="viewerstats.php">
 
@@ -98,7 +174,35 @@
 							</select>
                         <br><br>
 
-                        <input type="submit" value="Submit">
+                        <input type="submit" name ="ratingSubmit" value="Submit">
+
+                        </form>
+						<hr>
+						<form method="post" action="viewerstats.php">
+						<br>
+						<label for="movie">Search for users by year:</label>
+							<select name="year" id="year">
+								<?php include '4-ViewerStats/getUniqueYears.php'; ?>
+								</select>  
+                        <br><br>
+
+                        <input type="submit" name ="yearSubmit" value="Submit">
+
+                        </form>
+
+						<hr>
+
+						<form method="post" action="viewerstats.php">
+						<br>
+						<label for="movie">(Optional)Enter a movie name :</label>
+							<input type="text" placeholder="Movie Title" id="movieTitleTag" name="movieTitleTag">  
+                        <br><br>
+
+						<label for="movie">Search for users by TAGs:</label>
+							<input type="text" placeholder="Tag" id="tag" name="tag">  
+                        <br><br>
+						
+                        <input type="submit" name ="tagSubmit" value="Submit">
 
                         </form>
                         
@@ -110,14 +214,73 @@
 				<div class="col-sm-9 padding-right">
 					<div class="features_items"><!--features_items-->
                         <h1 class="title text-center">Viewer Statistics </h1>
-						<?php if ($movieTitle != "All" && $movieTitle != ""){
-							echo '<h2 class="title text-center">For '.$movieTitle
-							?>   
-							<?php
-							echo " </h2>";
-							}?>
-						
-                        <?php include '4-ViewerStats/displayViewerStats.php'; ?>
+						<?php
+						if(isset($_POST["ratingSubmit"])) {
+							if ($movieTitle != "All" && $movieTitle != ""){
+								echo '<h2 class="title text-center">For '.$movieTitle . " </h2>";
+								}
+								if($movieTitle == " "){
+								echo "
+								
+								<body>
+								<div class=\"column\">
+								<div class=\"card\">
+									<h1> SELECT A MOVIE FIRST</h1>
+								</div>
+								</body>
+								<hr>
+								";
+								}
+								else{
+							include '4-ViewerStats/displayViewerStats.php'; 
+							}
+						}
+						else if(isset($_POST["yearSubmit"])){
+							if ($year == "" || $year == "All"){
+								echo "
+								
+								<body>
+								<div class=\"column\">
+								<div class=\"card\">
+									<h1> ENTER A YEAR FIRST</h1>
+								</div>
+								</body>
+								<hr>
+								";
+								}
+								else{
+								include '4-ViewerStats/displayViewerbyYear.php';
+							}
+						}
+						else if(isset($_POST["tagSubmit"])){
+							if ($tag == ""){
+								echo "
+								
+								<body>
+								<div class=\"column\">
+								<div class=\"card\">
+									<h1> ENTER A TAG FIRST</h1>
+								</div>
+								</body>
+								<hr>
+								";
+								}
+								else{
+								include '4-ViewerStats/displayViewerbyTags.php';
+							}
+						}
+						else{
+							echo "
+								<body>
+								<div class=\"column\">
+								<div class=\"card\">
+									<h1> SELECT ANY QUERY</h1>
+								</div>
+								</body>
+								<hr>
+								";
+						}
+						 ?>
 
 						
 					</div><!--features_items-->
@@ -125,6 +288,7 @@
 			</div>
 		</div>
 	</section>
+	
 	
 	
 
