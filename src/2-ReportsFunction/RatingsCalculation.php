@@ -2,7 +2,12 @@
 
 
         $movieTitleChanged = "%$movieTitle%";
-        $avgRating = "SELECT AVG(rating) FROM Coursework.ratings WHERE movieID = (SELECT movieID FROM Coursework.movies WHERE title LIKE ? AND year = ?)";
+        $avgRating = "SELECT AVG(rating) 
+        FROM Coursework.ratings 
+        WHERE movieID = 
+        (SELECT movieID 
+        FROM Coursework.movies 
+        WHERE title LIKE ? AND year = ?)";
         
         $stmt = $mysqli->prepare($avgRating);
         $stmt->bind_param("si", $movieTitleChanged, $year);

@@ -17,7 +17,7 @@
 				
 
 
-					while($row = mysqli_fetch_assoc($moviesList))
+					while ($row = mysqli_fetch_array($moviesList, MYSQLI_ASSOC))
                         {
                             $movieTitle = $row['title'];
                             $year = $row['year'];
