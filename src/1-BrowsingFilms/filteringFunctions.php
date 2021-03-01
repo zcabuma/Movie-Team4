@@ -93,6 +93,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
      // Handling Post request from statistics filter 
     $statistic = test_input($_POST["statistics"]);
     if ($statistic == "popular" || $statistic == "polarizing"){
+        $statsParameters = array();
+        $statsParameterTypes = "";
         // query to get most popular movies
         if ($statistic == "popular"){
             $popular_movies = "SELECT COUNT(r.rating) as count, r.movieId, m.title, m.year"; 
@@ -113,18 +115,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         WHERE r2.userId = r.userId and r2.movieId = r.movieId)"; 
         
         if ($idNo != null){
-            $popular_movies .= " AND mg.genreId = $idNo"; 
+            $popular_movies .= " AND mg.genreId = ?"; 
+            $statsParameterTypes.="i";
+            array_push($statsParameters, $idNo ); 
         }
         if ($rating != "All"){
-            $popular_movies .= " AND rating = $rating";  
+            $popular_movies .= " AND rating = ?";
+            $statsParameterTypes.="i";
+            array_push($statsParameters, $rating );  
         }
 
         if($startYear != ""){
-            $popular_movies .= " AND m.year >= $startYear";  
+            $popular_movies .= " AND m.year >= ?";
+            $statsParameterTypes.="i";
+            array_push($statsParameters, $startYear );   
         }
 
         if($endYear != ""){
-            $popular_movies .= " AND m.year <= $endYear";  
+            $popular_movies .= " AND m.year <= ?";
+            $statsParameterTypes.="i";
+            array_push($statsParameters, $endYear );  
         }
 
         // if($movieTitle != ""){
@@ -144,6 +154,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     
         $moviesList = $mysqli->query($popular_movies);
+        $moviestmt = $mysqli->prepare($popular_movies);
+
+        $moviestmt->bind_param($statsParameterTypes, ...$statsParameters); //... allows us to pass an array
+        
+        $moviestmt->execute();
+
+        $moviesList = $moviestmt->get_result(); 
 
     }
 

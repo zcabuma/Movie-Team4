@@ -46,7 +46,7 @@
 									
 									<div class=\"product-overlay\">
 									<div class = \"overlay-content\">
-									$idNo <br><br><br>
+									<br><br><br>
 									</div>
 									</div>
 									<div class = \"hide\"> Hello </div>
