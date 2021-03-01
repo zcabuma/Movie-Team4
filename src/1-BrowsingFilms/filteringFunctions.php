@@ -30,8 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $rating = test_input($_POST["rating"]);
     if($rating != "All" && $rating != ""){
         $commandForRatings = "SELECT movieId 
-                                FROM Coursework.ratings 
-                                WHERE rating=$rating";
+                                FROM Coursework.movies 
+                                WHERE avg_rating >= $rating - 0.5 AND avg_rating<$rating + 0.5";
         array_push($listOfCommands, $commandForRatings);
     }
 

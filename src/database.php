@@ -206,7 +206,8 @@ if(checkIfTableExists("Coursework.movies", $mysqli) === false){
     $sql = "CREATE TABLE IF NOT EXISTS Coursework.movies(
         `movieId` BIGINT PRIMARY KEY ,
         `title` VARCHAR(50),
-        `year` INT
+        `year` INT,
+        `avg_rating` FLOAT
     );";
 
     if ($result = $mysqli->query($sql))
@@ -220,7 +221,7 @@ if(checkIfTableExists("Coursework.movies", $mysqli) === false){
             FIELDS TERMINATED BY '|'
             LINES TERMINATED BY '\n'
             IGNORE 1 LINES
-            (movieId , title, year)";
+            (movieId , title, year, avg_rating)";
 
 
     if ($result = $mysqli->query($csvSQL)){
@@ -231,9 +232,39 @@ if(checkIfTableExists("Coursework.movies", $mysqli) === false){
         echo $mysqli->error;
     }
 
+    // $addAvgRatingsColumn = "ALTER TABLE Coursework.movies
+    // ADD avg_rating FLOAT;";
+
+    // if ($result = $mysqli->query($addAvgRatingsColumn)){
+    //     echo 'addAvgRatingsColumn successfully';
+    //     echo "<br>";
+    // }
+    // else{
+    //     echo $mysqli->error;
+    // }
+
+    //SELECT r.movieId, AVG(rating) FROM Coursework.ratings r LEFT JOIN Coursework.movies m on m.movieId = r.movieId GROUP BY r.movieId ORDER BY r.movieId ASC
+    
+    //UPDATE Coursework.movies
+//SET AverageRating= (SELECT AVG(rating) FROM Coursework.ratings WHERE Coursework.movies.movieId = Coursework.ratings.movieId)
+    // $addAvgRatings = "UPDATE Coursework.movies
+    // SET avg_rating= 
+    // (SELECT AVG(rating) 
+    // FROM Coursework.ratings 
+    // WHERE Coursework.movies.movieId = Coursework.ratings.movieId);";
+
+    // if ($result = $mysqli->query($addAvgRatings)){
+    //     echo 'addAvgRatings success';
+    //     echo "<br>";
+    // }
+    // else{
+    //     echo $mysqli->error;
+    // }
+
+
 }
 
-if(checkIfTableExists("Coursework.movies", $mysqli) === false){
+if(checkIfTableExists("Coursework.genres", $mysqli) === false){
 
 
     //create genre table
