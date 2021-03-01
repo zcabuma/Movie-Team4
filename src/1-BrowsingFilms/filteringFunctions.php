@@ -67,10 +67,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($statistic == "popular" || $statistic == "polarizing"){
         // query to get most popular movies
         if ($statistic == "popular"){
-            $popular_movies = "SELECT COUNT(r.rating) as count, r.movieId, m.title"; 
+            $popular_movies = "SELECT COUNT(r.rating) as count, r.movieId, m.title, m.year"; 
         }
         else{
-            $popular_movies = "SELECT VARIANCE(r.rating) as variance, r.movieId, m.title"; 
+            $popular_movies = "SELECT VARIANCE(r.rating) as variance, r.movieId, m.title, m.year"; 
         }
         
         // common code dynammically created

@@ -54,7 +54,7 @@
 								</div>
 								<div class=\"choose\">
 									<ul class=\"nav nav-pills nav-justified\">
-										<li><a href=\"\"><i class=\"fa fa-plus-square\"></i>Add to wishlist</a></li>
+										<li><a href= \"5-PredictedRating\predictedViewerRating.php?title=$movieTitle&year=$year\"></i>Predicted viewer rating</a></li>
 										<li><a href=\"reportsPage.php?title=$movieTitle&year=$year\">Rating Report</a></li>
 
 										
