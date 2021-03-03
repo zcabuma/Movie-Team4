@@ -19,23 +19,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $movieTitle = test_input($_POST["movieTitle"]);
     
-    if($movieTitle != "All" && $movieTitle != ""){
+    // if($movieTitle != "All" && $movieTitle != ""){
 
-        $movieTitleChanged = "$movieTitle ";
-        $movieIDQuery = "SELECT movieId 
-                        FROM Coursework.movies 
-                        WHERE title = ?";
-        $stmt = $mysqli->prepare($movieIDQuery);
-        $stmt->bind_param("s", $movieTitleChanged);
-        $stmt->execute();
+    //     $movieTitleChanged = "$movieTitle ";
+    //     $movieIDQuery = "SELECT movieId 
+    //                     FROM Coursework.movies 
+    //                     WHERE title = ?";
+    //     $stmt = $mysqli->prepare($movieIDQuery);
+    //     $stmt->bind_param("s", $movieTitleChanged);
+    //     $stmt->execute();
 
-        $row_result = mysqli_fetch_assoc($stmt->get_result());
-        $movieId = $row_result['movieId'];
+    //     $row_result = mysqli_fetch_assoc($stmt->get_result());
+    //     $movieId = $row_result['movieId'];
 
-        // echo $movieId;
+    //     // echo $movieId;
 
 
-    }
+    // }
 
 
 
@@ -47,7 +47,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         foreach ($listOfStrings as $value){
             $tags = $tags."'";
-            $tags = $tags.$value;
+            $processedValue = test_input($value);
+            $tags = $tags.$processedValue;
             $tags = $tags."'";
             $tags = $tags.",";
         }
@@ -66,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     FROM ((Coursework.personalityRatings
     LEFT JOIN Coursework.personalityType ON personalityRatings.hashedUserID = personalityType.hashedUserID )
     LEFT JOIN Coursework.moviesGenres ON  personalityRatings.movieId = moviesGenres.movieId )
-    WHERE moviesGenres.genreId IN (SELECT genreId FROM Coursework.moviesGenres WHERE movieId IN (SELECT movieId FROM Coursework.tags WHERE tag IN ($tags) OR movieId = $movieId))
+    WHERE moviesGenres.genreId IN (SELECT genreId FROM Coursework.moviesGenres WHERE movieId IN (SELECT movieId FROM Coursework.tags WHERE tag IN ($tags)))
     GROUP BY personalityRatings.hashedUserID
     HAVING AVG(personalityRatings.rating) > 4) TMP";
 
