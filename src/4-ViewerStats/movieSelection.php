@@ -5,6 +5,7 @@ $movieTitle = "Enter a movie name";
 $year = "All";
 $movieTitleTag = "Enter a movie name";
 $tag = "Enter a tag";
+$rating_movieTitle = "Enter a movie name";
 
 
 $cmd_list = array();
@@ -50,6 +51,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                      FROM Coursework.movies 
                      WHERE title LIKE \"%$movieTitleTag%\"";
         array_push($cmd_list, $cmd_movieTitleTag);
+    }
+
+    $rating_movieTitle = test_input($_POST["rating_movieTitle"]);
+    $rating_movieTitle = $rating_movieTitle." ";
+    if($rating_movieTitle != "All" && $rating_movieTitle != ""){
+        $cmd_rating_movieTitle= "SELECT movieId 
+                     FROM Coursework.movies 
+                     WHERE title LIKE \"%$rating_movieTitle%\"";
+        array_push($cmd_list, $cmd_rating_movieTitle);
     }
 
     // Handling Post request from trying to search for a specific movie
@@ -144,7 +154,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 
     //get all users by years
-    print_r($tag);
     if($tag != ""){
         if(count($cmd_list) != 0){
             if($movieTitleTag != " "){
@@ -171,6 +180,69 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                 }
             
         }
+    }
+
+    //segregation by tags
+    if(count($cmd_list) != 0 && ($rating_movieTitle != " ")){
+        
+        $ratingLE1_cmd = "SELECT userId 
+                        FROM Coursework.ratings 
+                        WHERE movieId IN ( 
+                        SELECT movieId 
+                        FROM Coursework.movies
+                        WHERE title = \"$rating_movieTitle\")
+                        AND rating < 1 ";
+
+        echo "$ratingLE1_cmd";
+
+        $ratingBET12_cmd = "SELECT userId 
+                        FROM Coursework.ratings 
+                        WHERE movieId IN ( 
+                        SELECT movieId 
+                        FROM Coursework.movies
+                        WHERE title = \"$rating_movieTitle\")
+                        AND rating BETWEEN 1 AND 2 ";
+
+        $ratingBET23_cmd = "SELECT userId 
+                        FROM Coursework.ratings 
+                        WHERE movieId IN ( 
+                        SELECT movieId 
+                        FROM Coursework.movies
+                        WHERE title = \"$rating_movieTitle\")
+                        AND rating BETWEEN 2 AND 3 ";
+
+        $ratingEQ3_cmd = "SELECT userId 
+                        FROM Coursework.ratings 
+                        WHERE movieId IN ( 
+                        SELECT movieId 
+                        FROM Coursework.movies
+                        WHERE title = \"$rating_movieTitle\")
+                        AND rating = 3 ";
+        
+        $ratingBET34_cmd = "SELECT userId 
+                        FROM Coursework.ratings 
+                        WHERE movieId IN ( 
+                        SELECT movieId 
+                        FROM Coursework.movies
+                        WHERE title = \"$rating_movieTitle\")
+                        AND rating BETWEEN 3 AND 4 ";
+        
+        $ratingGE4_cmd = "SELECT userId 
+                        FROM Coursework.ratings 
+                        WHERE movieId IN ( 
+                        SELECT movieId 
+                        FROM Coursework.movies
+                        WHERE title = \"$rating_movieTitle\")
+                        AND rating > 4 ";
+                        
+        
+        $ratingLE1 = $mysqli->query($ratingLE1_cmd);
+        $ratingBET12 = $mysqli->query($ratingBET12_cmd);
+        $ratingBET23 = $mysqli->query($ratingBET23_cmd);
+        $ratingEQ3 = $mysqli->query($ratingEQ3_cmd);
+        $ratingBET34 = $mysqli->query($ratingBET34_cmd);
+        $ratingGE4 = $mysqli->query($ratingGE4_cmd);
+                     
     }
 
 }
