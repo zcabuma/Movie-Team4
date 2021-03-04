@@ -205,7 +205,18 @@
                         <input type="submit" name ="tagSubmit" value="Submit">
 
                         </form>
+
+						<hr>
                         
+						<form method="post" action="viewerstats.php">
+
+						<label for="movie">Segregate Viewers by Ratings for movie:</label>
+							<input type="text" placeholder="Movie Title" id="rating_movieTitle" name="rating_movieTitle">  
+                        <br><br>
+
+                        <input type="submit" name ="segregateSubmit" value="Submit">
+
+                        </form>
 						
 						
 					</div>
@@ -267,6 +278,25 @@
 								}
 								else{
 								include '4-ViewerStats/displayViewerbyTags.php';
+							}
+						}else if(isset($_POST["segregateSubmit"])) {
+							if ($rating_movieTitle != "All" && $rating_movieTitle != ""){
+								echo '<h2 class="title text-center">For '.$rating_movieTitle . " </h2>";
+								}
+								if($rating_movieTitle == " "){
+								echo "
+								
+								<body>
+								<div class=\"column\">
+								<div class=\"card\">
+									<h1> SELECT A MOVIE FIRST</h1>
+								</div>
+								</body>
+								<hr>
+								";
+								}
+								else{
+							include '4-ViewerStats/segregateViewersbyRatings.php'; 
 							}
 						}
 						else{
