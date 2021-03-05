@@ -77,9 +77,34 @@
 			</div>    	
     		<div class="row">  	
 	    		<div class="col-sm-6">
-	    			<div class="contact-form">
-	    				<h2 class="title text-center">Point 5</h2>
-	    				  
+	    			<div class="contact-info">
+						 <h2 class="title text-center">New movie rating (Movie in DB)</h2>
+                        <form method="post" action="">
+                            <label for="movie">Movie Title:</label>
+                                <input type="text" placeholder="Movie Title" id="movieTitle_r" name="movieTitle_r">  
+                            <br><br>
+							<label for="movie">Movie Year:</label>
+                                <input type="text" placeholder="Release year" id="year_r" name="year_r">  
+                            <br><br>
+                            <input type="submit" value="Submit">
+                        </form> 
+						 <h2 class="title text-center">New movie rating (Movie in not DB)</h2>
+                        <form method="post" action="">
+                            <label for="movie">Movie Title:</label>
+                                <input type="text" placeholder="Movie Title" id="movieTitle_n" name="movieTitle_n">  
+                            <br><br>
+							<label for="movie">Movie Year:</label>
+                                <input type="text" placeholder="Release year" id="year_n" name="year_n">  
+                            <br><br>
+							<label for="movie">Tags (comma separated):</label>
+                                <input type="text" placeholder="Tags" id="tags_n" name="tags_n">  
+                            <br><br>
+							<label for="movie">Ratings (comma separated):</label>
+                                <input type="text" placeholder="Ratings" id="ratings_n" name="ratings_n">  
+                            <br><br>
+                            <input type="submit" value="Submit">
+                        </form> 
+						<?php include '5-PredictedRating/predictedViewerRating2.php'; ?>
 	    			</div>
 	    		</div>
 	    		<div class="col-sm-6">
@@ -103,8 +128,6 @@
                         </form>
 
                         <?php include '6-Personality/getPersonalityData.php'; ?>
-	    				
-	    				
 	    			</div>
     			</div>    			
 	    	</div>  
