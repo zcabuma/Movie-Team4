@@ -9,11 +9,8 @@ $users2 =  array();
 $users3 =  array();
 $users4 =  array();
 $users5 =  array();
-$users6 =  array();
 $usersAll = array();
-$headings_rat = array("Rating < 1","Rating Between 1 and 2",
-"Rating Between 2 and 3","Rating = 3",
-"Rating Between 3 and 4","Rating > 4");
+
 
 
 // print("||".$movieTitleTag."||");
@@ -38,18 +35,15 @@ if ($rating_movieTitle != " "){
     {
         $users5[]  = $row['userId'];
     }
-    while ($row = mysqli_fetch_assoc($ratingGE4))
-    {
-        $users6[]  = $row['userId'];
-    }
+
     
     $getCount = array(count($users1),count($users2),count($users3),
-    count($users4),count($users5),count($users6));
+    count($users4),count($users5));
     $getMax = max($getCount);
     // foreach($getCount as $u){
     //   echo "$u \n";
     // }
-    $usersAll = array($users1,$users2,$users3,$users4,$users5,$users6);
+    $usersAll = array($users1,$users2,$users3,$users4,$users5);
 
 }
 
@@ -151,12 +145,11 @@ if ($rating_movieTitle != " "){
               <table class="table no-wrap" >
                   <thead>
                       <tr>
-                          <th class="border-top-0">  < 1 </th>
-                          <th class="border-top-0">  1 > between < 2 </th>
-                          <th class="border-top-0"> 2 > between < 3 </th>
-                          <th class="border-top-0"> = 3 </th>
-                          <th class="border-top-0"> 3 > between < 4 </th>
-                          <th class="border-top-0"> > 4 </th>
+                          <th class="border-top-0"> 1 </th>
+                          <th class="border-top-0"> 2 </th>
+                          <th class="border-top-0"> 3 </th>
+                          <th class="border-top-0"> 4 </th>
+                          <th class="border-top-0"> 5 </th>
                       </tr>
                   </thead>
                   <tbody >
@@ -166,7 +159,7 @@ if ($rating_movieTitle != " "){
                       echo "
                       <tr>
                       ";
-                      for ($k=0; $k <  6 ; $k++) { 
+                      for ($k=0; $k <  5 ; $k++) { 
 
 
                         if (!empty($usersAll[$k][$i])) {

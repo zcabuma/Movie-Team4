@@ -6,6 +6,7 @@ $year = "All";
 $movieTitleTag = "Enter a movie name";
 $tag = "Enter a tag";
 $rating_movieTitle = "Enter a movie name";
+$tag_movieTitle = "Enter a movie name";
 
 
 $cmd_list = array();
@@ -60,6 +61,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                      FROM Coursework.movies 
                      WHERE title LIKE \"%$rating_movieTitle%\"";
         array_push($cmd_list, $cmd_rating_movieTitle);
+    }
+
+    $tag_movieTitle = test_input($_POST["tag_movieTitle"]);
+    $tag_movieTitle = $tag_movieTitle." ";
+    if($tag_movieTitle != "All" && $tag_movieTitle != " "){
+        $cmd_tag_movieTitle= "SELECT movieId 
+                     FROM Coursework.movies 
+                     WHERE title LIKE \"%$tag_movieTitle%\"";
+        array_push($cmd_list, $cmd_tag_movieTitle);
     }
 
     // Handling Post request from trying to search for a specific movie
@@ -191,9 +201,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                         SELECT movieId 
                         FROM Coursework.movies
                         WHERE title = \"$rating_movieTitle\")
-                        AND rating < 1 ";
+                        AND rating <= 1 ";
 
-        echo "$ratingLE1_cmd";
 
         $ratingBET12_cmd = "SELECT userId 
                         FROM Coursework.ratings 
@@ -201,7 +210,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                         SELECT movieId 
                         FROM Coursework.movies
                         WHERE title = \"$rating_movieTitle\")
-                        AND rating BETWEEN 1 AND 2 ";
+                        AND rating BETWEEN 1.1 AND 2.0 ";
 
         $ratingBET23_cmd = "SELECT userId 
                         FROM Coursework.ratings 
@@ -209,7 +218,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                         SELECT movieId 
                         FROM Coursework.movies
                         WHERE title = \"$rating_movieTitle\")
-                        AND rating BETWEEN 2 AND 3 ";
+                        AND rating BETWEEN 2.1 AND 3 ";
 
         $ratingEQ3_cmd = "SELECT userId 
                         FROM Coursework.ratings 
@@ -217,7 +226,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                         SELECT movieId 
                         FROM Coursework.movies
                         WHERE title = \"$rating_movieTitle\")
-                        AND rating = 3 ";
+                        AND rating BETWEEN 3.1 AND 4";
         
         $ratingBET34_cmd = "SELECT userId 
                         FROM Coursework.ratings 
@@ -225,15 +234,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                         SELECT movieId 
                         FROM Coursework.movies
                         WHERE title = \"$rating_movieTitle\")
-                        AND rating BETWEEN 3 AND 4 ";
+                        AND rating BETWEEN 4.1 AND 5 ";
         
-        $ratingGE4_cmd = "SELECT userId 
-                        FROM Coursework.ratings 
-                        WHERE movieId IN ( 
-                        SELECT movieId 
-                        FROM Coursework.movies
-                        WHERE title = \"$rating_movieTitle\")
-                        AND rating > 4 ";
                         
         
         $ratingLE1 = $mysqli->query($ratingLE1_cmd);
@@ -241,9 +243,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $ratingBET23 = $mysqli->query($ratingBET23_cmd);
         $ratingEQ3 = $mysqli->query($ratingEQ3_cmd);
         $ratingBET34 = $mysqli->query($ratingBET34_cmd);
-        $ratingGE4 = $mysqli->query($ratingGE4_cmd);
                      
     }
+
+    if(count($cmd_list) != 0 && ($tag_movieTitle != " ")){
+        
+
+        $displaytagSegCommand = "SELECT  tag
+        FROM Coursework.tags 
+        WHERE movieId IN (
+        SELECT movieId 
+        FROM Coursework.movies
+        WHERE title = \"$tag_movieTitle\"
+        )
+        GROUP BY tag";
+        //This movie list has movies that will be displayed on the grid. 
+        $displaytagSeg = $mysqli->query($displaytagSegCommand);
+
+        
+                     
+    }
+
+
 
 }
 else{
