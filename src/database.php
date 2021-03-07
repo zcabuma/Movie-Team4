@@ -57,35 +57,6 @@ if(checkIfTableExists("Coursework.movies", $mysqli) === false){
         echo $mysqli->error;
     }
 
-    // $addAvgRatingsColumn = "ALTER TABLE Coursework.movies
-    // ADD avg_rating FLOAT;";
-
-    // if ($result = $mysqli->query($addAvgRatingsColumn)){
-    //     echo 'addAvgRatingsColumn successfully';
-    //     echo "<br>";
-    // }
-    // else{
-    //     echo $mysqli->error;
-    // }
-
-    //SELECT r.movieId, AVG(rating) FROM Coursework.ratings r LEFT JOIN Coursework.movies m on m.movieId = r.movieId GROUP BY r.movieId ORDER BY r.movieId ASC
-    
-    //UPDATE Coursework.movies
-//SET AverageRating= (SELECT AVG(rating) FROM Coursework.ratings WHERE Coursework.movies.movieId = Coursework.ratings.movieId)
-    // $addAvgRatings = "UPDATE Coursework.movies
-    // SET avg_rating= 
-    // (SELECT AVG(rating) 
-    // FROM Coursework.ratings 
-    // WHERE Coursework.movies.movieId = Coursework.ratings.movieId);";
-
-    // if ($result = $mysqli->query($addAvgRatings)){
-    //     echo 'addAvgRatings success';
-    //     echo "<br>";
-    // }
-    // else{
-    //     echo $mysqli->error;
-    // }
-
 
 }
 
@@ -142,15 +113,6 @@ if(checkIfTableExists("Coursework.links", $mysqli) === false){
     echo 'links table created successfully';
     echo "<br>";
     }
-
-//     $sql = "ALTER TABLE Coursework.links
-// ADD FOREIGN KEY (movieId) REFERENCES Coursework.movies(movieId);";
-
-// if ($result = $mysqli->query($sql))
-// {
-// echo 'links table created successfully';
-// echo "<br>";
-// }
 
     $csvSQL = "LOAD DATA LOCAL INFILE 'ExcelFiles/links.csv'
             INTO TABLE Coursework.links
@@ -221,13 +183,7 @@ if(checkIfTableExists("Coursework.ratings", $mysqli) === false){
     echo "<br>";
     }
 
-    // $sql = "ALTER TABLE Coursework.ratings
-    // ADD FOREIGN KEY (movieId) REFERENCES Coursework.movies(movieId);";
-    // if ($result = $mysqli->query($sql))
-    // {
-    // echo 'ratings created successfully';
-    // echo "<br>";
-    // }
+   
     echo "here";
     $csvSQL = "LOAD DATA LOCAL INFILE 'ExcelFiles/ratings.csv'
             INTO TABLE Coursework.ratings
@@ -309,13 +265,6 @@ if(checkIfTableExists("Coursework.tags", $mysqli) === false){
         echo "<br>";
     }
 
-    // $sql = "ALTER TABLE Coursework.tags
-    // ADD FOREIGN KEY (movieId) REFERENCES Coursework.movies(movieId);";
-    // if ($result = $mysqli->query($sql))
-    // {
-    //     echo 'tags table created successfully';
-    //     echo "<br>";
-    // }
 
 
     $csvSQL = "LOAD DATA LOCAL INFILE 'ExcelFiles/tags.csv'
@@ -360,23 +309,6 @@ if(checkIfTableExists("Coursework.moviesGenres", $mysqli) === false){
     }
 
 
-    // $sql= "ALTER TABLE Coursework.moviesGenres
-    // ADD FOREIGN KEY (movieID) REFERENCES Coursework.movies(movieId);";
-    // if ($result = $mysqli->query($sql))
-    // {
-    // echo 'moviesGenres table created successfully';
-    // echo "<br>";
-    // }
-    // $sql = "ALTER TABLE Coursework.moviesGenres
-    // ADD FOREIGN KEY (genreID) REFERENCES Coursework.genres(genreID);
-    // ";
-
-    // if ($result = $mysqli->query($sql))
-    // {
-    // echo 'moviesGenres table created successfully';
-    // echo "<br>";
-    // }
-
     $csvSQL = "LOAD DATA LOCAL INFILE 'ExcelFiles/movies_genres.csv'
     INTO TABLE Coursework.moviesGenres
     FIELDS TERMINATED BY ','
@@ -398,7 +330,6 @@ if(checkIfTableExists("Coursework.moviesGenres", $mysqli) === false){
 
 if(checkIfTableExists("Coursework.personalityType", $mysqli) === false){
     echo "the table doesnt exist!!! <br>";
-    //'userID', 'openness', 'agreeableness', '','','', '','', '', ''
     //create combined table
     $sql = "CREATE TABLE IF NOT EXISTS Coursework.personalityType(
         `hashedUserID` VARCHAR(50) PRIMARY KEY,
@@ -464,17 +395,6 @@ if(checkIfTableExists("Coursework.personalityRatings", $mysqli) === false){
         echo $mysqli->error;
     }
 
-    // $sql = "ALTER TABLE Coursework.personalityRatings
-    // ADD FOREIGN KEY (hashedUserID) REFERENCES Coursework.personalityType(hashedUserID)";
-    
-    // if ($result = $mysqli->query($sql))
-    // {
-    // echo 'personalityRatings table created successfully';
-    // echo "<br>";
-    // }
-    // else{
-    //     echo $mysqli->error;
-    // }
 
     $csvSQL = "LOAD DATA LOCAL INFILE 'ExcelFiles/personality_ratings.csv'
     INTO TABLE Coursework.personalityRatings
