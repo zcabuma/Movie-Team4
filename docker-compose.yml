@@ -6,8 +6,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - 80:80
+    depends_on: 
+      - db
+      - memcached
     volumes:
       - ./src:/var/www/html/
+    env_file: env_vars/webapp_env_vars.env
   
   db:
     image: mysql
@@ -21,6 +25,12 @@ services:
     restart: always
     ports:
       - 8080:8080
+
+  memcached:
+    image: memcached
+    ports:
+      - 45001:11211
+
   
 volumes: 
   mysql-data:
