@@ -1,12 +1,7 @@
-FROM php:7.4-apache
+FROM php:7.1-apache
 RUN docker-php-ext-install mysqli
-RUN apt-get install -y memcached
-
-# Default Memcached run command arguments
-CMD ["-m", "128"]
-
-# Set the user to run Memcached daemon
-USER daemon
-
-# Set the entrypoint to memcached binary
-ENTRYPOINT memcached
+RUN apt-get update \
+    && apt-get install -y libmemcached-dev zlib1g-dev \
+    && pecl install memcached-3.0.4 \
+    && docker-php-ext-enable memcached
+CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
