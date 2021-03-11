@@ -1,11 +1,39 @@
 <?php
 include 'configDB.php';
-     
+include 'Cache.php';
+
 function SQL_test_input($data) { // taken from : https://tryphp.w3schools.com/showphp.php?filename=demo_form_validation_complete
     $data = trim($data);
     $data = stripslashes($data);
     $data = htmlspecialchars($data);
     return $data;
+}
+function check_cache_and_query_for_one_row_pred_rating($part_4_sql){
+    global $mysqli;
+    $hashed_query = md5($part_4_sql); 
+    $pred_rating = "";
+    echo "hashed query is";
+    echo $hashed_query;
+    // cache stuff
+    $cached_ans = get_from_cache($hashed_query);
+    if ($cached_ans != ""){
+        //$pred_rating = $cached_ans['AVG(rating)']; 
+        $pred_rating = $cached_ans['AVG(rating)']; 
+        echo "This is what I got from cache"; 
+        echo $pred_rating; 
+        echo "Got from cache"; 
+    }
+    else{
+        $avg_result = $mysqli->query($part_4_sql);
+        $row = mysqli_fetch_assoc($avg_result); 
+        // creating cache array
+        $arr_cache = array();
+        $pred_rating = $row['AVG(rating)'];
+        $arr_cache['AVG(rating)'] = $pred_rating;
+        // adding to cache
+        put_to_cache($hashed_query, $arr_cache);
+    }
+    return $pred_rating;
 }
 
 
@@ -44,21 +72,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         FROM Coursework.movies
         WHERE title LIKE '%$movieTitle%' AND year = $year)) 
         GROUP BY Coursework.tags.movieId) TMP;"; 
+        $pred_rating  = check_cache_and_query_for_one_row_pred_rating($part_4_sql);
         
-        $avg_result = $mysqli->query($part_4_sql);
-        $row = mysqli_fetch_assoc($avg_result); 
-        $pred_rating = $row['AVG(rating)'];
+        //cache stuff done
 
         if (is_null($pred_rating)){
-            $part_4_sql_2 = "SELECT AVG(rating)
+            $part_4_sql = "SELECT AVG(rating)
             FROM Coursework.ratings
             JOIN Coursework.movies on Coursework.movies.movieId = Coursework.ratings.movieId
             WHERE Coursework.ratings.movieId = (SELECT movieId 
             FROM Coursework.movies
             WHERE title LIKE '%$movieTitle%' AND year = $year)"; 
-            $avg_result = $mysqli->query($part_4_sql_2);
-            $row = mysqli_fetch_assoc($avg_result); 
-            $pred_rating = $row['AVG(rating)'];
+            $pred_rating = check_cache_and_query_for_one_row_pred_rating($part_4_sql);
         }
 
         $final_pred = $pred_rating;
@@ -83,9 +108,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             JOIN Coursework.ratings on Coursework.ratings.movieId = Coursework.tags.movieId
             WHERE Coursework.tags.tag in ($tags)
             GROUP BY Coursework.tags.movieId) TMP;"; 
-            $avg_result = $mysqli->query($part_4_sql);
-            $row = mysqli_fetch_assoc($avg_result); 
-            $pred_rating = $row['AVG(rating)'];
+            $pred_rating = check_cache_and_query_for_one_row_pred_rating($part_4_sql);
+
             // average result with ratings we get from the peer review
             $ratings = SQL_test_input($_POST["ratings_n"]);
             if ($ratings != ""){
@@ -97,7 +121,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $pred_rating = ($avg_rating + $pred_rating) / 2; 
                 }
             }
-
 
             echo "<br><br>"; 
             echo "<h2 class=\"title text-center\">Results:</h2>";
