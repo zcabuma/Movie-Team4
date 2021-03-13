@@ -11,6 +11,8 @@ services:
     volumes:
       - ./src:/var/www/html/
     env_file: env_vars/webapp_env_vars.env
+    deploy:
+      replicas: 3
     
   
   db:
