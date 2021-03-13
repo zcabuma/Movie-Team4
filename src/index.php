@@ -1,4 +1,5 @@
 
+
 <?php
 echo gethostname(); // may output e.g,: sandie
 
@@ -25,6 +26,25 @@ echo "key1 : " . $r1. "\n";
 echo "key2 : " . $mc->get("key2") . "\n";                                          
 echo "key3 : " . $mc->get("key3") . "\n";   
 echo "key4 : " . $r4. "\n";
+
+echo "<br>";
+echo "<br>";
+echo "<br>";
 ?>
+
+
 <a href="browseFilms.php">Browser Page</a>
-<?php include 'database.php'; ?>
+<?php
+echo "<br>";
+echo "<br>";
+echo "<br>";
+?>
+
+<a href="login.php">Admin Page</a>
+
+
+<?php 
+echo "<br>";
+echo "<br>";
+echo "<br>";
+include 'database.php'; ?>
