@@ -10,6 +10,55 @@ $emotionalStability = 0;
 $conscientiousness = 0;
 $extraversion = 0;
 
+function clean_string_per($data){
+  $listOfStrings =  explode(',', $data);
+ $tags = array(); 
+ foreach ($listOfStrings as $value){
+     $processedValue = SQL_test_input($value);
+     $processedValueNew = $processedValue;
+     $finalprocessedValueNew =  substr($processedValueNew, 1, -1);
+     array_push($tags, $finalprocessedValueNew);
+    //  echo $finalprocessedValueNew;
+ }
+ return $tags;
+}
+
+
+function check_cache_and_query_for_one_row_personality($part_4_sql, $para_count, $parameters){
+  global $mysqli;
+  $hashed_query = sha1($part_4_sql . serialize($parameters));
+  $pred_rating = array();
+  // echo "hashed query is";
+  // echo $hashed_query;
+  // cache stuff
+
+  $cached_ans = get_from_cache($hashed_query);
+  // echo "this is chaches ans";
+  // echo $cached_ans;
+  if ($cached_ans != ""){
+    $pred_rating = $cached_ans;
+
+      // echo "Got from cache"; 
+  }
+  else{
+
+      $moviestmt = $mysqli->prepare($part_4_sql);
+      $moviestmt->bind_param($para_count, ...$parameters); 
+      $moviestmt->execute();
+      $moviesList = $moviestmt->get_result();
+      
+      $row = mysqli_fetch_array($moviesList, MYSQLI_ASSOC);
+
+
+      $pred_rating = $row;
+      $arr_cache = array();
+      $arr_cache = $row;
+
+      put_to_cache($hashed_query, $arr_cache); 
+  }
+  return $pred_rating;
+}
+
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -19,25 +68,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $movieTitle = test_input($_POST["movieTitle"]);
     
-    // if($movieTitle != "All" && $movieTitle != ""){
-
-    //     $movieTitleChanged = "$movieTitle ";
-    //     $movieIDQuery = "SELECT movieId 
-    //                     FROM Coursework.movies 
-    //                     WHERE title = ?";
-    //     $stmt = $mysqli->prepare($movieIDQuery);
-    //     $stmt->bind_param("s", $movieTitleChanged);
-    //     $stmt->execute();
-
-    //     $row_result = mysqli_fetch_assoc($stmt->get_result());
-    //     $movieId = $row_result['movieId'];
-
-    //     // echo $movieId;
-
-
-    // }
-
-
 
     $tagsInput = test_input($_POST["tags"]);
 
@@ -62,31 +92,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // echo $tags;
     if ($tags != ""){
+      $tagsUnprocessed = $tags;
+      $tags = clean_string_per($tags);
+      $count = count($tags); 
+      // echo "this is count";
+      // echo $count;
+      $placeholders = implode(',', array_fill(0, $count, '?'));
+      // echo $placeholders;
       $overallCommandToGetPersonalityData = "SELECT SUM(opennessAvg * noMoviesWatched)/SUM(noMoviesWatched) as openness, SUM(agreeablenessAvg * noMoviesWatched)/SUM(noMoviesWatched) as agreeableness, SUM(emotionalStabilityAvg * noMoviesWatched)/SUM(noMoviesWatched) as emotionalStability, AVG(conscientiousnessAvg * noMoviesWatched)/SUM(noMoviesWatched) as conscientiousness, AVG(extraversionAvg * noMoviesWatched)/SUM(noMoviesWatched) as extraversion
       FROM (SELECT DISTINCT personalityRatings.hashedUserID, COUNT(moviesGenres.movieId) as noMoviesWatched, AVG(personalityRatings.rating) as ratingAvg, AVG(personalityType.openness) as opennessAvg, AVG(personalityType.agreeableness) as agreeablenessAvg, AVG(personalityType.emotional_stability) as emotionalStabilityAvg, AVG(personalityType.conscientiousness) as conscientiousnessAvg, AVG(personalityType.extraversion) as extraversionAvg
       FROM ((Coursework.personalityRatings
       LEFT JOIN Coursework.personalityType ON personalityRatings.hashedUserID = personalityType.hashedUserID )
       LEFT JOIN Coursework.moviesGenres ON  personalityRatings.movieId = moviesGenres.movieId )
-      WHERE moviesGenres.genreId IN (SELECT genreId FROM Coursework.moviesGenres WHERE movieId IN (SELECT movieId FROM Coursework.tags WHERE tag IN ($tags)))
+      WHERE moviesGenres.genreId IN (SELECT genreId FROM Coursework.moviesGenres WHERE movieId IN (SELECT movieId FROM Coursework.tags WHERE tag IN ( $placeholders )))
       GROUP BY personalityRatings.hashedUserID
       HAVING AVG(personalityRatings.rating) > 4) TMP";
+      $bindStr = str_repeat('s', $count);
+      $pred_rating = check_cache_and_query_for_one_row_personality($overallCommandToGetPersonalityData, $bindStr, $tags);
+      
   
   
-      $result = $mysqli->query($overallCommandToGetPersonalityData);
-  
-      $row_result = mysqli_fetch_assoc($result);
-  
-      $openness = $row_result["openness"];
-      $agreeableness = $row_result["agreeableness"];
-      $emotionalStability = $row_result["emotionalStability"];
-      $conscientiousness = $row_result["conscientiousness"];
-      $extraversion = $row_result["extraversion"];
+      $openness = $pred_rating["openness"];
+      // echo "openness";
+      // echo $openness ;
+      $agreeableness = $pred_rating["agreeableness"];
+      $emotionalStability = $pred_rating["emotionalStability"];
+      $conscientiousness = $pred_rating["conscientiousness"];
+      $extraversion = $pred_rating["extraversion"];
   
       
       echo "<br><br>";  
       echo "<h2 class=\"title text-center\">Results:</h2>";
       echo "<h4 class=\"title text-center\">Movie Title: $movieTitle</h4>";
-      echo "<h4 class=\"title text-center\">Tags: $tags</h4>";
+      echo "<h4 class=\"title text-center\">Tags: $tagsUnprocessed</h4>";
       echo "<br><br>"; 
       echo "<table style=\"width:100%\" border=\"1\">
       <tr>
