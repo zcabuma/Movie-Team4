@@ -58,35 +58,8 @@ if(checkIfTableExists("Credentials.users", $credentialsSqli) === false){
     
     
 }
-$sql = "INSERT INTO Credentials.users (`username`, `password`) VALUES('karunya', SHA('whatt'))";
 
-if ($result = $credentialsSqli->query($sql))
-{
-echo 'Added to table';
-echo "<br>";
-}else{
-    echo "am i here?";
-    echo $credentialsSqli->error;
-    //echo mysqli_error();
-}
-$password = 'password';
-//echo SHA($password);
-$sql = "SELECT * FROM Credentials.users where `password` =SHA($password) ";
-if ($result = $credentialsSqli->query($sql)){
-    $idResult = mysqli_fetch_assoc($credentialsSqli->query($sql));
-    echo $idResult;
-    echo $credentialsSqli->error;
-    echo "<br>apparently it worked?";
-        
-    echo $idResult['username'];
-    echo "<br>";
-    echo $idResult['password'];
-    echo "<br>";
-}
-else{
-    echo "ot didnt work <br>";
-    echo $result->error;
-}
+
 
 function checkIfTableExists($tableName, $mysqli) {
     $checktable = $mysqli->query("SHOW TABLES LIKE '$tableName'");
