@@ -1,5 +1,5 @@
 <?php 
-
+include 'Cache.php';
    
 $genre = "All";
 $rating = "All";
@@ -9,6 +9,44 @@ $idNo = null;
 $listOfCommands = array();
 $parameters = array();
 $parameterTypes = "";
+
+function check_cache_and_query_for_rows_of_results($query){
+    global $mysqli;
+    global $statsParameterTypes;
+    global $statsParameters; 
+    global $idNo; 
+    global $movieTitle; 
+    global $rating; 
+    global $genre;
+    $hashed_query = md5($query); 
+    echo "hashed query is";
+    echo $hashed_query;
+    // cache stuff
+    $cached_ans = get_from_cache($hashed_query);
+    if ($cached_ans != ""){
+        //$pred_rating = $cached_ans['AVG(rating)']; 
+        $moviesList = $cached_ans;
+        echo "took from cache wohoo";
+        return $moviesList;
+    }
+    else{
+        $moviestmt = $mysqli->prepare($query);
+
+        $moviestmt->bind_param($statsParameterTypes, ...$statsParameters); //... allows us to pass an array
+        
+        $moviestmt->execute();
+
+        $moviesList = $moviestmt->get_result();
+        if (empty($moviesList)){
+            echo "this empty tooooo wtf";
+        }
+        //$arr_cache = process_result_to_add_to_cache($moviesList);
+        // adding to cache
+        // done in the display movies grid page
+       
+        return $moviesList;
+    }
+}
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -152,15 +190,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             LIMIT 21;"; 
 
         }
+        // CACHE query for PART 3
+        $hashed_query = sha1($popular_movies . serialize($statsParameters));
+        echo "hashed query is";
+        echo $hashed_query;
+        // cache stuff
+        $cached_ans = get_from_cache($hashed_query);
+        if ($cached_ans != ""){
+            //$pred_rating = $cached_ans['AVG(rating)']; 
+            $moviesList = $cached_ans;
+            echo "took from cache wohoo";
+        }
+        else{
+            $moviestmt = $mysqli->prepare($popular_movies);
     
-        $moviesList = $mysqli->query($popular_movies);
-        $moviestmt = $mysqli->prepare($popular_movies);
-
-        $moviestmt->bind_param($statsParameterTypes, ...$statsParameters); //... allows us to pass an array
-        
-        $moviestmt->execute();
-
-        $moviesList = $moviestmt->get_result(); 
+            $moviestmt->bind_param($statsParameterTypes, ...$statsParameters); //... allows us to pass an array
+            
+            $moviestmt->execute();
+            $moviesList = $moviestmt->get_result();
+            if (empty($moviesList)){
+                echo "this empty tooooo wtf";
+            }
+        }
+        // Cached Query for part 3 ENDS
 
     }
 
@@ -190,16 +242,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //echo $fullCommand;
         
         //This movie list has movies that will be displayed on the grid.
-        $moviestmt = $mysqli->prepare($fullCommand);
-
-        $moviestmt->bind_param($parameterTypes, ...$parameters); //... allows us to pass an array
         
-        $moviestmt->execute();
+        // Check if its in cache first. 
+        $hashed_query = sha1($fullCommand . serialize($parameters));
+        echo "hashed query is";
+        echo $hashed_query;
+        // cache stuff
+        $cached_ans = get_from_cache($hashed_query);
+        if ($cached_ans != ""){
+            //$pred_rating = $cached_ans['AVG(rating)']; 
+            $moviesList = $cached_ans;
+            echo "took from cache wohoo";
+        }
+        else{
+            $moviestmt = $mysqli->prepare($fullCommand);
 
-        $moviesList = $moviestmt->get_result(); 
+            $moviestmt->bind_param($parameterTypes, ...$parameters); //... allows us to pass an array
+            
+            $moviestmt->execute();
+
+            $moviesList = $moviestmt->get_result(); 
+        }
+        
     }
 }
 else{
+    // THIS QUERY IS NOT CACHED cuz its only run once when we open the app right?!?
     echo "should be hereee";
     $getAllMovies = "SELECT * FROM Coursework.movies LIMIT 21";
     $moviesList = $mysqli->query($getAllMovies);
