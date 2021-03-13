@@ -8,47 +8,44 @@ function SQL_test_input($data) { // taken from : https://tryphp.w3schools.com/sh
     $data = htmlspecialchars($data);
     return $data;
 }
-function check_cache_and_query_for_one_row_pred_rating($part_4_sql){
+function check_cache_and_query_for_one_row_pred_rating($part_4_sql, $para_count, $parameters){
     global $mysqli;
-    $hashed_query = md5($part_4_sql); 
+    $hashed_query = sha1($part_4_sql . serialize($parameters));
     $pred_rating = "";
     echo "hashed query is";
     echo $hashed_query;
     // cache stuff
     $cached_ans = get_from_cache($hashed_query);
     if ($cached_ans != ""){
-        //$pred_rating = $cached_ans['AVG(rating)']; 
         $pred_rating = $cached_ans['AVG(rating)']; 
-        echo "This is what I got from cache"; 
-        echo $pred_rating; 
         echo "Got from cache"; 
     }
     else{
-        $avg_result = $mysqli->query($part_4_sql);
-        $row = mysqli_fetch_assoc($avg_result); 
-        // creating cache array
+        $moviestmt = $mysqli->prepare($part_4_sql);
+
+        $moviestmt->bind_param($para_count, ...$parameters); //... allows us to pass an array
+        
+        $moviestmt->execute();
+
+        $moviesList = $moviestmt->get_result();
+        $row = mysqli_fetch_array($moviesList, MYSQLI_ASSOC);
         $arr_cache = array();
         $pred_rating = $row['AVG(rating)'];
         $arr_cache['AVG(rating)'] = $pred_rating;
         // adding to cache
-        put_to_cache($hashed_query, $arr_cache);
+        put_to_cache($hashed_query, $arr_cache); 
     }
     return $pred_rating;
 }
 
 
 function clean_string($data){
-    $listOfStrings =  explode(',', $data);
-    $tags = "";
+     $listOfStrings =  explode(',', $data);
+    $tags = array(); 
     foreach ($listOfStrings as $value){
-        $tags = $tags."'";
         $processedValue = SQL_test_input($value);
-        $tags = $tags.$processedValue;
-        $tags = $tags."'";
-        $tags = $tags.",";
+        array_push($tags, $processedValue);
     }
-
-    $tags = substr($tags, 0, -1);
     return $tags;
 }
 
@@ -70,10 +67,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         FROM Coursework.tags
         WHERE movieId = (SELECT movieId 
         FROM Coursework.movies
-        WHERE title LIKE '%$movieTitle%' AND year = $year)) 
+        WHERE title LIKE ? AND year = ?)) 
         GROUP BY Coursework.tags.movieId) TMP;"; 
-        $pred_rating  = check_cache_and_query_for_one_row_pred_rating($part_4_sql);
-        
+        $para_count = "si"; 
+        $movieTitle_changed = "%$movieTitle%";
+        $parameters = array();
+        array_push($parameters, $movieTitle_changed); 
+        array_push($parameters, $year); 
+        $pred_rating  = check_cache_and_query_for_one_row_pred_rating($part_4_sql, $para_count, $parameters); 
         //cache stuff done
 
         if (is_null($pred_rating)){
@@ -82,8 +83,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             JOIN Coursework.movies on Coursework.movies.movieId = Coursework.ratings.movieId
             WHERE Coursework.ratings.movieId = (SELECT movieId 
             FROM Coursework.movies
-            WHERE title LIKE '%$movieTitle%' AND year = $year)"; 
-            $pred_rating = check_cache_and_query_for_one_row_pred_rating($part_4_sql);
+            WHERE title LIKE ? AND year = ?)"; 
+            $pred_rating = check_cache_and_query_for_one_row_pred_rating($part_4_sql, $para_count, $parameters);
         }
 
         $final_pred = $pred_rating;
@@ -102,13 +103,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($movieTitle != "" && $year != "" && $tags != "" ){
             $tags = clean_string($tags);
+            $count = count($tags); 
+            echo $count;
+            $placeholders = implode(',', array_fill(0, $count, '?'));
             $part_4_sql = "SELECT AVG(rating)
             FROM (SELECT AVG(rating) as rating
             FROM Coursework.tags
             JOIN Coursework.ratings on Coursework.ratings.movieId = Coursework.tags.movieId
-            WHERE Coursework.tags.tag in ($tags)
-            GROUP BY Coursework.tags.movieId) TMP;"; 
-            $pred_rating = check_cache_and_query_for_one_row_pred_rating($part_4_sql);
+            WHERE Coursework.tags.tag in ($placeholders)
+            GROUP BY Coursework.tags.movieId) TMP;";  
+            $bindStr = str_repeat('s', $count);
+            $pred_rating = check_cache_and_query_for_one_row_pred_rating($part_4_sql, $bindStr, $tags);
 
             // average result with ratings we get from the peer review
             $ratings = SQL_test_input($_POST["ratings_n"]);
