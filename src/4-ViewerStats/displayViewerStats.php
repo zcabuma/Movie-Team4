@@ -7,6 +7,7 @@ $user_count_ratings = 0;
 $ids = array();
 $usersids = array();
 $ratings =  array();
+$movieIds =  array();
 $usersratings =  array();
 $tag =  array();
 $count_users_tag =  array();
@@ -34,6 +35,7 @@ while($row = mysqli_fetch_assoc($displayUsers))
     //   $usersids[] = $value;
     // }
     $ratings[] = $row['rating'];
+    $movieIds[] = $row['movieId'];
     // foreach($ratings as $value){
     //   $userratings[] = $value;
     // }
@@ -185,6 +187,7 @@ if ($movieTitle !="All" && $movieTitle != ""){
                           <th class="border-top-0">#</th>
                           <th class="border-top-0">Viewer Ids</th>
                           <th class="border-top-0">Rating</th>
+                          <th class="border-top-0">Movie Id</th>
                       </tr>
                   </thead>
                   <tbody >
@@ -193,11 +196,13 @@ if ($movieTitle !="All" && $movieTitle != ""){
                   foreach($ids as $i => $id){
                     $j = $i + 1;
                     $rating = $ratings[$i];
+                    $movieId = $movieIds[$i];
                     echo "
                       <tr>
                           <td> $j</td>
                           <td class=\"txt-oflo\">$id</td>
                           <td class=\"txt-oflo\">$rating </td>
+                          <td class=\"txt-oflo\">$movieId </td>
                       </tr>
                     ";
                   }
@@ -209,7 +214,7 @@ if ($movieTitle !="All" && $movieTitle != ""){
       </div>
   </div>
 </div>
-<div class="row">
+<!-- <div class="row">
   <div class="col-md-12 col-lg-12 col-sm-12">
       <div class="white-box">
           <div class="d-md-flex mb-3">
@@ -228,17 +233,17 @@ if ($movieTitle !="All" && $movieTitle != ""){
                   <tbody >
                   <?php
                   // $list_users_display = "";
-                  foreach($tag as $i => $t){
-                    $j = $i + 1;
-                    $f= $count_users_tag[$i];
-                    echo "
-                      <tr>
-                          <td> $j</td>
-                          <td class=\"txt-oflo\">$t</td>
-                          <td class=\"txt-oflo\">$f </td>
-                      </tr>
-                    ";
-                  }
+                  // foreach($tag as $i => $t){
+                  //   $j = $i + 1;
+                  //   $f= $count_users_tag[$i];
+                  //   echo "
+                  //     <tr>
+                  //         <td> $j</td>
+                  //         <td class=\"txt-oflo\">$t</td>
+                  //         <td class=\"txt-oflo\">$f </td>
+                  //     </tr>
+                  //   ";
+                  // }
                   ?>
                       
                   </tbody>
@@ -246,7 +251,7 @@ if ($movieTitle !="All" && $movieTitle != ""){
           </div>
       </div>
   </div>
-</div>
+</div> -->
 
 
 

@@ -19,14 +19,14 @@ function check_cache_and_query_for_rows_of_results($query){
     global $rating; 
     global $genre;
     $hashed_query = md5($query); 
-    echo "hashed query is";
-    echo $hashed_query;
+    // echo "hashed query is";
+    // echo $hashed_query;
     // cache stuff
     $cached_ans = get_from_cache($hashed_query);
     if ($cached_ans != ""){
         //$pred_rating = $cached_ans['AVG(rating)']; 
         $moviesList = $cached_ans;
-        echo "took from cache wohoo";
+        // echo "took from cache wohoo";
         return $moviesList;
     }
     else{

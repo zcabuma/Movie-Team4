@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 
     //FORMING THE SQL QUERIES
-    if(count($cmd_list) != 0 && ($movieTitle != "")){
+    if(count($cmd_list) != 0 && ($movieTitle != "") && ($movieTitle != " ")){
         $count_total_watchers = "SELECT COUNT(userId) as count
                         FROM Coursework.ratings 
                         WHERE movieId IN ( 
@@ -95,9 +95,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $total_watchers = $mysqli->query($count_total_watchers);
         // print_r($moviesList." hehe");
     }
+    else{
+        $count_total_watchers = "SELECT COUNT(userId) as count
+                        FROM Coursework.ratings 
+                        WHERE movieId 
+                        ";
+        
+        //This movie list has movies that will be displayed on the grid. 
+        $total_watchers = $mysqli->query($count_total_watchers);
+        // print_r($moviesList." hehe");
+    }
 
     //get count of users based on rating
-    if(count($cmd_list) != 0 && ($movieTitle != "")){
+    if(count($cmd_list) != 0 && ($movieTitle != "") && ($movieTitle != " ")){
         if ($rating !="All" && $rating != ""){
         $displaycountCommand = "SELECT COUNT(userId) as count
                         FROM Coursework.ratings 
@@ -112,18 +122,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         // print_r($moviesList." hehe");
                         }
     }
+    else{
+        if ($rating !="All" && $rating != ""){
+            $displaycountCommand = "SELECT COUNT(userId) as count
+                            FROM Coursework.ratings 
+                            WHERE rating = $rating";
+                            
+            
+            $displaycountUsers = $mysqli->query($displaycountCommand);
+            // print_r($moviesList." hehe");
+                            }
+    }
     //get all user ids
-    if(count($cmd_list) != 0 && ($movieTitle != "")){
-        $displayUsersCommand = "SELECT userId as ids, rating
+    if(count($cmd_list) != 0){
+        // echo "this is move-";
+        // echo $movieTitle;
+        // echo "-";
+        // echo $rating;
+        
+        if($movieTitle != "" && $movieTitle != " " && $movieTitle != NULL){
+            // echo "1";
+            $displayUsersCommand = "SELECT userId as ids, rating, movieId
                         FROM Coursework.ratings 
                         WHERE movieId IN ( 
                         SELECT movieId 
                         FROM Coursework.movies
                         WHERE title LIKE \"$movieTitle\")
                         ";
-        if ($rating !="All" && $rating != ""){
-            $displayUsersCommand = $displayUsersCommand . "AND rating = $rating";
+            if ($rating !="All" && $rating != ""){
+                $displayUsersCommand = $displayUsersCommand . "AND rating = $rating";
+            }
         }
+        else{
+            // echo "2";
+            $displayUsersCommand = "SELECT userId as ids, rating, movieId
+                        FROM Coursework.ratings";
+            if ($rating !="All" && $rating != ""){
+                $displayUsersCommand = $displayUsersCommand . " WHERE rating = $rating";
+            }
+            // echo $displayUsersCommand;
+        }
+        
         
         //This movie list has movies that will be displayed on the grid. 
         $displayUsers = $mysqli->query($displayUsersCommand);
