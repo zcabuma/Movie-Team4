@@ -1,43 +1,102 @@
-<?php
+<?php   
+
+
+        //get id first
         $movieTitleChanged = "%$movieTitle%";
         $movieID = "SELECT movieID FROM Coursework.movies 
         WHERE title LIKE ? AND year = ?";
 
-        $stmt = $mysqli->prepare($movieID);
-        $stmt->bind_param("si", $movieTitleChanged, $year);
-        $stmt->execute();
+        
 
-        $row_result = mysqli_fetch_assoc($stmt->get_result());
-        $idNo = $row_result['movieID'];
+        $parameters = array();
+        array_push($parameters, $movieTitleChanged); 
+        array_push($parameters, $year); 
+        
         echo $idNo;
 
+        global $mysqli;
+        $hashed_query = sha1($movieID . serialize($parameters));
+        //echo "hashed query is";
+        //echo $hashed_query;
+        // cache stuff
+        $cached_ans = get_from_cache($hashed_query);
+        if ($cached_ans != ""){
+            $idNo = $cached_ans['movieID']; 
+            echo "Got from cache"; 
+        }
+        else{
+        $stmt = $mysqli->prepare($movieID);
+        $stmt->bind_param("si", ...$parameters);
+        $stmt->execute();
+        $row_result = mysqli_fetch_assoc($stmt->get_result());
+        $idNo = $row_result['movieID'];
+        $arr_cache = array();
+        $arr_cache['movieID'] = $idNo;
+        // adding to cache
+        put_to_cache($hashed_query, $arr_cache); 
+        }
+        
+        
         //Get title information
         //SQL INJECTION PROTECTION STATEMENTS
-        $movieTitleChanged = "%$movieTitle%";
         $avgRating = "SELECT AVG(rating) 
         FROM Coursework.ratings 
         WHERE movieID = ?";
-        
+
+        $hashed_query = sha1($avgRating . serialize($idNo));
+        //echo "hashed query is";
+        //echo $hashed_query;
+        // cache stuff
+        $cached_ans = get_from_cache($hashed_query);
+        if ($cached_ans != ""){
+        $avg_rating = $cached_ans['AVG(rating)']; 
+        echo "Got from cache"; 
+        }
+        else{
         $stmt = $mysqli->prepare($avgRating);
         $stmt->bind_param("i", $idNo);
         $stmt->execute();
+        $row_result = mysqli_fetch_assoc($stmt->get_result());
+        $avg_rating = $row_result['AVG(rating)'];
+        $arr_cache = array();
+        $arr_cache['AVG(rating)'] = $avg_rating;
+        // adding to cache
+        put_to_cache($hashed_query, $arr_cache); 
+        }
+        
         
         //$ratings = $mysqli->query($avgRating);
 
         
 
-        $row_result = mysqli_fetch_assoc($stmt->get_result());
-        $avg_rating = $row_result['AVG(rating)'];
+        
         
 
         //SQL QUERY TO GET THE IMDB AND TMDB IDs
-        $movieID = "SELECT imdbID, tmdbiD FROM Coursework.links 
+        $links = "SELECT imdbID, tmdbiD FROM Coursework.links 
         WHERE movieID = ? ";
-        $stmt = $mysqli->prepare($movieID);
+
+        $hashed_query = sha1($links . serialize($idNo));
+        //echo "hashed query is";
+        //echo $hashed_query;
+        // cache stuff
+        $cached_ans = get_from_cache($hashed_query);
+        if ($cached_ans != ""){
+        $idResult = $cached_ans;
+        echo "Got from cache"; 
+        }
+        else{
+        $stmt = $mysqli->prepare($links);
         $stmt->bind_param("i", $idNo);
         $stmt->execute();
-        
         $idResult = mysqli_fetch_assoc($stmt->get_result());
+        
+        $arr_cache = array();
+        $arr_cache = $idResult;
+        // adding to cache
+        put_to_cache($hashed_query, $arr_cache); 
+        }
+        
         $imdbID = $idResult['imdbID'];
         $tmdbID = $idResult['tmdbiD'];
 

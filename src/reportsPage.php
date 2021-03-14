@@ -76,7 +76,7 @@ $year = $_GET["year"];
 	</header><!--/header-->
     <div class="padding-left">
 					<div class="features_items"><!--features_items-->
-                        
+                        <?php include "Cache.php";?>
 
                         <?php include "2-ReportsFunction/RatingsCalculation.php";?>
 						
