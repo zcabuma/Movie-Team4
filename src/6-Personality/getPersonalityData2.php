@@ -102,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       // echo "end";
 
       foreach ($expandedListOfTags as $value){
-        echo $value;
+        // echo $value;
         $tagsInputToDisplay = $tagsInputToDisplay . $value . ",";
       }
 
@@ -152,7 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <td style=\"text-align: center; vertical-align: middle;\">$agreeableness</td>
       </tr>
       <tr>
-        <td style=\"text-align: center; vertical-align: middle;\">EmotionalStability</td>
+        <td style=\"text-align: center; vertical-align: middle;\">Emotional Stability</td>
         <td style=\"text-align: center; vertical-align: middle;\">$emotionalStability</td>
       </tr>
       <tr>

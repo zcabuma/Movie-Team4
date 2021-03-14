@@ -8,6 +8,14 @@ if (is_array($moviesList)){
 		$year = $row['year'];
 		$count = $row['count']; 
 		$variance = $row['variance'];
+		if(strcmp($count, "") !== 0){
+			$count =  "# of Views: ".$count;
+			$year = "";
+		}
+		if(strcmp($variance, "") !== 0){
+			$variance =  "Variance: ".$variance;
+			$year = "";
+		}
 		echo "<div class=\"col-sm-4\"> 
 			<div class=\"product-image-wrapper\">
 				<div class=\"single-products\">
@@ -31,8 +39,8 @@ if (is_array($moviesList)){
 				</div>
 				<div class=\"choose\">
 					<ul class=\"nav nav-pills nav-justified\">
-						<li><a href= \"displayOnMovieBrowser.php?title=$movieTitle&year=$year\"></i>Viewer stats</a></li>
-						<li><a href=\"reportsPage.php?title=$movieTitle&year=$year\">Rating Report</a></li>
+						<li><a href= \"displayOnMovieBrowser.php?title=$movieTitle&year=$year\"></i>Viewer segmentation</a></li>
+						<li><a href=\"reportsPage.php?title=$movieTitle&year=$year\">Viewer Reaction</a></li>
 					</ul>
 				</div>
 			</div>
@@ -88,8 +96,8 @@ else{
 				</div>
 				<div class=\"choose\">
 					<ul class=\"nav nav-pills nav-justified\">
-					<li><a href= \"displayOnMovieBrowser.php?title=$movieTitle&year=$year\"></i>Viewer stats</a></li>
-					<li><a href=\"reportsPage.php?title=$movieTitle&year=$year\">Rating Report</a></li>
+					<li><a href= \"displayOnMovieBrowser.php?title=$movieTitle&year=$year\"></i>Viewer segmentation</a></li>
+					<li><a href=\"reportsPage.php?title=$movieTitle&year=$year\">Viewer Reaction</a></li>
 
 						
 					</ul>

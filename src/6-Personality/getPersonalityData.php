@@ -41,6 +41,10 @@ function check_cache_and_query_for_one_row_personality($part_4_sql, $para_count,
       // echo "Got from cache"; 
   }
   else{
+    foreach ($parameters as $value){
+      // echo "this is value:";
+      // echo $value;
+  }
 
       $moviestmt = $mysqli->prepare($part_4_sql);
       $moviestmt->bind_param($para_count, ...$parameters); 
@@ -87,9 +91,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $tags = substr($tags, 0, -1);
     }
-    
+    // echo "this is original tags";
     // echo $tags;
     if ($tags != ""){
+
+
 
       include 'getExpandedListOfTags.php'; 
       // echo "calling get all tags with";
@@ -101,10 +107,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       // echo "end";
 
       
-
+      // echo "this is what we get";
       foreach ($expandedListOfTags as $value){
         // echo $value;
         $tagsInputToDisplay = $tagsInputToDisplay . $value . ",";
+        
       }
 
 
@@ -155,7 +162,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <td style=\"text-align: center; vertical-align: middle;\">$agreeableness</td>
       </tr>
       <tr>
-        <td style=\"text-align: center; vertical-align: middle;\">EmotionalStability</td>
+        <td style=\"text-align: center; vertical-align: middle;\">Emotional Stability</td>
         <td style=\"text-align: center; vertical-align: middle;\">$emotionalStability</td>
       </tr>
       <tr>

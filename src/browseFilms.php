@@ -32,7 +32,6 @@
 
 
 	<header id="header"><!--header-->
-	<p>Move the mouse pointer over this paragraph.</p>
 		
 		<div class="header-middle"><!--header-middle-->
 			<div class="container">

@@ -5,8 +5,11 @@
                             echo "<option value=\"All\">All</option>";
                             while($row = mysqli_fetch_assoc($result))
                             {
-                                echo $row['genre']." ";
                                 $currentElement = $row['genre'];
-                                echo "<option value=".$currentElement.">".$currentElement."</option>";
+                                if(strcmp($currentElement, "") !== 0){
+                                    echo $row['genre']." ";
+                                    echo "<option value=".$currentElement.">".$currentElement."</option>";
+                                }
+                                
                             }
                         ?> 

@@ -108,7 +108,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Handling Post request from trying to search for movies absed on start year
     $startYear = test_input($_POST["start"]);
-    if($startYear != ""){
+    if($startYear != "" && is_numeric($startYear)){
         $commandForStart = "SELECT movieId 
                                 FROM Coursework.movies 
                                 WHERE year >= ?";
@@ -119,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Handling Post request from trying to search for movies based on end year
     $endYear = test_input($_POST["end"]);
-    if($endYear != ""){
+    if($endYear != "" && is_numeric($startYear)){
         $commandForEnd = "SELECT movieId 
                                 FROM Coursework.movies 
                                 WHERE year <= ?";
@@ -163,13 +163,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             array_push($statsParameters, $rating );  
         }
 
-        if($startYear != ""){
+        if($startYear != "" && is_numeric($startYear)){
             $popular_movies .= " AND m.year >= ?";
             $statsParameterTypes.="i";
             array_push($statsParameters, $startYear );   
         }
 
-        if($endYear != ""){
+        if($endYear != "" && is_numeric($endYear)){
             $popular_movies .= " AND m.year <= ?";
             $statsParameterTypes.="i";
             array_push($statsParameters, $endYear );  
@@ -215,6 +215,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Cached Query for part 3 ENDS
 
     }
+
+    if(count($parameters) == 0 && $statistic == null ){
+        echo "WARNING: no filter was applied. You may have entered invalid text into the filters or you may have submitted an empty filter request --> RESETTING TO HOME";
+        $getAllMovies = "SELECT * FROM Coursework.movies LIMIT 21";
+        $moviesList = $mysqli->query($getAllMovies);   
+    } 
 
     // Forming entire SQL Query for different filters(genre,ratings,etc ) except statistic (for that the query already created and processed)
     if(count($listOfCommands) != 0 && ($statistic == null || $movieTitle != "")){
@@ -265,6 +271,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         
     }
+     
 }
 else{
     // THIS QUERY IS NOT CACHED cuz its only run once when we open the app right?!?
