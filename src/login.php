@@ -120,7 +120,7 @@ function checkIfTableExists($tableName, $mysqli) {
                         echo "ITS CORRECT!!";
                         echo "<br>";
                         $_SESSION['valid'] = true;
-                        $_SESSION['timeout'] = time();
+                        //$_SESSION['timeout'] = time();
                         $_SESSION['username'] = $username;
                         //include index.php;
                         header('Refresh: 2; URL = loginSuccess.php');

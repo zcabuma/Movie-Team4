@@ -1,16 +1,25 @@
 <?php
+        $movieTitleChanged = "%$movieTitle%";
+        $movieID = "SELECT movieID FROM Coursework.movies 
+        WHERE title LIKE ? AND year = ?";
 
+        $stmt = $mysqli->prepare($movieID);
+        $stmt->bind_param("si", $movieTitleChanged, $year);
+        $stmt->execute();
 
+        $row_result = mysqli_fetch_assoc($stmt->get_result());
+        $idNo = $row_result['movieID'];
+        echo $idNo;
+
+        //Get title information
+        //SQL INJECTION PROTECTION STATEMENTS
         $movieTitleChanged = "%$movieTitle%";
         $avgRating = "SELECT AVG(rating) 
         FROM Coursework.ratings 
-        WHERE movieID = 
-        (SELECT movieID 
-        FROM Coursework.movies 
-        WHERE title LIKE ? AND year = ?)";
+        WHERE movieID = ?";
         
         $stmt = $mysqli->prepare($avgRating);
-        $stmt->bind_param("si", $movieTitleChanged, $year);
+        $stmt->bind_param("i", $idNo);
         $stmt->execute();
         
         //$ratings = $mysqli->query($avgRating);
@@ -18,28 +27,24 @@
         
 
         $row_result = mysqli_fetch_assoc($stmt->get_result());
-        $idNo = $row_result['AVG(rating)'];
+        $avg_rating = $row_result['AVG(rating)'];
+        
 
-        $movieID = "SELECT imdbID, tmdbiD FROM Coursework.links WHERE movieID =(SELECT movieID FROM Coursework.movies WHERE title LIKE \"%$movieTitle%\" AND year = $year);";
+        //SQL QUERY TO GET THE IMDB AND TMDB IDs
+        $movieID = "SELECT imdbID, tmdbiD FROM Coursework.links 
+        WHERE movieID = ? ";
+        $stmt = $mysqli->prepare($movieID);
+        $stmt->bind_param("i", $idNo);
+        $stmt->execute();
         
-        
-        $idResult = mysqli_fetch_assoc($mysqli->query($movieID));
-        
+        $idResult = mysqli_fetch_assoc($stmt->get_result());
+        $imdbID = $idResult['imdbID'];
+        $tmdbID = $idResult['tmdbiD'];
 
         
         echo "<h2 class=\"title text-center\">Report: $movieTitle ($year) </h2>";
         
-        
-
-        $imdbID = $idResult['imdbID'];
-        $tmdbID = $idResult['tmdbiD'];
-        //$imdbID = "0114709";
-        
-        //echo $imdbID;
-        //echo $tmdbID;
-        
-        
-        
+        // COMMENTED OUT IMDB API CALL (DUE TO 100 CALLS PER DAY LIMIT)
 
         // $curl = curl_init();
 
@@ -65,10 +70,6 @@
         //         echo "cURL Error #:" . $err;
         // } else {
         //         $data = json_decode($response, true);
-        //         $imageURL = $data['image'];
-        //         echo "<center>
-        //         <img src = $imageURL align = \"center\" width = \"240\" height = \"330\" >
-        //         </center>";
         //         echo "<br><br>";
         //         echo $data['plot'];
         //         echo "<br><br>";
@@ -104,14 +105,11 @@
 
         $tmdbResponse = curl_exec($curl);
         $tmdbErr = curl_error($curl);
-        //echo $tmdbResponse;
         curl_close($curl);
 
         if ($tmdbErr){
                 echo "cURL Error #:" . $tmdbErr;
         } else {
-                //echo "hellooo";
-                // $tmdbResponse;
                 $data = json_decode($tmdbResponse, true);
                 
                 $tmDBrating = $data['vote_average'];
@@ -124,7 +122,7 @@
                 echo "<div class=\"container\">
                         <div class=\"row\">
                                 <center>
-                                         <img  src = https://image.tmdb.org/t/p/original$posterPath align = \"center\"width = \"240\" height = \"330\"  >
+                                         <img src = https://image.tmdb.org/t/p/original$posterPath align = \"center\"width = \"240\" height = \"330\"  >
                                 </center>
                                 <br>
                         </div>
@@ -133,7 +131,7 @@
                                 $overview
                                 
                         <h2>tmDB Rating: $tmDBrating/10 </h2>
-                        <h2>Rating: $idNo/5 </h2>
+                        <h2>Rating: $avg_rating/5 </h2>
 
                         ";
 
