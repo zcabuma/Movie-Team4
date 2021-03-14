@@ -5,16 +5,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   $table = $_POST["table"];
   $data = $_POST["data"];
-
+  $sql = "INSERT INTO Coursework.";
   if (!($table == "" or $data =="")){
     
-    $table = "Coursework.".$table;
+    $paramTypes = "";
+    if ($table == "movies"){
+        $paramTypes = "isib";
+        $sql = $sql.$table;
+    }
+    if ($table == "tags"){
+      $paramTypes = "iisi";
+      $sql = $sql.$table;
+    }
+    if ($table == "ratings"){
+      $paramTypes = "iiii";
+      $sql = $sql.$table;
+  }
+  if ($table == "moviesGenres"){
+    $paramTypes = "ii";
+    $sql = $sql.$table;
+  }
+
+  
+    $table = $table;
     
     $listOfStrings = explode(",", $data);
+    echo count($listOfStrings);
     $endstring = str_repeat("?,", count($listOfStrings));
     $endstring = substr($endstring, 0, -1);
-    $sql = "INSERT INTO ? VALUES (".$endstring.") ;";
+    $sql = $sql." VALUES (".$endstring.") ;";
     echo $sql;
+    $moviestmt = $mysqli->prepare($sql);
+
+    //$moviestmt->bind_param($paramTypes, ...$listOfStrings); //... allows us to pass an array
+    
+    //$moviestmt->execute();
+
+    //$moviesList = $moviestmt->get_result(); 
+
+    
   }
 }else{
   echo "nothing";

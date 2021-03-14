@@ -238,6 +238,50 @@ if(checkIfTableExists("Coursework.ratings", $mysqli) === false){
 
 #LINKS TABLE UPLOAD AND DISPLAY ENDS HERE -----------------------
 
+if(checkIfTableExists("Coursework.tagGroups", $mysqli) === false){
+    $sql_query_for_tags = "CREATE TABLE IF NOT EXISTS Coursework.tagGroups(
+        `tag` VARCHAR(50) PRIMARY KEY, 
+        `group` INT
+        
+    );
+   
+";
+
+    // if ($result = $mysqli->query($sql_localInfile)){
+    //     echo 'set local_infile';
+    // }
+    // else{
+    //     echo $mysqli->error;
+    // }
+
+    if ($result = $mysqli->query($sql_query_for_tags))
+    {
+        echo 'tagsGroups table created successfully';
+        echo "<br>";
+    }else{
+        echo $mysqli->error;
+    }
+
+
+
+    $csvSQL = "LOAD DATA LOCAL INFILE 'ExcelFiles/tagGroups.csv'
+            INTO TABLE Coursework.tagGroups
+            FIELDS TERMINATED BY ','
+            LINES TERMINATED BY '\n'
+            IGNORE 1 LINES
+            (`tag`,`group`)";
+
+
+    if ($result = $mysqli->query($csvSQL)){
+        echo 'TAGSSS Groups added successfully';
+        echo "<br>";
+    }
+    else{
+        echo $mysqli->error;
+    }
+    #TAGS TABLE STUFF ENDS HEREE----------------------
+}
+
 // THIS CHUCK OF CODE IS TO ADD TAGS TABLE WHICH WAS ALREADY NORMALIZED------------
 // create Tags table if not created already
 if(checkIfTableExists("Coursework.tags", $mysqli) === false){
@@ -247,7 +291,8 @@ if(checkIfTableExists("Coursework.tags", $mysqli) === false){
         `tag` VARCHAR(50) NOT NULL, 
         `timestamp` BIGINT NOT NULL, 
         PRIMARY KEY (`userId`, `movieId`,`timestamp`),
-        CONSTRAINT FK_tagsMovie FOREIGN KEY (movieId) REFERENCES Coursework.movies(movieId)
+        CONSTRAINT FK_tagsMovie FOREIGN KEY (movieId) REFERENCES Coursework.movies(movieId),
+        CONSTRAINT FK_tags FOREIGN KEY (tag) REFERENCES Coursework.tagGroups(tag)
     );
    
 ";
@@ -285,47 +330,6 @@ if(checkIfTableExists("Coursework.tags", $mysqli) === false){
     #TAGS TABLE STUFF ENDS HEREE----------------------
 }
 
-if(checkIfTableExists("Coursework.tagGroups", $mysqli) === false){
-    $sql_query_for_tags = "CREATE TABLE IF NOT EXISTS Coursework.tagGroups(
-        `tag` VARCHAR(50) PRIMARY KEY, 
-        `group` INT, 
-        CONSTRAINT FK_tags FOREIGN KEY (tag) REFERENCES Coursework.tags(tag)
-    );
-   
-";
-
-    if ($result = $mysqli->query($sql_localInfile)){
-        echo 'set local_infile';
-    }
-    else{
-        echo $mysqli->error;
-    }
-
-    if ($result = $mysqli->query($sql_query_for_tags))
-    {
-        echo 'tagsGroups table created successfully';
-        echo "<br>";
-    }
-
-
-
-    $csvSQL = "LOAD DATA LOCAL INFILE 'ExcelFiles/tagGroups.csv'
-            INTO TABLE Coursework.tagGroups
-            FIELDS TERMINATED BY ','
-            LINES TERMINATED BY '\n'
-            IGNORE 1 LINES
-            (`tag`,`group`)";
-
-
-    if ($result = $mysqli->query($csvSQL)){
-        echo 'TAGSSS Groups added successfully';
-        echo "<br>";
-    }
-    else{
-        echo $mysqli->error;
-    }
-    #TAGS TABLE STUFF ENDS HEREE----------------------
-}
 
 
 // create MOVIES table if not created already
