@@ -118,21 +118,30 @@
                 
 
                 $posterPath = $data['poster_path'];
-                echo "<center>
-                <img  src = https://image.tmdb.org/t/p/original$posterPath align = \"center\"width = \"240\" height = \"330\"  >
-                </center>";
-                echo "<br>";
 
-                echo $data['overview'];
+                $overview = $data['overview'];
 
-                echo "<br>";
+                echo "<div class=\"container\">
+                        <div class=\"row\">
+                                <center>
+                                         <img  src = https://image.tmdb.org/t/p/original$posterPath align = \"center\"width = \"240\" height = \"330\"  >
+                                </center>
+                                <br>
+                        </div>
+                        <div class=\"row\">
+                                
+                                $overview
+                                
+                        <h2>tmDB Rating: $tmDBrating/10 </h2>
+                        <h2>Rating: $idNo/5 </h2>
 
-                echo "<h4> tmDB Rating: $tmDBrating/10 </h4>";
-                }
+                        ";
+
+
+                
 
         
-
-        echo "<h4> Rating: $idNo/5 </h4>";
+                }
         
 
         

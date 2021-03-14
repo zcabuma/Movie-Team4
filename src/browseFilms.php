@@ -10,7 +10,6 @@
 
 
 
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
@@ -30,6 +29,8 @@
 </head><!--/head-->
 
 <body>
+
+
 	<header id="header"><!--header-->
 	<p>Move the mouse pointer over this paragraph.</p>
 		
@@ -143,9 +144,9 @@
 
 						<ul class="pagination">
 							<li class="active"><a href="">1</a></li>
-							<li><a href="">2</a></li>
-							<li><a href="">3</a></li>
-							<li><a href="">&raquo;</a></li>
+							<li><a href="browseFilms.php">2</a></li>
+							<li><a href="browseFilms.php">3</a></li>
+							<li><a href="browseFilms.php">&raquo;</a></li>
 						</ul>
 					</div><!--features_items-->
 				</div>

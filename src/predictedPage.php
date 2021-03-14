@@ -109,7 +109,7 @@
 	    		</div>
 	    		<div class="col-sm-6">
 	    			<div class="contact-info">
-                        <h2 class="title text-center">Personality of User</h2>
+                        <h2 class="title text-center">User Personality for New Movie (focus on genre)</h2>
                         <form method="post" action="">
 
                             <label for="movie">Movie Title:</label>
@@ -125,11 +125,43 @@
                             <input type="submit" value="Submit">
 
 
-                        </form>
+						</form>
 
-                        <?php include '6-Personality/getPersonalityData.php'; ?>
+
+						<?php include '6-Personality/getPersonalityData.php'; ?>
+
+						<br>
+
+
+
+						<h2 class="title text-center">User Personality for New Movie (focus on movies)</h2>
+                        <form method="post" action="">
+
+                            <label for="movie">Movie Title:</label>
+                                <input type="text" placeholder="Movie Title" id="movieTitle2" name="movieTitle2">  
+                            <br><br>
+
+
+                            <label for="movie">Tags (comma separated):</label>
+                                <input type="text" placeholder="Tags" id="tags2" name="tags2">  
+                            <br><br>
+
+
+                            <input type="submit" value="Submit">
+
+
+						</form>
+
+
+						<?php include '6-Personality/getPersonalityData2.php'; ?>
+
+						<br>
+
+                        
 	    			</div>
-    			</div>    			
+    			</div> 
+
+
 	    	</div>  
     	</div>	
     </div><!--/#contact-page-->

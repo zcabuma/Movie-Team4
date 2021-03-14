@@ -31,10 +31,8 @@ if (is_array($moviesList)){
 				</div>
 				<div class=\"choose\">
 					<ul class=\"nav nav-pills nav-justified\">
-						<li><a href= \"5-PredictedRating\predictedViewerRating.php?title=$movieTitle&year=$year\"></i>Predicted viewer rating</a></li>
+						<li><a href= \"displayOnMovieBrowser.php?title=$movieTitle&year=$year\"></i>Viewer stats</a></li>
 						<li><a href=\"reportsPage.php?title=$movieTitle&year=$year\">Rating Report</a></li>
-
-						
 					</ul>
 				</div>
 			</div>
@@ -90,8 +88,8 @@ else{
 				</div>
 				<div class=\"choose\">
 					<ul class=\"nav nav-pills nav-justified\">
-						<li><a href= \"5-PredictedRating\predictedViewerRating.php?title=$movieTitle&year=$year\"></i>Predicted viewer rating</a></li>
-						<li><a href=\"reportsPage.php?title=$movieTitle&year=$year\">Rating Report</a></li>
+					<li><a href= \"displayOnMovieBrowser.php?title=$movieTitle&year=$year\"></i>Viewer stats</a></li>
+					<li><a href=\"reportsPage.php?title=$movieTitle&year=$year\">Rating Report</a></li>
 
 						
 					</ul>
