@@ -92,13 +92,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // echo $tags;
     if ($tags != ""){
-      $tagsUnprocessed = $tags;
-      $tags = clean_string_per2($tags);
-      $count = count($tags); 
+      include 'getExpandedListOfTags.php'; 
+      // echo "calling get all tags with";
+      // echo $tags;
+      $expandedListOfTags = getAllTags($tags);
+      // echo "this is expended list of tags";
+      // echo $expandedListOfTags;
+      // echo gettype($expandedListOfTags);
+      // echo "end";
+
+      foreach ($expandedListOfTags as $value){
+        echo $value;
+        $tagsInputToDisplay = $tagsInputToDisplay . $value . ",";
+      }
+
+
+      $tagsUnprocessed = $tagsInputToDisplay;
+      $count = count($expandedListOfTags); 
       // echo "this is count";
       // echo $count;
       $placeholders = implode(',', array_fill(0, $count, '?'));
-      // echo $placeholders;
       $overallCommandToGetPersonalityData = "SELECT SUM(opennessAvg * noMoviesWatched)/SUM(noMoviesWatched) as openness, SUM(agreeablenessAvg * noMoviesWatched)/SUM(noMoviesWatched) as agreeableness, SUM(emotionalStabilityAvg * noMoviesWatched)/SUM(noMoviesWatched) as emotionalStability, AVG(conscientiousnessAvg * noMoviesWatched)/SUM(noMoviesWatched) as conscientiousness, AVG(extraversionAvg * noMoviesWatched)/SUM(noMoviesWatched) as extraversion
       FROM (SELECT DISTINCT personalityRatings.hashedUserID, COUNT(personalityRatings.movieId) as noMoviesWatched, AVG(personalityRatings.rating) as ratingAvg, AVG(personalityType.openness) as opennessAvg, AVG(personalityType.agreeableness) as agreeablenessAvg, AVG(personalityType.emotional_stability) as emotionalStabilityAvg, AVG(personalityType.conscientiousness) as conscientiousnessAvg, AVG(personalityType.extraversion) as extraversionAvg
       FROM (Coursework.personalityRatings
@@ -107,7 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       GROUP BY personalityRatings.hashedUserID
       HAVING AVG(personalityRatings.rating) > 4) TMP";
       $bindStr = str_repeat('s', $count);
-      $pred_rating = check_cache_and_query_for_one_row_personality2($overallCommandToGetPersonalityData, $bindStr, $tags);
+      $pred_rating = check_cache_and_query_for_one_row_personality2($overallCommandToGetPersonalityData, $bindStr, $expandedListOfTags);
       
   
   

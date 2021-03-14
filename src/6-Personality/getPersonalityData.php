@@ -66,6 +66,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $movieId = 0;
     $tags = "";
 
+    $tagsInputToDisplay = "";
+
     $movieTitle = test_input($_POST["movieTitle"]);
     
 
@@ -84,17 +86,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         $tags = substr($tags, 0, -1);
-
-
-
-
     }
     
     // echo $tags;
     if ($tags != ""){
-      $tagsUnprocessed = $tags;
-      $tags = clean_string_per($tags);
-      $count = count($tags); 
+
+      include 'getExpandedListOfTags.php'; 
+      // echo "calling get all tags with";
+      // echo $tags;
+      $expandedListOfTags = getAllTags($tags);
+      // echo "this is expended list of tags";
+      // echo $expandedListOfTags;
+      // echo gettype($expandedListOfTags);
+      // echo "end";
+
+      
+
+      foreach ($expandedListOfTags as $value){
+        // echo $value;
+        $tagsInputToDisplay = $tagsInputToDisplay . $value . ",";
+      }
+
+
+      $tagsUnprocessed = $expandedListOfTags;
+      $count = count($expandedListOfTags); 
       // echo "this is count";
       // echo $count;
       $placeholders = implode(',', array_fill(0, $count, '?'));
@@ -108,7 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       GROUP BY personalityRatings.hashedUserID
       HAVING AVG(personalityRatings.rating) > 4) TMP";
       $bindStr = str_repeat('s', $count);
-      $pred_rating = check_cache_and_query_for_one_row_personality($overallCommandToGetPersonalityData, $bindStr, $tags);
+      $pred_rating = check_cache_and_query_for_one_row_personality($overallCommandToGetPersonalityData, $bindStr, $expandedListOfTags);
       
   
   
@@ -124,7 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       echo "<br><br>";  
       echo "<h2 class=\"title text-center\">Results:</h2>";
       echo "<h4 class=\"title text-center\">Movie Title: $movieTitle</h4>";
-      echo "<h4 class=\"title text-center\">Tags: $tagsUnprocessed</h4>";
+      echo "<h4 class=\"title text-center\">Tags: $tagsInputToDisplay </h4>";
       echo "<br><br>"; 
       echo "<table style=\"width:100%\" border=\"1\">
       <tr>
