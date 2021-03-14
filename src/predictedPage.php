@@ -96,6 +96,9 @@
 							<label for="movie">Movie Year:</label>
                                 <input type="text" placeholder="Release year" id="year_n" name="year_n">  
                             <br><br>
+							<label for="movie">User Ids (comma separated):</label>
+                                <input type="text" placeholder="User Ids" id="users_n" name="users_n">  
+                            <br><br>
 							<label for="movie">Tags (comma separated):</label>
                                 <input type="text" placeholder="Tags" id="tags_n" name="tags_n">  
                             <br><br>

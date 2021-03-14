@@ -12,8 +12,8 @@ function check_cache_and_query_for_one_row_pred_rating($part_4_sql, $para_count,
     global $mysqli;
     $hashed_query = sha1($part_4_sql . serialize($parameters));
     $pred_rating = "";
-    echo "hashed query is";
-    echo $hashed_query;
+    //echo "hashed query is";
+    //echo $hashed_query;
     // cache stuff
     $cached_ans = get_from_cache($hashed_query);
     if ($cached_ans != ""){
@@ -49,6 +49,32 @@ function clean_string($data){
     return $tags;
 }
 
+function get_ratings_based_on_user_history( $userIds, $ratings){
+    $total_past_rating = 0;
+    $curr_count = 0;
+    for($i=0; $i<count($userIds); $i++) {
+        $part_5_sql_user_hist = "SELECT AVG(rating)
+        FROM (
+        Select m.avg_rating as rating
+        FROM Coursework.movies as m
+        WHERE m.movieId in (
+        SELECT r.movieId
+        FROM Coursework.ratings as r
+        WHERE userId = ? and rating = ?)
+        ) as temp; "; 
+        $parameters = array();
+        array_push($parameters, $userIds[$i]); 
+        array_push($parameters,$ratings[$i] ); 
+        $curr = check_cache_and_query_for_one_row_pred_rating($part_5_sql_user_hist, "ii", $parameters);
+        if ($curr != 0 && $curr != ""){$curr_count = $curr_count + 1; }
+        $total_past_rating += $curr;
+    }
+    $avg_user_rating = $total_past_rating / count($userIds); 
+    echo "Finally avg user rating is"; 
+    echo $avg_user_rating; 
+    return $avg_user_rating;
+}
+
 function get_average_from_string_ratings($data){
     $integer_array = array_map('intval', explode(',', $data));
     $average = array_sum($integer_array) / count($integer_array); 
@@ -67,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         FROM Coursework.tags
         WHERE movieId = (SELECT movieId 
         FROM Coursework.movies
-        WHERE title LIKE ? AND year = ?)) 
+        WHERE title LIKE ? AND year = ?) and rand() < .5) 
         GROUP BY Coursework.tags.movieId) TMP;"; 
         $para_count = "si"; 
         $movieTitle_changed = "%$movieTitle%";
@@ -100,11 +126,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $movieTitle = SQL_test_input($_POST["movieTitle_n"]);
         $year = SQL_test_input($_POST["year_n"]);
         $tags = SQL_test_input($_POST["tags_n"]);
+        $userIds = SQL_test_input($_POST["users_n"]);
 
-        if ($movieTitle != "" && $year != "" && $tags != "" ){
+        if ($movieTitle != "" && $year != "" && $tags != "" && $userIds != ""){
             $tags = clean_string($tags);
+            $userIds = clean_string($userIds);
             $count = count($tags); 
-            echo $count;
             $placeholders = implode(',', array_fill(0, $count, '?'));
             $part_4_sql = "SELECT AVG(rating)
             FROM (SELECT AVG(rating) as rating
@@ -126,6 +153,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $pred_rating = ($avg_rating + $pred_rating) / 2; 
                 }
             }
+            $ratings = clean_string($ratings);
+            $pred_rating = ($pred_rating + get_ratings_based_on_user_history($userIds, $ratings)) / 2; 
 
             echo "<br><br>"; 
             echo "<h2 class=\"title text-center\">Results:</h2>";
