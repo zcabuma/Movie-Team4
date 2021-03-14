@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $paramTypes = "";
     if ($table == "movies"){
-        $paramTypes = "isib";
+        $paramTypes = "isid";
         $sql = $sql.$table;
     }
     if ($table == "tags"){
@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $paramTypes = "ii";
     $sql = $sql.$table;
   }
-
+//0,up,2009,4.5
   
     $table = $table;
     
@@ -37,9 +37,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo $sql;
     $moviestmt = $mysqli->prepare($sql);
 
-    //$moviestmt->bind_param($paramTypes, ...$listOfStrings); //... allows us to pass an array
+    $moviestmt->bind_param($paramTypes, ...$listOfStrings); //... allows us to pass an array
     
-    //$moviestmt->execute();
+    $moviestmt->execute();
+
+    echo $mysqli->error;
 
     //$moviesList = $moviestmt->get_result(); 
 
