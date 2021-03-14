@@ -139,7 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       echo "<br><br>";  
       echo "<h2 class=\"title text-center\">Results:</h2>";
       echo "<h4 class=\"title text-center\">Movie Title: $movieTitle</h4>";
-      echo "<h4 class=\"title text-center\">Tags: $tagsInputToDisplay </h4>";
+      echo "<h4 class=\"title text-center\">Inputted & Related Tags: $tagsInputToDisplay </h4>";
       echo "<br><br>"; 
       echo "<table style=\"width:100%\" border=\"1\">
       <tr>
