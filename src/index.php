@@ -7,6 +7,8 @@ echo gethostname(); // may output e.g,: sandie
 echo php_uname('n'); // may output e.g,: sandie
 ?>
 
+
+
 <?php   
 
 $mc = new Memcached();                                                             
@@ -31,7 +33,11 @@ echo "<br>";
 echo "<br>";
 echo "<br>";
 ?>
-
+<?php 
+echo "<br>";
+echo "<br>";
+echo "<br>";
+include 'database.php'; ?>
 
 <a href="browseFilms.php">Browser Page</a>
 <?php
@@ -43,8 +49,3 @@ echo "<br>";
 <a href="login.php">Admin Page</a>
 
 
-<?php 
-echo "<br>";
-echo "<br>";
-echo "<br>";
-include 'database.php'; ?>

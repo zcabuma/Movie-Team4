@@ -15,7 +15,7 @@ function put_to_cache($query, $result){
     //echo "I am trying to add ";
     //echo print_r($result);
     $new_result = $mc->add($query, $result); 
-    echo var_dump( $mc->getAllKeys() );
+    //echo var_dump( $mc->getAllKeys() );
     // echo "added successfully"; 
     // echo $new_result? 'true' : 'false'; 
 }
