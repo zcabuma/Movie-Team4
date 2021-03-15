@@ -1,6 +1,7 @@
 <?php
 include 'configDB.php';
 include 'Cache.php';
+include 'getExpandedListOfTags.php'; 
 
 function SQL_test_input($data) { // taken from : https://tryphp.w3schools.com/showphp.php?filename=demo_form_validation_complete
     $data = trim($data);
@@ -129,7 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $userIds = SQL_test_input($_POST["users_n"]);
 
         if ($movieTitle != "" && $year != "" && $tags != "" && $userIds != ""){
-            $tags = clean_string($tags);
+            $tags = getAllTags($tags);
             $userIds = clean_string($userIds);
             $count = count($tags); 
             $placeholders = implode(',', array_fill(0, $count, '?'));
@@ -159,7 +160,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "<br><br>"; 
             echo "<h2 class=\"title text-center\">Results:</h2>";
             echo "<h4 class=\"title text-center\">Movie Title: $movieTitle</h4>";
-            echo "<h4 class=\"title text-center\">Tags: $tags</h4>";
+            //echo "<h4 class=\"title text-center\">Tags: $tags</h4>";
             echo "<h4 class=\"title text-center\">Predicted Rating: $pred_rating</h4>";
             echo "<br><br>"; 
         }
