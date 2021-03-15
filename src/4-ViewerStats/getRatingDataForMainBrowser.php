@@ -16,54 +16,104 @@ $usersAll = array();
 // print("||".$movieTitleTag."||");
 if ($rating_movieTitle != " "){
 
-    $ratingLE1_cmd = "SELECT userId 
-                        FROM Coursework.ratings 
-                        WHERE movieId IN ( 
-                        SELECT movieId 
-                        FROM Coursework.movies
-                        WHERE title = \"$rating_movieTitle\")
-                        AND rating <= 1 ";
-
-
-        $ratingBET12_cmd = "SELECT userId 
-                        FROM Coursework.ratings 
-                        WHERE movieId IN ( 
-                        SELECT movieId 
-                        FROM Coursework.movies
-                        WHERE title = \"$rating_movieTitle\")
-                        AND rating BETWEEN 1.1 AND 2.0 ";
-
-        $ratingBET23_cmd = "SELECT userId 
-                        FROM Coursework.ratings 
-                        WHERE movieId IN ( 
-                        SELECT movieId 
-                        FROM Coursework.movies
-                        WHERE title = \"$rating_movieTitle\")
-                        AND rating BETWEEN 2.1 AND 3 ";
-
-        $ratingEQ3_cmd = "SELECT userId 
-                        FROM Coursework.ratings 
-                        WHERE movieId IN ( 
-                        SELECT movieId 
-                        FROM Coursework.movies
-                        WHERE title = \"$rating_movieTitle\")
-                        AND rating BETWEEN 3.1 AND 4";
+  $parameters = array();
         
-        $ratingBET34_cmd = "SELECT userId 
-                        FROM Coursework.ratings 
-                        WHERE movieId IN ( 
-                        SELECT movieId 
-                        FROM Coursework.movies
-                        WHERE title = \"$rating_movieTitle\")
-                        AND rating BETWEEN 4.1 AND 5 ";
-        
-                        
-        
-        $ratingLE1 = $mysqli->query($ratingLE1_cmd);
-        $ratingBET12 = $mysqli->query($ratingBET12_cmd);
-        $ratingBET23 = $mysqli->query($ratingBET23_cmd);
-        $ratingEQ3 = $mysqli->query($ratingEQ3_cmd);
-        $ratingBET34 = $mysqli->query($ratingBET34_cmd);
+  $ratingLE1_cmd = "SELECT userId 
+                  FROM Coursework.ratings 
+                  WHERE movieId IN ( 
+                  SELECT movieId 
+                  FROM Coursework.movies
+                  WHERE title = ?)
+                  AND rating <= 1 ";
+
+
+  $ratingBET12_cmd = "SELECT userId 
+                  FROM Coursework.ratings 
+                  WHERE movieId IN ( 
+                  SELECT movieId 
+                  FROM Coursework.movies
+                  WHERE title = ?)
+                  AND rating BETWEEN 1.1 AND 2.0 ";
+
+  $ratingBET23_cmd = "SELECT userId 
+                  FROM Coursework.ratings 
+                  WHERE movieId IN ( 
+                  SELECT movieId 
+                  FROM Coursework.movies
+                  WHERE title = ?)
+                  AND rating BETWEEN 2.1 AND 3 ";
+                  // array_push($parameters, $rating_movieTitle);
+
+  $ratingEQ3_cmd = "SELECT userId 
+                  FROM Coursework.ratings 
+                  WHERE movieId IN ( 
+                  SELECT movieId 
+                  FROM Coursework.movies
+                  WHERE title = ?)
+                  AND rating BETWEEN 3.1 AND 4";
+                  // array_push($parameters, $rating_movieTitle);
+  
+  $ratingBET34_cmd = "SELECT userId 
+                  FROM Coursework.ratings 
+                  WHERE movieId IN ( 
+                  SELECT movieId 
+                  FROM Coursework.movies
+                  WHERE title = ?)
+                  AND rating BETWEEN 4.1 AND 5 ";
+                  // array_push($parameters, $rating_movieTitle);
+  
+                  
+                  echo "protecting 7";
+
+                  $moviestmt = $mysqli->prepare($ratingLE1_cmd);
+                  
+                  
+                  $moviestmt->bind_param("s", $rating_movieTitle); //... allows us to pass an array
+                  
+                  $moviestmt->execute();
+                  
+                  $ratingLE1 = $moviestmt->get_result();
+
+
+
+                  $moviestmt = $mysqli->prepare($ratingBET12_cmd);
+                  
+                  $moviestmt->bind_param("s", $rating_movieTitle); //... allows us to pass an array
+                  
+                  $moviestmt->execute();
+                  
+                  $ratingBET12 = $moviestmt->get_result();
+
+
+                  $moviestmt = $mysqli->prepare($ratingBET23_cmd);
+                  
+                  $moviestmt->bind_param("s", $rating_movieTitle); //... allows us to pass an array
+                  
+                  $moviestmt->execute();
+                  
+                  $ratingBET23 = $moviestmt->get_result();
+
+
+
+                  $moviestmt = $mysqli->prepare($ratingEQ3_cmd);
+                  
+                  $moviestmt->bind_param("s", $rating_movieTitle); //... allows us to pass an array
+                  
+                  $moviestmt->execute();
+                  
+                  $ratingEQ3 = $moviestmt->get_result();
+
+
+
+
+                  $moviestmt = $mysqli->prepare($ratingBET34_cmd);
+                  
+                  $moviestmt->bind_param("s", $rating_movieTitle); //... allows us to pass an array
+                  
+                  $moviestmt->execute();
+                  
+                  $ratingBET34 = $moviestmt->get_result();
+
 
 
 
