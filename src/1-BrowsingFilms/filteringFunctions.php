@@ -1,6 +1,12 @@
 <?php 
 include 'Cache.php';
-   
+$page = 1;
+$page = $_GET["page"];
+if ($page == NULL){
+    $page = 1;
+}
+echo $page;
+$offset = ($page-1)*21;
 $genre = "All";
 $rating = "All";
 $movieTitle = "All";
@@ -244,7 +250,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $fullCommand = $fullCommand.")";
         }
         //echo "command: \n";
-
+        $fullCommand = $fullCommand."LIMIT 21 OFFSET $offset";
         //echo $fullCommand;
         
         //This movie list has movies that will be displayed on the grid.
@@ -276,7 +282,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 else{
     // THIS QUERY IS NOT CACHED cuz its only run once when we open the app right?!?
     echo "should be hereee";
-    $getAllMovies = "SELECT * FROM Coursework.movies LIMIT 21";
+    
+    $getAllMovies = "SELECT * FROM Coursework.movies LIMIT 21 OFFSET $offset";
     $moviesList = $mysqli->query($getAllMovies);
 }
 
