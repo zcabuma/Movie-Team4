@@ -30,30 +30,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $table = $table;
     
     $listOfStrings = explode(",", $data);
-    echo count($listOfStrings);
+    // echo count($listOfStrings);
     $endstring = str_repeat("?,", count($listOfStrings));
     $endstring = substr($endstring, 0, -1);
     $sql = $sql." VALUES (".$endstring.") ;";
-    echo $sql;
+    // echo $sql;
     $moviestmt = $mysqli->prepare($sql);
 
     $moviestmt->bind_param($paramTypes, ...$listOfStrings); //... allows us to pass an array
     
     $moviestmt->execute();
 
-    echo $mysqli->error;
+    // echo $mysqli->error;
 
     //$moviesList = $moviestmt->get_result(); 
 
     
   }
 }else{
-  echo "nothing";
+  // echo "nothing";
 }
   ?>
 
 <?php
-echo "whassup";
+// echo "whassup";
 echo "Click here to clean <a href = \"logout.php\" tite = \"Logout\">Session/LogOut.</a>";
 echo "<br>";
 echo "<label for=\"tables\">Choose a table to enter new info for:</label>

@@ -7,15 +7,15 @@
 $credentialsSqli = new mysqli("userdb", "root", "example");
 mysqli_options($credentialsSqli, MYSQLI_OPT_LOCAL_INFILE, true);
 
-echo "Group 4 project wohooo";
+// echo "Group 4 project wohooo";
 
 
 // create database
 $sql = "CREATE DATABASE IF NOT EXISTS `Credentials`;";
 if ($result = $credentialsSqli->query($sql))
 {
-    echo 'Credentials db created successfully ';
-    echo "<br>";
+    // echo 'Credentials db created successfully ';
+    // echo "<br>";
 }
 else{
     echo $result->error;
@@ -25,12 +25,12 @@ else{
 $sql_localInfile = 'SET GLOBAL local_infile=1';
 
 if ($result = $credentialsSqli->query($sql_localInfile)){
-    echo 'set local_infile';
+    // echo 'set local_infile';
 }
 else{
     echo $credentialsSqli->error;
 }
-echo "<br>";
+// echo "<br>";
 
 if(checkIfTableExists("Credentials.users", $credentialsSqli) === false){
 
@@ -43,16 +43,16 @@ if(checkIfTableExists("Credentials.users", $credentialsSqli) === false){
 
     if ($result = $credentialsSqli->query($sql))
     {
-    echo 'movies table created successfully';
-    echo "<br>";
+    // echo 'movies table created successfully';
+    // echo "<br>";
     }
 
     $sql = "INSERT INTO Credentials.users (username, password) VALUES('someone', SHA('password'))";
 
     if ($result = $credentialsSqli->query($sql))
     {
-    echo 'Added to table';
-    echo "<br>";
+    // echo 'Added to table';
+    // echo "<br>";
     }
 
     
@@ -91,7 +91,7 @@ function checkIfTableExists($tableName, $mysqli) {
          <?php
             $msg = '';
             
-            echo $_SESSION['username'];
+            // echo $_SESSION['username'];
             if (isset($_POST['login']) && !empty($_POST['username']) 
                && !empty($_POST['password'])) {
                 $username = $_POST['username'];
@@ -103,13 +103,13 @@ function checkIfTableExists($tableName, $mysqli) {
                 //$msg = "Welcome back ".$username;
                 //$sql = "SELECT * FROM Credentials.users where `password` =SHA('whatt') ";
                 $sql = "SELECT `password` FROM Credentials.users where `username` = '$username'";
-                echo $sql;
+                // echo $sql;
 
                 if ($result = $credentialsSqli->query($sql)){
                     $idResult = mysqli_fetch_assoc($credentialsSqli->query($sql));
                     echo $idResult;
                     echo $credentialsSqli->error;
-                    echo "<br>apparently it worked?";
+                    // echo "<br>apparently it worked?";
                         
                     
                     $hashedPassword = $idResult['password'];
@@ -117,8 +117,8 @@ function checkIfTableExists($tableName, $mysqli) {
                      echo "<br>";
                      echo sha1("whatt");
                     if (strcmp($hashedPassword, sha1($password)) == 0){
-                        echo "ITS CORRECT!!";
-                        echo "<br>";
+                        // echo "ITS CORRECT!!";
+                        // echo "<br>";
                         $_SESSION['valid'] = true;
                         //$_SESSION['timeout'] = time();
                         $_SESSION['username'] = $username;
@@ -135,7 +135,7 @@ function checkIfTableExists($tableName, $mysqli) {
                     echo "<br>";
                 }
                 else{
-                    echo "ot didnt work <br>";
+                    // echo "ot didnt work <br>";
                     echo $credentialsSqli->error;
                 }
                
