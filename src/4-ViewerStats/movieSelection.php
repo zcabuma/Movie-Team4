@@ -271,9 +271,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     if($year !="All" && $year != ""){
         if(count($cmd_list) != 0){
             
-            $displayUsersbyYearsCommand = "SELECT DISTINCT userId as ids
-            FROM Coursework.ratings 
-            WHERE movieId 
+            $displayUsersbyYearsCommand = "SELECT userId as ids, Coursework.movies.title as title
+            FROM Coursework.ratings INNER JOIN Coursework.movies
+            on Coursework.ratings.movieId = Coursework.movies.movieId
+            WHERE Coursework.ratings.movieId 
             IN (SELECT movieId 
             FROM Coursework.movies 
             WHERE year = $year)

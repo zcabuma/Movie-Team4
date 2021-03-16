@@ -1,6 +1,7 @@
 <?php
 
 $ids_years = array();
+$id_titles = array();
 // $ids_all_years = array();
 // $years = array();
 
@@ -8,6 +9,7 @@ $ids_years = array();
 
 
 if ($year !="All" && $year != ""){
+  $ids_years = array();
   while ($row = mysqli_fetch_assoc($displayUsersbyYears))
   {
 //     print("Hello");
@@ -15,7 +17,12 @@ if ($year !="All" && $year != ""){
 //     print_r($row);
 //     echo "<br>";
 // print("Hello");
-$ids_years[]  = $row['ids'];
+
+$sub = array();
+$sub['ids']  = $row['ids'];
+$sub['title'] = $row['title'];
+array_push($ids_years, $sub);
+//$id_titles[] = $row['title'];
   }
 }
 
@@ -143,19 +150,22 @@ $ids_years[]  = $row['ids'];
                       <tr>
                           <th class="border-top-0">#</th>
                           <th class="border-top-0">Viewer ids</th>
-                          <th class="border-top-0">Year</th>
+                          <th class="border-top-0">Movie Title</th>
                       </tr>
                   </thead>
                   <tbody >
                   <?php
                   // $list_users_display = "";
-                  foreach($ids_years as $i => $id){
-                    $j = $i + 1;
+                  $j = 0;
+                  foreach($ids_years as $row){
+                    $j += 1;
+                    $id = $row['ids'];
+                    $title = $row['title'];
                     echo "
                       <tr>
                           <td> $j</td>
                           <td class=\"txt-oflo\">$id</td>
-                          <td class=\"txt-oflo\">$year </td>
+                          <td class=\"txt-oflo\">$title </td>
                       </tr>
                     ";
                   }
