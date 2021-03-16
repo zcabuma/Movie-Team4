@@ -208,15 +208,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // echo "took from cache wohoo";
         }
         else{
-            $moviestmt = $mysqli->prepare($popular_movies);
-    
-            $moviestmt->bind_param($statsParameterTypes, ...$statsParameters); //... allows us to pass an array
-            
-            $moviestmt->execute();
-            $moviesList = $moviestmt->get_result();
-            if (empty($moviesList)){
-                // echo "this empty tooooo wtf";
+
+            if(strcmp($statsParameterTypes, "") === 0){
+                $moviesList = $mysqli->query($popular_movies);
+                
             }
+            else{
+                $moviestmt = $mysqli->prepare($popular_movies);
+
+                $moviestmt->bind_param($statsParameterTypes, ...$statsParameters); //... allows us to pass an array
+            
+                $moviestmt->execute();
+                $moviesList = $moviestmt->get_result();
+                if (empty($moviesList)){
+                    // echo "this empty tooooo wtf";
+                }
+            }
+            
         }
         // Cached Query for part 3 ENDS
 
