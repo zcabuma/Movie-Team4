@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $moviestmt->execute();
 
-    // echo $mysqli->error;
+    echo $mysqli->error;
 
     //$moviesList = $moviestmt->get_result(); 
 
