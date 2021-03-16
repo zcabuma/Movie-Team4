@@ -79,7 +79,9 @@
 	    		<div class="col-sm-6">
 	    			<div class="contact-info">
 						 <h2 class="title text-center">New movie rating (Movie in DB)</h2>
-                        <form method="post" action="">
+						 <p> The predicted rating outputted by this section assumes that the review panel ratings and tags are already in the database. We selected a sample from the population of users in the database that had given a rating/tag to the user-selected movie to be the review panel using the rand() function in SQL.
+						<br><br>
+						 <form method="post" action="">
                             <label for="movie">Movie Title:</label>
                                 <input type="text" placeholder="Movie Title" id="movieTitle_r" name="movieTitle_r">  
                             <br><br>
@@ -89,6 +91,8 @@
                             <input type="submit" value="Submit">
                         </form> 
 						 <h2 class="title text-center">New movie rating (Movie in not DB)</h2>
+						 <p> The predicted rating outputted by this section assumes that Review panel ratings and tags are given as user input.
+							 <br><br>
                         <form method="post" action="">
                             <label for="movie">Movie Title:</label>
                                 <input type="text" placeholder="Movie Title" id="movieTitle_n" name="movieTitle_n">  
