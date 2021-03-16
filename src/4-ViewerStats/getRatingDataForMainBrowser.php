@@ -24,7 +24,7 @@ if ($rating_movieTitle != " "){
                   SELECT movieId 
                   FROM Coursework.movies
                   WHERE title = ?)
-                  AND rating <= 1 ";
+                  AND rating = 1 ";
 
 
   $ratingBET12_cmd = "SELECT userId 
@@ -33,7 +33,7 @@ if ($rating_movieTitle != " "){
                   SELECT movieId 
                   FROM Coursework.movies
                   WHERE title = ?)
-                  AND rating BETWEEN 1.1 AND 2.0 ";
+                  AND rating  = 2 ";
 
   $ratingBET23_cmd = "SELECT userId 
                   FROM Coursework.ratings 
@@ -41,7 +41,7 @@ if ($rating_movieTitle != " "){
                   SELECT movieId 
                   FROM Coursework.movies
                   WHERE title = ?)
-                  AND rating BETWEEN 2.1 AND 3 ";
+                  AND rating  = 3 ";
                   // array_push($parameters, $rating_movieTitle);
 
   $ratingEQ3_cmd = "SELECT userId 
@@ -50,7 +50,7 @@ if ($rating_movieTitle != " "){
                   SELECT movieId 
                   FROM Coursework.movies
                   WHERE title = ?)
-                  AND rating BETWEEN 3.1 AND 4";
+                  AND rating  = 4";
                   // array_push($parameters, $rating_movieTitle);
   
   $ratingBET34_cmd = "SELECT userId 
@@ -59,7 +59,7 @@ if ($rating_movieTitle != " "){
                   SELECT movieId 
                   FROM Coursework.movies
                   WHERE title = ?)
-                  AND rating BETWEEN 4.1 AND 5 ";
+                  AND rating = 5 ";
                   // array_push($parameters, $rating_movieTitle);
   
                   
