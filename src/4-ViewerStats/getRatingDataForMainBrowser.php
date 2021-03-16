@@ -255,6 +255,7 @@ if ($rating_movieTitle != " "){
                   </thead>
                   <tbody >
                   <?php
+                  echo "<br>This table segregates the users into the ratings that they gave this movie<br><br>";
                   if($rating_movieTitle!=" "){
                     for ($i=0; $i < $getMax; $i++) { 
                       echo "
