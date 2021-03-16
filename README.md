@@ -15,3 +15,7 @@ https://tryphp.w3schools.com/showphp.php?filename=demo_form_validation_complete 
 https://www.php.net/manual/en/ <br>
 https://www.youtube.com/watch?v=pdBHsA2FG48  <br>
 https://pspdfkit.com/blog/2018/how-to-use-docker-compose-to-run-multiple-instances-of-a-service-in-development/ <br>
+
+If you wish to access admin page these are the details:
+username: someone
+password: password
