@@ -9,7 +9,7 @@ How to run application:
 If you see SQL error messages wait a bit,  SQL is still loading. After 5 minutes click refresh
 
 
-Sites used:
+Sites used: <br>
 https://tryphp.w3schools.com/showphp.php?filename=demo_form_validation_complete <br>
 https://www.php.net/manual/en/ <br>
 https://www.youtube.com/watch?v=pdBHsA2FG48  <br>
