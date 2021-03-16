@@ -143,8 +143,8 @@
 
 						<ul class="pagination">
 							<li class="active"><a href="">1</a></li>
-							<li><a href="browseFilms.php?page=2">2</a></li>
-							<li><a href="browseFilms.php?page=3">3</a></li>
+							<li><a href="browseFilms.php">2</a></li>
+							<li><a href="browseFilms.php">3</a></li>
 							<li><a href="browseFilms.php">&raquo;</a></li>
 						</ul>
 					</div><!--features_items-->
