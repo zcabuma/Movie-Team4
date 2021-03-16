@@ -139,25 +139,11 @@
 				<div class="col-sm-9 padding-right">
 				
 					<div class="features_items"><!--features_items-->
-					<centre> 
-					<ul class="pagination ">
-							<li><a href="browseFilms.php?page=1">1</a></li>
-							<li><a href="browseFilms.php?page=2">2</a></li>
-							<li><a href="browseFilms.php?page=3">3</a></li>
-							<li><a href="browseFilms.php?page=4">4</a></li>
-							<li><a href="browseFilms.php?page=5">5</a></li>
-							<li><a href="browseFilms.php?page=6">6</a></li>
-							<li><a href="browseFilms.php?page=7">7</a></li>
-							<li><a href="browseFilms.php?page=8">8</a></li>
-							<li><a href="browseFilms.php?page=9">9</a></li>
-							<li><a href="browseFilms.php?page=10">10</a></li>
-							
-						</ul>
-					</centre>
+					
                         <h2 class="title text-center">Movies</h2>
 						
                         <?php include 'displayMoviesGrid.php'; ?>
-
+						Click on these pages to return to browse all movies.
 						<ul class="pagination">
 							<li class="active"><a href="">1</a></li>
 							<li><a href="browseFilms.php?page=2">2</a></li>
