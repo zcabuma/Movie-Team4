@@ -187,13 +187,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         if ($statistic == "popular"){
             $popular_movies .= " GROUP BY movieId
-            ORDER BY COUNT(r.rating) DESC
-            LIMIT 21;"; 
+            ORDER BY COUNT(r.rating) DESC;"; 
         }
         else{
             $popular_movies .= " GROUP BY movieId
-            ORDER BY VARIANCE(r.rating) DESC
-            LIMIT 21;"; 
+            ORDER BY VARIANCE(r.rating) DESC;"; 
 
         }
         // CACHE query for PART 3

@@ -122,7 +122,7 @@
 
 						
 
-							<label for="movie">Enter a Date Range:</label>
+							<label for="movie">Enter a Date Range (start&end):</label>
 								<input type="text" id="start" name="start" placeholder="Start Year"> 
 								<input type="text" id="end" name="end" placeholder="End Year">  
                         	<br><br>
