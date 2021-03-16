@@ -22,7 +22,7 @@ if ($tag_movieTitle != " "){
         //This movie list has movies that will be displayed on the grid. 
         // $displaytagSeg = $mysqli->query($displaytagSegCommand);
 
-          echo "protecting 11";
+          // echo "protecting 11";
         $moviestmt = $mysqli->prepare($displaytagSegCommand);
                   
                   
@@ -49,15 +49,15 @@ if ($tag_movieTitle != " "){
       FROM Coursework.movies 
       WHERE title LIKE ?)";    
 
-echo "protecting 12";
+// echo "protecting 12";
 $moviestmt2 = $mysqli->prepare($displayUsersbyTagsSegMovieCommand);
                   
 $parameters2 = array();
 array_push($parameters2, $tag2);
 array_push($parameters2, $tag_movieTitle);   
-echo $tag2;
-echo $tag_movieTitle;
-echo count($parameters2);
+// echo $tag2;
+// echo $tag_movieTitle;
+// echo count($parameters2);
 $moviestmt2->bind_param("ss", ...$parameters2); //... allows us to pass an array
 
 $moviestmt2->execute();

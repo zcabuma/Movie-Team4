@@ -63,7 +63,7 @@ if ($rating_movieTitle != " "){
                   // array_push($parameters, $rating_movieTitle);
   
                   
-                  echo "protecting 7";
+                  // echo "protecting 7";
 
                   $moviestmt = $mysqli->prepare($ratingLE1_cmd);
                   

@@ -12,7 +12,7 @@
         array_push($parameters, $movieTitleChanged); 
         array_push($parameters, $year); 
         
-        echo $idNo;
+        // echo $idNo;
 
         global $mysqli;
         $hashed_query = sha1($movieID . serialize($parameters));
@@ -22,7 +22,7 @@
         $cached_ans = get_from_cache($hashed_query);
         if ($cached_ans != ""){
             $idNo = $cached_ans['movieID']; 
-            echo "Got from cache"; 
+        //     echo "Got from cache"; 
         }
         else{
         $stmt = $mysqli->prepare($movieID);
@@ -50,7 +50,7 @@
         $cached_ans = get_from_cache($hashed_query);
         if ($cached_ans != ""){
         $avg_rating = $cached_ans['AVG(rating)']; 
-        echo "Got from cache"; 
+        // echo "Got from cache"; 
         }
         else{
         $stmt = $mysqli->prepare($avgRating);
@@ -83,7 +83,7 @@
         $cached_ans = get_from_cache($hashed_query);
         if ($cached_ans != ""){
         $idResult = $cached_ans;
-        echo "Got from cache"; 
+        // echo "Got from cache"; 
         }
         else{
         $stmt = $mysqli->prepare($links);

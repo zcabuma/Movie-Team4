@@ -1,6 +1,6 @@
 <?php
 
-echo "Group 4 project wohooo";
+// echo "Group 4 project wohooo";
 
 $mysqli = new mysqli("db", "root", "example");
 mysqli_options($mysqli, MYSQLI_OPT_LOCAL_INFILE, true);
@@ -9,15 +9,15 @@ mysqli_options($mysqli, MYSQLI_OPT_LOCAL_INFILE, true);
 $sql = "CREATE DATABASE IF NOT EXISTS `Coursework`;";
 if ($result = $mysqli->query($sql))
 {
-    echo 'db created successfully ';
-    echo "<br>";
+    // echo 'db created successfully ';
+    // echo "<br>";
 }
 
 
 $sql_localInfile = 'SET GLOBAL local_infile=1';
 
 if ($result = $mysqli->query($sql_localInfile)){
-    echo 'set local_infile';
+    // echo 'set local_infile';
 }
 else{
     echo $mysqli->error;
@@ -37,8 +37,8 @@ if(checkIfTableExists("Coursework.movies", $mysqli) === false){
 
     if ($result = $mysqli->query($sql))
     {
-    echo 'movies table created successfully';
-    echo "<br>";
+    // echo 'movies table created successfully';
+    // echo "<br>";
     }
 
     $csvSQL = "LOAD DATA LOCAL INFILE 'ExcelFiles/movies.csv'
@@ -50,8 +50,8 @@ if(checkIfTableExists("Coursework.movies", $mysqli) === false){
 
 
     if ($result = $mysqli->query($csvSQL)){
-        echo 'movie csv added successfully';
-        echo "<br>";
+        // echo 'movie csv added successfully';
+        // echo "<br>";
     }
     else{
         echo $mysqli->error;
@@ -70,8 +70,8 @@ if(checkIfTableExists("Coursework.genres", $mysqli) === false){
     );";
     if ($result = $mysqli->query($sql))
     {
-    echo 'genres table created successfully';
-    echo "<br>";
+    // echo 'genres table created successfully';
+    // echo "<br>";
     }
 
     $csvSQL = "LOAD DATA LOCAL INFILE 'ExcelFiles/genres.csv'
@@ -83,8 +83,8 @@ if(checkIfTableExists("Coursework.genres", $mysqli) === false){
 
 
     if ($result = $mysqli->query($csvSQL)){
-        echo 'genre csv added successfully';
-        echo "<br>";
+        // echo 'genre csv added successfully';
+        // echo "<br>";
     }
     else{
         echo $mysqli->error;
@@ -110,8 +110,8 @@ if(checkIfTableExists("Coursework.links", $mysqli) === false){
 
     if ($result = $mysqli->query($sql))
     {
-    echo 'links table created successfully';
-    echo "<br>";
+    // echo 'links table created successfully';
+    // echo "<br>";
     }
 
     $csvSQL = "LOAD DATA LOCAL INFILE 'ExcelFiles/links.csv'
@@ -123,8 +123,8 @@ if(checkIfTableExists("Coursework.links", $mysqli) === false){
 
 
     if ($result = $mysqli->query($csvSQL)){
-        echo 'links csv added successfully';
-        echo "<br>";
+        // echo 'links csv added successfully';
+        // echo "<br>";
     }
     else{
         echo $mysqli->error;
@@ -161,7 +161,7 @@ if(checkIfTableExists("Coursework.links", $mysqli) === false){
 // RATINGS.CSV
 
 if(checkIfTableExists("Coursework.ratings", $mysqli) === false){
-    echo "did not find";
+    // echo "did not find";
 
     $sql = "CREATE TABLE Coursework.ratings(
         `userId` BIGINT NOT NULL ,
@@ -175,16 +175,16 @@ if(checkIfTableExists("Coursework.ratings", $mysqli) === false){
     
     
 ";
-    echo "about to make";
+    // echo "about to make";
     //FOREIGN KEY (`movieId`) REFERENCES Coursework.movies(`movieId`)
     if ($result = $mysqli->query($sql))
     {
-    echo 'ratings created successfully';
-    echo "<br>";
+    // echo 'ratings created successfully';
+    // echo "<br>";
     }
 
    
-    echo "here";
+    // echo "here";
     $csvSQL = "LOAD DATA LOCAL INFILE 'ExcelFiles/ratings.csv'
             INTO TABLE Coursework.ratings
             FIELDS TERMINATED BY ','
@@ -194,11 +194,11 @@ if(checkIfTableExists("Coursework.ratings", $mysqli) === false){
 
     
     if ($result = $mysqli->query($csvSQL)){
-        echo 'ratings csv added successfully';
-        echo "<br>";
+        // echo 'ratings csv added successfully';
+        // echo "<br>";
     }
     else{
-        echo "here4";
+        // echo "here4";
         echo $mysqli->error;
     }
 
@@ -256,8 +256,8 @@ if(checkIfTableExists("Coursework.tagGroups", $mysqli) === false){
 
     if ($result = $mysqli->query($sql_query_for_tags))
     {
-        echo 'tagsGroups table created successfully';
-        echo "<br>";
+        // echo 'tagsGroups table created successfully';
+        // echo "<br>";
     }else{
         echo $mysqli->error;
     }
@@ -273,8 +273,8 @@ if(checkIfTableExists("Coursework.tagGroups", $mysqli) === false){
 
 
     if ($result = $mysqli->query($csvSQL)){
-        echo 'TAGSSS Groups added successfully';
-        echo "<br>";
+        // echo 'TAGSSS Groups added successfully';
+        // echo "<br>";
     }
     else{
         echo $mysqli->error;
@@ -298,7 +298,7 @@ if(checkIfTableExists("Coursework.tags", $mysqli) === false){
 ";
 
     if ($result = $mysqli->query($sql_localInfile)){
-        echo 'set local_infile';
+        // echo 'set local_infile';
     }
     else{
         echo $mysqli->error;
@@ -306,8 +306,8 @@ if(checkIfTableExists("Coursework.tags", $mysqli) === false){
 
     if ($result = $mysqli->query($sql_query_for_tags))
     {
-        echo 'tags table created successfully';
-        echo "<br>";
+        // echo 'tags table created successfully';
+        // echo "<br>";
     }
 
 
@@ -321,8 +321,8 @@ if(checkIfTableExists("Coursework.tags", $mysqli) === false){
 
 
     if ($result = $mysqli->query($csvSQL)){
-        echo 'TAGSSS added successfully';
-        echo "<br>";
+        // echo 'TAGSSS added successfully';
+        // echo "<br>";
     }
     else{
         echo $mysqli->error;
@@ -350,8 +350,8 @@ if(checkIfTableExists("Coursework.moviesGenres", $mysqli) === false){
 
     if ($result = $mysqli->query($sql))
     {
-    echo 'moviesGenres table created successfully';
-    echo "<br>";
+    // echo 'moviesGenres table created successfully';
+    // echo "<br>";
     }
 
 
@@ -364,18 +364,18 @@ if(checkIfTableExists("Coursework.moviesGenres", $mysqli) === false){
 
 
     if ($result = $mysqli->query($csvSQL)){
-    echo 'moviegenre csv added successfully';
-    echo "<br>";
+    // echo 'moviegenre csv added successfully';
+    // echo "<br>";
     }
     else{
-        echo "not being created <br>";
+        // echo "not being created <br>";
     echo $mysqli->error;
     }
 
 }
 
 if(checkIfTableExists("Coursework.personalityType", $mysqli) === false){
-    echo "the table doesnt exist!!! <br>";
+    // echo "the table doesnt exist!!! <br>";
     //create combined table
     $sql = "CREATE TABLE IF NOT EXISTS Coursework.personalityType(
         `hashedUserID` VARCHAR(50) PRIMARY KEY,
@@ -394,7 +394,7 @@ if(checkIfTableExists("Coursework.personalityType", $mysqli) === false){
 
     if ($result = $mysqli->query($sql))
     {
-    echo 'personalityType table created successfully';
+    // echo 'personalityType table created successfully';
     echo "<br>";
     }
     else{
@@ -410,7 +410,7 @@ if(checkIfTableExists("Coursework.personalityType", $mysqli) === false){
 
 
     if ($result = $mysqli->query($csvSQL)){
-    echo 'personality type csv added successfully';
+    // echo 'personality type csv added successfully';
     echo "<br>";
     }
     else{
@@ -434,7 +434,7 @@ if(checkIfTableExists("Coursework.personalityRatings", $mysqli) === false){
 
     if ($result = $mysqli->query($sql))
     {
-    echo 'personalityRatings table created successfully';
+    // echo 'personalityRatings table created successfully';
     echo "<br>";
     }
     else{
@@ -451,7 +451,7 @@ if(checkIfTableExists("Coursework.personalityRatings", $mysqli) === false){
 
 
     if ($result = $mysqli->query($csvSQL)){
-    echo 'personality rating csv added successfully';
+    // echo 'personality rating csv added successfully';
     echo "<br>";
     }
     else{
@@ -463,14 +463,14 @@ if(checkIfTableExists("Coursework.personalityRatings", $mysqli) === false){
 
 
 function checkIfTableExists($tableName, $mysqli) {
-    echo "check if table exists starting";
-    echo "SHOW TABLES LIKE '$tableName'";
-    echo "<br>";
+    // echo "check if table exists starting";
+    // echo "SHOW TABLES LIKE '$tableName'";
+    // echo "<br>";
     $checktable = $mysqli->query("SHOW TABLES LIKE '$tableName'");
     $table_exists = $checktable->num_rows > 0;
-    echo "result for if table exists\n";
-    echo $checktable->num_rows;
-    echo "end of result\n";
+    // echo "result for if table exists\n";
+    // echo $checktable->num_rows;
+    // echo "end of result\n";
     return $table_exists;
 }
 

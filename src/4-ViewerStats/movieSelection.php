@@ -92,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                         ";
         
         //This movie list has movies that will be displayed on the grid. 
-        echo "protecting!!";
+        // echo "protecting!!";
         $moviestmt = $mysqli->prepare($count_total_watchers);
 
         $parameters = array();
@@ -128,7 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                         FROM Coursework.movies
                         WHERE title = ?)
                         AND rating = ?";
-                        echo "protecting 2";
+                        // echo "protecting 2";
 
                         $moviestmt = $mysqli->prepare($displaycountCommand);
 
@@ -210,13 +210,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
             // echo $displayUsersCommand;
         }
         if(count($parameters) !== 0){
-            echo "protecting3";
-            echo $displayUsersCommand;
-            echo $datatype;
-            echo  count($parameters);
-            foreach ($parameters as $val){
-                echo $val;
-            }
+            // echo "protecting3";
+            // echo $displayUsersCommand;
+            // echo $datatype;
+            // echo  count($parameters);
+            // foreach ($parameters as $val){
+            //     // echo $val;
+            // }
             //This movie list has movies that will be displayed on the grid.
             $moviestmt = $mysqli->prepare($displayUsersCommand);
     
@@ -225,8 +225,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
             $moviestmt->execute();
                         
             $displayUsers = $moviestmt->get_result();
-            echo "result";
-            echo $displaycountUsers->error_log;
+            // echo "result";
+            // echo $displaycountUsers->error_log;
                                 
                                 
             // $displayUsers = $mysqli->query($displayUsersCommand);
@@ -248,7 +248,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         WHERE title = ?
         )
         GROUP BY tag";
-        echo "protecting4";
+        // echo "protecting4";
         $moviestmt = $mysqli->prepare($displaytagCommand);
 
         $parameters = array();
@@ -297,7 +297,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                 FROM Coursework.movies 
                 WHERE title LIKE ?)";    
                                 // print_r($displayUsersbyTagsMovieCommand);
-                echo "protecting 5";
+                // echo "protecting 5";
         $moviestmt = $mysqli->prepare($displayUsersbyTagsMovieCommand);
 
         $parameters = array();
@@ -320,7 +320,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                 ORDER BY userId
                 ";
 
-echo "protecting 6";
+// echo "protecting 6";
 $moviestmt = $mysqli->prepare($displayUsersbyTagsCommand);
 
 $parameters = array();
@@ -389,7 +389,7 @@ $displayUsersbyTags = $moviestmt->get_result();
                         // array_push($parameters, $rating_movieTitle);
         
                         
-                        echo "protecting 7";
+                        // echo "protecting 7";
 
                         $moviestmt = $mysqli->prepare($ratingLE1_cmd);
                         
@@ -462,7 +462,7 @@ $displayUsersbyTags = $moviestmt->get_result();
         )
         GROUP BY tag";
 
-        echo "protecting8";
+        // echo "protecting8";
         //This movie list has movies that will be displayed on the grid. 
         $moviestmt = $mysqli->prepare($displaytagSegCommand);
 

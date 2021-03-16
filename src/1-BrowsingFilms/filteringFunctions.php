@@ -258,7 +258,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($cached_ans != ""){
             //$pred_rating = $cached_ans['AVG(rating)']; 
             $moviesList = $cached_ans;
-            echo "took from cache wohoo";
+            // echo "took from cache wohoo";
         }
         else{
             $moviestmt = $mysqli->prepare($fullCommand);
@@ -275,7 +275,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 else{
     // THIS QUERY IS NOT CACHED cuz its only run once when we open the app right?!?
-    echo "should be hereee";
+    // echo "should be hereee";
     
     $getAllMovies = "SELECT * FROM Coursework.movies";
     $moviesList = $mysqli->query($getAllMovies);

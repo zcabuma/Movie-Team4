@@ -19,7 +19,7 @@ function check_cache_and_query_for_one_row_pred_rating($part_4_sql, $para_count,
     $cached_ans = get_from_cache($hashed_query);
     if ($cached_ans != ""){
         $pred_rating = $cached_ans['AVG(rating)']; 
-        echo "Got from cache"; 
+        // echo "Got from cache"; 
     }
     else{
         $moviestmt = $mysqli->prepare($part_4_sql);
@@ -71,8 +71,8 @@ function get_ratings_based_on_user_history( $userIds, $ratings){
         $total_past_rating += $curr;
     }
     $avg_user_rating = $total_past_rating / count($userIds); 
-    echo "Finally avg user rating is"; 
-    echo $avg_user_rating; 
+    // echo "Finally avg user rating is"; 
+    // echo $avg_user_rating; 
     return $avg_user_rating;
 }
 
