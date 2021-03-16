@@ -1,6 +1,12 @@
 <?php 
 include 'Cache.php';
-
+$page = 1;
+$page = $_GET["page"];
+if ($page == NULL){
+    $page = 1;
+}
+echo $page;
+$offset = ($page-1)*999;
 $genre = "All";
 $rating = "All";
 $movieTitle = "All";
@@ -277,7 +283,7 @@ else{
     // THIS QUERY IS NOT CACHED cuz its only run once when we open the app right?!?
     // echo "should be hereee";
     
-    $getAllMovies = "SELECT * FROM Coursework.movies";
+    $getAllMovies = "SELECT * FROM Coursework.movies LIMIT 999 OFFSET $offset";
     $moviesList = $mysqli->query($getAllMovies);
 }
 
