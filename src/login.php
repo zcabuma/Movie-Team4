@@ -76,7 +76,7 @@ function checkIfTableExists($tableName, $mysqli) {
 ?>
 
 <html lang = "en">
-   
+<li><a href="index.php"><i class="fa fa-star"></i> Index Page</a></li>
    <head>
       <title>Admin login</title>
       <link href = "css/bootstrap.min.css" rel = "stylesheet">
