@@ -18,7 +18,7 @@ if ($result = $credentialsSqli->query($sql))
     // echo "<br>";
 }
 else{
-    echo $result->error;
+    echo $credentialsSqli->error;
 }
 
 
@@ -96,10 +96,10 @@ function checkIfTableExists($tableName, $mysqli) {
                && !empty($_POST['password'])) {
                 $username = $_POST['username'];
                 $password = $_POST['password'];
-                echo "this is username:";
-				echo $username;
-                echo "<br>";
-                echo $password;
+                //echo "this is username:";
+				//echo $username;
+                //echo "<br>";
+                //echo $password;
                 //$msg = "Welcome back ".$username;
                 //$sql = "SELECT * FROM Credentials.users where `password` =SHA('whatt') ";
                 $sql = "SELECT `password` FROM Credentials.users where `username` = '$username'";
@@ -107,15 +107,15 @@ function checkIfTableExists($tableName, $mysqli) {
 
                 if ($result = $credentialsSqli->query($sql)){
                     $idResult = mysqli_fetch_assoc($credentialsSqli->query($sql));
-                    echo $idResult;
+                    //echo $idResult;
                     echo $credentialsSqli->error;
                     // echo "<br>apparently it worked?";
                         
                     
                     $hashedPassword = $idResult['password'];
-                     echo $hashedPassword;
-                     echo "<br>";
-                     echo sha1("whatt");
+                     //echo $hashedPassword;
+                     //echo "<br>";
+                     //echo sha1("whatt");
                     if (strcmp($hashedPassword, sha1($password)) == 0){
                         // echo "ITS CORRECT!!";
                         // echo "<br>";
