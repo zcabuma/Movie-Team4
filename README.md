@@ -7,6 +7,7 @@ How to run application:
 3. run the command: docker-compose up -d. this will start the docker containers.
 4. go to localhost:4000 to access our webpage. you will find out application will load. 
 If you see SQL error messages wait a bit,  SQL is still loading. After 5 minutes click refresh
+5. use docker-compose down to shut down the containers
 
 
 Sites used: <br>
