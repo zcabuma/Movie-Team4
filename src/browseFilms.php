@@ -32,7 +32,7 @@
 
 
 	<header id="header"><!--header-->
-		
+	<li><a href="index.php"><i class="fa fa-star"></i> Index Page</a></li>
 		<div class="header-middle"><!--header-middle-->
 			<div class="container">
 				<div class="row">
@@ -44,6 +44,7 @@
 					<div class="col-md-8 clearfix">
 						<div class="shop-menu clearfix pull-center">
 							<ul class="nav navbar-nav">
+							
 								<li><a href="viewerstats.php"><i class="fa fa-star"></i> Viewer Stats</a></li>
 								<li><a href="browseFilms.php"><i class="fa fa-star"></i>Current movies</a></li>
 								<li><a href="predictedPage.php"><i class="fa fa-crosshairs"></i>Future movies</a></li>
