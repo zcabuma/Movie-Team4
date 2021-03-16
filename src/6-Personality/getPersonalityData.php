@@ -1,4 +1,6 @@
 <?php
+include 'configDB.php';
+// include 'getExpandedListOfTags.php'; 
 
 $tags = "ALL";
 
@@ -95,9 +97,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // echo $tags;
     if ($tags != ""){
 
-
-
-      include 'getExpandedListOfTags.php'; 
       // echo "calling get all tags with";
       // echo $tags;
       $expandedListOfTags = getAllTags($tags);
@@ -108,6 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       
       // echo "this is what we get";
+      // echo $expandedListOfTags ;
       foreach ($expandedListOfTags as $value){
         // echo $value;
         $tagsInputToDisplay = $tagsInputToDisplay . $value . ",";

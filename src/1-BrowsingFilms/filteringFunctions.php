@@ -38,7 +38,7 @@ function check_cache_and_query_for_rows_of_results($query){
 
         $moviesList = $moviestmt->get_result();
         if (empty($moviesList)){
-            echo "this empty tooooo wtf";
+            // echo "this empty tooooo wtf";
         }
         //$arr_cache = process_result_to_add_to_cache($moviesList);
         // adding to cache
@@ -92,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Handling Post request from trying to search for a specific movie
     $movieTitle = test_input($_POST["movieTitle"]);
     if($movieTitle != "All" && $movieTitle != ""){
-        echo $movieTitle;
+        // echo $movieTitle;
         $titleChanged = "%$movieTitle%";
         $commandForMovieTitle= "SELECT movieId 
                                 FROM Coursework.movies 
@@ -192,14 +192,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         // CACHE query for PART 3
         $hashed_query = sha1($popular_movies . serialize($statsParameters));
-        echo "hashed query is";
-        echo $hashed_query;
+        // echo "hashed query is";
+        // echo $hashed_query;
         // cache stuff
         $cached_ans = get_from_cache($hashed_query);
         if ($cached_ans != ""){
             //$pred_rating = $cached_ans['AVG(rating)']; 
             $moviesList = $cached_ans;
-            echo "took from cache wohoo";
+            // echo "took from cache wohoo";
         }
         else{
             $moviestmt = $mysqli->prepare($popular_movies);
@@ -209,7 +209,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $moviestmt->execute();
             $moviesList = $moviestmt->get_result();
             if (empty($moviesList)){
-                echo "this empty tooooo wtf";
+                // echo "this empty tooooo wtf";
             }
         }
         // Cached Query for part 3 ENDS
@@ -251,8 +251,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         // Check if its in cache first. 
         $hashed_query = sha1($fullCommand . serialize($parameters));
-        echo "hashed query is";
-        echo $hashed_query;
+        // echo "hashed query is";
+        // echo $hashed_query;
         // cache stuff
         $cached_ans = get_from_cache($hashed_query);
         if ($cached_ans != ""){

@@ -113,7 +113,9 @@
 	    		<div class="col-sm-6">
 	    			<div class="contact-info">
                         <h2 class="title text-center">User Personality for New Movie (focus on genre)</h2>
-                        <form method="post" action="">
+						<p>The predicted personality outputted by this section will also incorporate the genre & movies linked to the tags inputted</p>
+                        <br><br>
+						<form method="post" action="">
 
                             <label for="movie">Movie Title:</label>
                                 <input type="text" placeholder="Movie Title" id="movieTitle" name="movieTitle">  
@@ -138,7 +140,9 @@
 
 
 						<h2 class="title text-center">User Personality for New Movie (focus on movies)</h2>
-                        <form method="post" action="">
+						<p>The predicted personality outputted by this section will NOT incorporate the genre linked to the tags inputted. It will only incorporate the movies linked to the tags inputted.</p>
+                        <br><br>
+						<form method="post" action="">
 
                             <label for="movie">Movie Title:</label>
                                 <input type="text" placeholder="Movie Title" id="movieTitle2" name="movieTitle2">  
