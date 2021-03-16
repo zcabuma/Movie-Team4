@@ -191,6 +191,7 @@ $displayUsersbyTagsSegMovie = $moviestmt2->get_result();
             $b = $a;
             $d = $a;
             $c = 0;
+            echo "<br>This table segregates the users into the tags that they gave this movie <br><br>";
             while($c < 5 && !empty($tags[$b])){
               echo " <th class=\"border-top-0\">"; echo "$tags[$b]"; echo "</th>";
               $b++;
