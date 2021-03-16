@@ -505,6 +505,20 @@ ul.sub-menu {
     width: 212px;
 }
 
+
+.mybutton{
+    background-color: #FE980F;
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
 .searchform button {
     background: #FE980F;
     border: medium none;
